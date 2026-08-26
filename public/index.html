@@ -380,7 +380,7 @@
       <h3 class="ajuda-titulo">O passo a passo</h3>
       <ol class="howto">
         <li><b>1</b><span>Clique em <em>Baixar a configuração</em>. O arquivo vai para os seus downloads.</span></li>
-        <li><b>2</b><span>Clique em <em>Abrir configurador</em>. Aparece <em>Welcome to AIOStreams!</em> perguntando entre <em>Simple</em> e <em>Advanced</em>. Para importar, tanto faz: o arquivo substitui tudo de qualquer jeito. O <em>Advanced</em> só deixa visíveis mais ajustes depois, caso você queira mexer.</span></li>
+        <li><b>2</b><span>Clique em <em>Abrir configurador</em>. Aparece <em>Welcome to AIOStreams!</em> perguntando entre <em>Simple</em> e <em>Advanced</em>. <strong>Escolha Simple.</strong> O arquivo que você baixou já traz todos os ajustes decididos, e o <em>Advanced</em> abre filtros que, mexidos sem querer, zeram a sua lista de streams.</span></li>
         <li><b>3</b><span>No menu do topo, clique na última opção, <em>Save &amp; Install</em>.</span></li>
         <li><b>4</b><span>Procure a seção <em>BACKUPS</em>, clique em <em>Import</em> e escolha o arquivo do passo 1.</span></li>
         <li><b>5</b><span>Suba até <em>CREATE CONFIGURATION</em>, invente uma senha, repita ela no segundo campo, e clique em <em>Create</em>. <strong>Anote essa senha</strong>: é o que permite editar depois.</span></li>
@@ -400,7 +400,22 @@
         <dd>A instância pública do AIOStreams desliga alguns buscadores por conta própria, entre eles o Torrentio, e também streams P2P. Isso é regra deles, não erro seu. O Torrentio continua funcionando à parte, instalado direto por este site.</dd>
 
         <dt>Não aparece stream nenhum</dt>
-        <dd>Aí é a chave do TorBox. Confira se você baixou o arquivo depois de preencher a chave no passo 2 daqui. Se baixou antes, baixe de novo e importe outra vez.</dd>
+        <dd>
+          Duas causas, e vale checar nesta ordem.
+          <br><br>
+          <strong>1. Filtro de idioma obrigatório.</strong> Se você entrou no modo
+          <em>Advanced</em> e mexeu em <em>Filters</em>, confira o campo
+          <em>Required Languages</em>. Ele precisa ficar <strong>vazio</strong>. Idioma
+          em <em>Required</em> descarta todo stream que não venha marcado com aquele
+          idioma, e a maioria das releases não vem marcada com nenhum, então a lista
+          zera. Quem coloca o português em primeiro lugar é o <em>Preferred Languages</em>,
+          que já vem preenchido no arquivo.
+          <br><br>
+          <strong>2. A chave do TorBox.</strong> Na instância pública, streams P2P e HTTP
+          são desligados por eles, então sem debrid funcionando não sobra nada para
+          mostrar. Confira se você baixou o arquivo depois de preencher a chave no passo 2
+          daqui. Se baixou antes, baixe de novo e importe outra vez.
+        </dd>
 
         <dt>Perdi a senha que criei</dt>
         <dd>Não tem recuperação. Crie uma configuração nova, importe o mesmo arquivo, e volte aqui com o endereço novo.</dd>
@@ -426,8 +441,9 @@
         <div class="guia-txt">
           <strong>Abra o configurador e importe</strong>
           <small>
-            Vá em <em>Save &amp; Install</em>, seção <em>BACKUPS</em>, botão <em>Import</em>.
-            Depois crie uma senha em <em>CREATE CONFIGURATION</em> e clique em <em>Create</em>.
+            Quando ele perguntar, escolha <strong>Simple</strong>. Depois vá em
+            <em>Save &amp; Install</em>, seção <em>BACKUPS</em>, botão <em>Import</em>,
+            crie uma senha em <em>CREATE CONFIGURATION</em> e clique em <em>Create</em>.
           </small>
         </div>
         <a class="btn btn-out btn-sm" data-configurador target="_blank" rel="noopener">
