@@ -1,0 +1,398 @@
+{
+  "version": "2.15.0",
+  "exportedAt": "2026-08-26T13:17:02.400Z",
+  "config": {
+    "mal": {
+      "skipRecap": false,
+      "skipFiller": false,
+      "allowEpisodeMarking": false,
+      "useImdbIdForCatalogAndSearch": false
+    },
+    "sfw": true,
+    "tmdb": {
+      "scrapeImdb": false,
+      "forceLatinCastNames": false
+    },
+    "search": {
+      "enabled": true,
+      "ai_model": "gemini-2.5-flash",
+      "providers": {
+        "movie": "tmdb.search",
+        "series": "tvdb.search",
+        "anime_movie": "kitsu.search.movie",
+        "anime_series": "kitsu.search.series",
+        "people_search_movie": "tmdb.people.search",
+        "people_search_series": "tmdb.people.search"
+      },
+      "ai_enabled": false,
+      "ai_provider": "gemini",
+      "searchNames": {},
+      "searchOrder": [
+        "movie",
+        "series",
+        "tvdb.collections.search",
+        "gemini.search",
+        "anime_series",
+        "anime_movie",
+        "people_search_movie",
+        "people_search_series"
+      ],
+      "engineEnabled": {
+        "tmdb.search": true,
+        "tvdb.search": true,
+        "simkl.search": true,
+        "trakt.search": true,
+        "tvmaze.search": true,
+        "mdblist.search": true,
+        "mal.search.movie": true,
+        "mal.search.series": true,
+        "kitsu.search.movie": true,
+        "simkl.search.movie": true,
+        "kitsu.search.series": true,
+        "people_search_movie": false,
+        "simkl.search.series": true,
+        "people_search_series": false,
+        "imdb.suggestions.search": true,
+        "tvdb.collections.search": false
+      },
+      "ai_trigger_keyword": ""
+    },
+    "catalogs": [
+      {
+        "id": "mdblist.131492",
+        "name": "🛋️ Todos os Pijamas",
+        "sort": "default",
+        "type": "movie",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/danaramapyjama/all-pyjama-films-in-one-place",
+          "author": "danaramapyjama",
+          "privacy": "public",
+          "itemCount": 257
+        },
+        "showInHome": true,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      },
+      {
+        "id": "mdblist.119609",
+        "name": "⏱️ 90 Minutos",
+        "sort": "default",
+        "type": "movie",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/danaramapyjama/90-minute-films-for-pyjama-wearers",
+          "author": "danaramapyjama",
+          "privacy": "public",
+          "itemCount": 28
+        },
+        "showInHome": false,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      },
+      {
+        "id": "mdblist.117906",
+        "name": "😴 Comédia de Pijama",
+        "sort": "default",
+        "type": "movie",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/danaramapyjama/comedy-for-pyjama-wearers",
+          "author": "danaramapyjama",
+          "privacy": "public",
+          "itemCount": 50
+        },
+        "showInHome": false,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      },
+      {
+        "id": "mdblist.117914",
+        "name": "💘 Comédia Romântica",
+        "sort": "default",
+        "type": "movie",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/danaramapyjama/rom-com-for-pyjama-wearers",
+          "author": "danaramapyjama",
+          "privacy": "public",
+          "itemCount": 17
+        },
+        "showInHome": false,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      },
+      {
+        "id": "mdblist.117916",
+        "name": "🥹 Comovente",
+        "sort": "default",
+        "type": "movie",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/danaramapyjama/touching-for-pyjama-wearers",
+          "author": "danaramapyjama",
+          "privacy": "public",
+          "itemCount": 23
+        },
+        "showInHome": false,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      },
+      {
+        "id": "mdblist.117908",
+        "name": "🕶️ Cool",
+        "sort": "default",
+        "type": "movie",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/danaramapyjama/cool-films-for-pyjama-wearers",
+          "author": "danaramapyjama",
+          "privacy": "public",
+          "itemCount": 39
+        },
+        "showInHome": false,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      },
+      {
+        "id": "mdblist.131731",
+        "name": "☄️ Fim do Mundo",
+        "sort": "default",
+        "type": "movie",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/danaramapyjama/end-of-pyjama-wearers-world",
+          "author": "danaramapyjama",
+          "privacy": "public",
+          "itemCount": 23
+        },
+        "showInHome": false,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      },
+      {
+        "id": "mdblist.117907",
+        "name": "⚔️ Conflito",
+        "sort": "default",
+        "type": "movie",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/danaramapyjama/conflict-for-pyjama-wearers",
+          "author": "danaramapyjama",
+          "privacy": "public",
+          "itemCount": 25
+        },
+        "showInHome": false,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      },
+      {
+        "id": "mdblist.117911",
+        "name": "📖 Histórias de Vida",
+        "sort": "default",
+        "type": "movie",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/danaramapyjama/life-stories-for-pyjama-wearers",
+          "author": "danaramapyjama",
+          "privacy": "public",
+          "itemCount": 37
+        },
+        "showInHome": false,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      },
+      {
+        "id": "mdblist.117909",
+        "name": "😱 Meio Terror",
+        "sort": "default",
+        "type": "movie",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/danaramapyjama/horror-ish-for-pyjama-wearers",
+          "author": "danaramapyjama",
+          "privacy": "public",
+          "itemCount": 24
+        },
+        "showInHome": false,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      },
+      {
+        "id": "mdblist.117915",
+        "name": "🛸 Sci-Fi de Pijama",
+        "sort": "default",
+        "type": "movie",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/danaramapyjama/sci-fi-for-pyjama-wearers",
+          "author": "danaramapyjama",
+          "privacy": "public",
+          "itemCount": 44
+        },
+        "showInHome": false,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      },
+      {
+        "id": "mdblist.149414",
+        "name": "🎯 4K Nativo",
+        "sort": "default",
+        "type": "movie",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/danaramapyjama/the-digital-bits-bill-hunt-s-native-4k-reference-quality-releases",
+          "author": "danaramapyjama",
+          "privacy": "public",
+          "itemCount": 321
+        },
+        "showInHome": false,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      },
+      {
+        "id": "mdblist.112291",
+        "name": "💎 Blu-ray UHD",
+        "sort": "default",
+        "type": "movie",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/danaramapyjama/latest-uhd-blu-ray-releases",
+          "author": "danaramapyjama",
+          "privacy": "public",
+          "itemCount": 103
+        },
+        "showInHome": false,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      },
+      {
+        "id": "mdblist.138560",
+        "name": "🔊 Dolby Atmos",
+        "sort": "default",
+        "type": "movie",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/danaramapyjama/imdb-dolby-atmos-films",
+          "author": "danaramapyjama",
+          "privacy": "public",
+          "itemCount": 221
+        },
+        "showInHome": false,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      }
+    ],
+    "language": "pt-BR",
+    "timezone": "America/Sao_Paulo",
+    "addonName": "Pijama",
+    "ageRating": "None",
+    "castCount": 10,
+    "providers": {
+      "anime": "tvdb",
+      "movie": "tmdb",
+      "series": "tvdb",
+      "anime_id_provider": "kitsu",
+      "forceAnimeForDetectedImdb": false
+    },
+    "streaming": [],
+    "blurThumbs": false,
+    "showPrefix": false,
+    "artProviders": {
+      "anime": {
+        "logo": "imdb",
+        "poster": "mal",
+        "background": "imdb"
+      },
+      "movie": {
+        "logo": "meta",
+        "poster": "tmdb",
+        "background": "meta"
+      },
+      "series": {
+        "logo": "meta",
+        "poster": "meta",
+        "background": "meta"
+      },
+      "englishArtOnly": false,
+      "originalLangFallback": false
+    },
+    "includeAdult": false,
+    "searchEnabled": true,
+    "tvdbSeasonType": "default",
+    "usePosterProxy": true,
+    "displayAgeRating": false,
+    "hideWatchedSimkl": false,
+    "hideWatchedTrakt": false,
+    "malWatchTracking": false,
+    "showRateMeButton": false,
+    "hideWatchedAnilist": false,
+    "hideWatchedMdblist": false,
+    "simklWatchTracking": false,
+    "traktWatchTracking": false,
+    "allowUnratedContent": true,
+    "hideUnreleasedShows": false,
+    "anilistWatchTracking": false,
+    "catalogSetupComplete": true,
+    "customLogoUrlPattern": "",
+    "mdblistWatchTracking": false,
+    "posterRatingProvider": "none",
+    "showDisabledCatalogs": true,
+    "hideUnreleasedDigital": false,
+    "customPosterUrlPattern": "",
+    "customLandscapeUrlPattern": "",
+    "hideUnreleasedShowsSearch": false,
+    "publicmetadbWatchTracking": false,
+    "customBackgroundUrlPattern": "",
+    "hideUnreleasedDigitalSearch": false,
+    "showMetaProviderAttribution": false,
+    "enableRatingPostersForLibrary": true
+  },
+  "metadata": {
+    "apiKeysExcluded": true,
+    "totalCatalogs": 14,
+    "enabledCatalogs": 14
+  }
+}

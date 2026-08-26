@@ -1,0 +1,351 @@
+{
+  "version": "2.15.0",
+  "exportedAt": "2026-08-26T13:17:50.865Z",
+  "config": {
+    "mal": {
+      "skipRecap": false,
+      "skipFiller": false,
+      "allowEpisodeMarking": false,
+      "useImdbIdForCatalogAndSearch": false
+    },
+    "sfw": true,
+    "tags": [],
+    "tmdb": {
+      "scrapeImdb": false,
+      "forceLatinCastNames": false
+    },
+    "search": {
+      "enabled": true,
+      "ai_model": "gemini-2.5-flash",
+      "providers": {
+        "movie": "tmdb.search",
+        "series": "tvdb.search",
+        "anime_movie": "kitsu.search.movie",
+        "anime_series": "kitsu.search.series",
+        "people_search_movie": "tmdb.people.search",
+        "people_search_series": "tmdb.people.search"
+      },
+      "ai_enabled": false,
+      "ai_provider": "gemini",
+      "searchNames": {},
+      "searchOrder": [
+        "movie",
+        "series",
+        "tvdb.collections.search",
+        "gemini.search",
+        "anime_series",
+        "anime_movie",
+        "people_search_movie",
+        "people_search_series"
+      ],
+      "engineEnabled": {
+        "tmdb.search": true,
+        "tvdb.search": true,
+        "simkl.search": true,
+        "trakt.search": true,
+        "tvmaze.search": true,
+        "mdblist.search": true,
+        "mal.search.movie": true,
+        "mal.search.series": true,
+        "kitsu.search.movie": true,
+        "simkl.search.movie": true,
+        "kitsu.search.series": true,
+        "people_search_movie": false,
+        "simkl.search.series": true,
+        "people_search_series": false,
+        "imdb.suggestions.search": true,
+        "tvdb.collections.search": false
+      },
+      "ai_trigger_keyword": ""
+    },
+    "catalogs": [
+      {
+        "id": "streaming.gop",
+        "name": "Globoplay",
+        "sort": "default",
+        "type": "movie",
+        "order": "asc",
+        "source": "streaming",
+        "enabled": true,
+        "showInHome": true
+      },
+      {
+        "id": "streaming.gop",
+        "name": "Globoplay",
+        "sort": "default",
+        "type": "series",
+        "order": "asc",
+        "source": "streaming",
+        "enabled": true,
+        "showInHome": true
+      },
+      {
+        "id": "mdblist.143797",
+        "name": "🎖️ Indicados ao Oscar",
+        "sort": "default",
+        "type": "movie",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/jservs7/oscar-nominees-for-best-picture",
+          "author": "jservs7",
+          "itemCount": 624
+        },
+        "showInHome": false,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      },
+      {
+        "id": "mdblist.165962",
+        "name": "🌴 Cannes",
+        "sort": "default",
+        "type": "movie",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/leone.vitalezamp/cannes-film-festival",
+          "author": "leone.vitalezamp",
+          "itemCount": 1624
+        },
+        "showInHome": false,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      },
+      {
+        "id": "mdblist.146625",
+        "name": "🏔️ Sundance",
+        "sort": "default",
+        "type": "movie",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/atalante421/sundance-film-festival-winners",
+          "author": "atalante421",
+          "itemCount": 897
+        },
+        "showInHome": false,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      },
+      {
+        "id": "mdblist.166070",
+        "name": "🇧🇷 Cinema Brasileiro",
+        "sort": "default",
+        "type": "movie",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/qpfcds/os-100-melhores-filmes-brasileiros-abraccine",
+          "author": "qpfcds",
+          "itemCount": 102
+        },
+        "showInHome": false,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      },
+      {
+        "id": "mdblist.135018",
+        "name": "🇪🇺 Cinema Europeu",
+        "sort": "default",
+        "type": "movie",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/mikk64/filmeuropa-european-films-at-major-film-festivals-2025",
+          "author": "mikk64",
+          "itemCount": 373
+        },
+        "showInHome": false,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      },
+      {
+        "id": "mdblist.41528",
+        "name": "🏮 Terror Japonês",
+        "sort": "default",
+        "type": "movie",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/travis_mcnelly-hotmail-com/top-japanese-horror",
+          "author": "travis_mcnelly-hotmail-com",
+          "itemCount": 152
+        },
+        "showInHome": false,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      },
+      {
+        "id": "mdblist.3923",
+        "name": "🌀 Reviravoltas",
+        "sort": "default",
+        "type": "movie",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/hdlists/crazy-plot-twists",
+          "author": "hdlists",
+          "itemCount": 100
+        },
+        "showInHome": false,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      },
+      {
+        "id": "mdblist.3892",
+        "name": "🤯 Mente Explodida",
+        "sort": "default",
+        "type": "movie",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/hdlists/mindfuck-movies",
+          "author": "hdlists",
+          "itemCount": 285
+        },
+        "showInHome": false,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      },
+      {
+        "id": "mdblist.2406",
+        "name": "🎓 Documentários Essenciais",
+        "sort": "default",
+        "type": "movie",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/hdlists/latest-hd-documentary-movies-1980-to-today",
+          "author": "hdlists",
+          "itemCount": 2000
+        },
+        "showInHome": false,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      },
+      {
+        "id": "mdblist.2410",
+        "name": "👻 Terror Essencial",
+        "sort": "default",
+        "type": "movie",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/hdlists/latest-hd-horror-movies-top-rated-from-1980-to-today",
+          "author": "hdlists",
+          "itemCount": 903
+        },
+        "showInHome": false,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      },
+      {
+        "id": "mdblist.104209",
+        "name": "☕ Comfort Shows",
+        "sort": "default",
+        "type": "series",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/zerodrek/comfort-shows",
+          "author": "zerodrek",
+          "itemCount": 97
+        },
+        "showInHome": false,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      }
+    ],
+    "language": "pt-BR",
+    "timezone": "America/Sao_Paulo",
+    "addonName": "Curadoria",
+    "ageRating": "None",
+    "castCount": 10,
+    "providers": {
+      "anime": "tvdb",
+      "movie": "tmdb",
+      "series": "tvdb",
+      "anime_id_provider": "kitsu",
+      "forceAnimeForDetectedImdb": false
+    },
+    "streaming": [],
+    "blurThumbs": false,
+    "showPrefix": false,
+    "artProviders": {
+      "anime": {
+        "logo": "imdb",
+        "poster": "mal",
+        "background": "imdb"
+      },
+      "movie": {
+        "logo": "meta",
+        "poster": "tmdb",
+        "background": "meta"
+      },
+      "series": {
+        "logo": "meta",
+        "poster": "meta",
+        "background": "meta"
+      },
+      "englishArtOnly": false,
+      "originalLangFallback": false
+    },
+    "includeAdult": false,
+    "searchEnabled": true,
+    "tvdbSeasonType": "default",
+    "usePosterProxy": true,
+    "displayAgeRating": false,
+    "hideWatchedSimkl": false,
+    "hideWatchedTrakt": false,
+    "malWatchTracking": false,
+    "showRateMeButton": false,
+    "hideWatchedAnilist": false,
+    "hideWatchedMdblist": false,
+    "simklWatchTracking": false,
+    "traktWatchTracking": false,
+    "allowUnratedContent": true,
+    "hideUnreleasedShows": false,
+    "anilistWatchTracking": false,
+    "catalogSetupComplete": true,
+    "customLogoUrlPattern": "",
+    "mdblistWatchTracking": false,
+    "posterRatingProvider": "none",
+    "showDisabledCatalogs": true,
+    "hideUnreleasedDigital": false,
+    "customPosterUrlPattern": "",
+    "customLandscapeUrlPattern": "",
+    "hideUnreleasedShowsSearch": false,
+    "publicmetadbWatchTracking": false,
+    "customBackgroundUrlPattern": "",
+    "hideUnreleasedDigitalSearch": false,
+    "showMetaProviderAttribution": false,
+    "enableRatingPostersForLibrary": true
+  },
+  "metadata": {
+    "apiKeysExcluded": true,
+    "totalCatalogs": 13,
+    "enabledCatalogs": 13
+  }
+}

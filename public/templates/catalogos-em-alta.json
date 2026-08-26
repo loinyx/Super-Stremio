@@ -1,0 +1,814 @@
+{
+  "version": "2.15.0",
+  "exportedAt": "2026-08-26T13:17:10.083Z",
+  "config": {
+    "mal": {
+      "skipRecap": false,
+      "skipFiller": false,
+      "allowEpisodeMarking": false,
+      "useImdbIdForCatalogAndSearch": false
+    },
+    "sfw": true,
+    "tmdb": {
+      "scrapeImdb": false,
+      "forceLatinCastNames": false
+    },
+    "search": {
+      "enabled": true,
+      "ai_model": "gemini-2.5-flash",
+      "providers": {
+        "movie": "tmdb.search",
+        "series": "tvdb.search",
+        "anime_movie": "kitsu.search.movie",
+        "anime_series": "kitsu.search.series",
+        "people_search_movie": "tmdb.people.search",
+        "people_search_series": "tmdb.people.search"
+      },
+      "ai_enabled": false,
+      "ai_provider": "gemini",
+      "searchNames": {},
+      "searchOrder": [
+        "movie",
+        "series",
+        "tvdb.collections.search",
+        "gemini.search",
+        "anime_series",
+        "anime_movie",
+        "people_search_movie",
+        "people_search_series"
+      ],
+      "engineEnabled": {
+        "tmdb.search": true,
+        "tvdb.search": true,
+        "simkl.search": true,
+        "trakt.search": true,
+        "tvmaze.search": true,
+        "mdblist.search": true,
+        "mal.search.movie": true,
+        "mal.search.series": true,
+        "kitsu.search.movie": true,
+        "simkl.search.movie": true,
+        "kitsu.search.series": true,
+        "people_search_movie": false,
+        "simkl.search.series": true,
+        "people_search_series": false,
+        "imdb.suggestions.search": true,
+        "tvdb.collections.search": false
+      },
+      "ai_trigger_keyword": ""
+    },
+    "catalogs": [
+      {
+        "id": "tvdb.trending",
+        "name": "💬 Comentados",
+        "sort": "default",
+        "type": "movie",
+        "order": "asc",
+        "source": "tvdb",
+        "enabled": true,
+        "showInHome": false
+      },
+      {
+        "id": "tvdb.trending",
+        "name": "💬 Comentados",
+        "sort": "default",
+        "type": "series",
+        "order": "asc",
+        "source": "tvdb",
+        "enabled": true,
+        "showInHome": false
+      },
+      {
+        "id": "tmdb.trending",
+        "name": "📈 Da Semana",
+        "sort": "default",
+        "type": "movie",
+        "order": "asc",
+        "source": "tmdb",
+        "enabled": true,
+        "showInHome": false
+      },
+      {
+        "id": "tmdb.trending",
+        "name": "📈 Da Semana",
+        "sort": "default",
+        "type": "series",
+        "order": "asc",
+        "source": "tmdb",
+        "enabled": true,
+        "showInHome": false
+      },
+      {
+        "id": "mdblist.87667",
+        "name": "🔥 Em Alta",
+        "sort": "default",
+        "type": "movie",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/snoak/trakt-s-trending-movies",
+          "author": "snoak",
+          "privacy": "public",
+          "itemCount": 250
+        },
+        "showInHome": true,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      },
+      {
+        "id": "mdblist.88434",
+        "name": "🔥 Em Alta",
+        "sort": "default",
+        "type": "series",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/snoak/trakt-s-trending-shows",
+          "author": "snoak",
+          "privacy": "public",
+          "itemCount": 249
+        },
+        "showInHome": true,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      },
+      {
+        "id": "mdblist.175011",
+        "name": "👀 Mais Vistos",
+        "sort": "default",
+        "type": "movie",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/snoak/today-s-most-popular-movies-on-television-stats",
+          "author": "snoak",
+          "privacy": "public",
+          "itemCount": 176
+        },
+        "showInHome": false,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      },
+      {
+        "id": "mdblist.175012",
+        "name": "👀 Mais Vistos",
+        "sort": "default",
+        "type": "series",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/snoak/today-s-most-popular-shows-on-television-stats",
+          "author": "snoak",
+          "privacy": "public",
+          "itemCount": 199
+        },
+        "showInHome": false,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      },
+      {
+        "id": "mdblist.162058",
+        "name": "🍅 Nota da Crítica",
+        "sort": "default",
+        "type": "movie",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/snoak/today-s-most-popular-movies-on-rotten-tomatoes",
+          "author": "snoak",
+          "privacy": "public",
+          "itemCount": 100
+        },
+        "showInHome": false,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      },
+      {
+        "id": "mdblist.162055",
+        "name": "🍅 Nota da Crítica",
+        "sort": "default",
+        "type": "series",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/snoak/today-s-most-popular-shows-on-rotten-tomatoes",
+          "author": "snoak",
+          "privacy": "public",
+          "itemCount": 100
+        },
+        "showInHome": false,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      },
+      {
+        "id": "tmdb.top",
+        "name": "👑 Populares",
+        "sort": "default",
+        "type": "movie",
+        "order": "asc",
+        "source": "tmdb",
+        "enabled": true,
+        "showInHome": true
+      },
+      {
+        "id": "tmdb.top",
+        "name": "👑 Populares",
+        "sort": "default",
+        "type": "series",
+        "order": "asc",
+        "source": "tmdb",
+        "enabled": true,
+        "showInHome": true
+      },
+      {
+        "id": "tmdb.top_rated",
+        "name": "💯 Nota Máxima",
+        "sort": "default",
+        "type": "movie",
+        "order": "asc",
+        "source": "tmdb",
+        "enabled": true,
+        "showInHome": false
+      },
+      {
+        "id": "tmdb.top_rated",
+        "name": "💯 Nota Máxima",
+        "sort": "default",
+        "type": "series",
+        "order": "asc",
+        "source": "tmdb",
+        "enabled": true,
+        "showInHome": false
+      },
+      {
+        "id": "mdblist.101881",
+        "name": "🏆 Top 250",
+        "sort": "default",
+        "type": "movie",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/snoak/top-250-movies-imdb",
+          "author": "snoak",
+          "privacy": "public",
+          "itemCount": 250
+        },
+        "showInHome": true,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      },
+      {
+        "id": "mdblist.101882",
+        "name": "🏆 Top 250",
+        "sort": "default",
+        "type": "series",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/snoak/top-250-shows-imdb",
+          "author": "snoak",
+          "privacy": "public",
+          "itemCount": 244
+        },
+        "showInHome": true,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      },
+      {
+        "id": "mdblist.86710",
+        "name": "📺 Episódios Novos",
+        "sort": "default",
+        "type": "series",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/snoak/latest-shows",
+          "author": "snoak",
+          "privacy": "public",
+          "itemCount": 200
+        },
+        "showInHome": true,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      },
+      {
+        "id": "tvmaze.schedule",
+        "name": "🗓️ Grade de Hoje",
+        "sort": "default",
+        "type": "series",
+        "order": "asc",
+        "source": "tvmaze",
+        "enabled": true,
+        "showInHome": true
+      },
+      {
+        "id": "mdblist.130153",
+        "name": "🎞️ Minisséries",
+        "sort": "default",
+        "type": "series",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/snoak/popular-miniseries",
+          "author": "snoak",
+          "privacy": "public",
+          "itemCount": 200
+        },
+        "showInHome": false,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      },
+      {
+        "id": "mdblist.130152",
+        "name": "🎞️ Minisséries Recentes",
+        "sort": "default",
+        "type": "series",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/snoak/latest-miniseries",
+          "author": "snoak",
+          "privacy": "public",
+          "itemCount": 200
+        },
+        "showInHome": false,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      },
+      {
+        "id": "tmdb.airing_today",
+        "name": "🔴 No Ar Hoje",
+        "sort": "default",
+        "type": "series",
+        "order": "asc",
+        "source": "tmdb",
+        "enabled": true,
+        "showInHome": true
+      },
+      {
+        "id": "mdblist.86934",
+        "name": "🆕 Novos no Streaming",
+        "sort": "default",
+        "type": "movie",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/snoak/latest-streaming-movies",
+          "author": "snoak",
+          "privacy": "public",
+          "itemCount": 200
+        },
+        "showInHome": true,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      },
+      {
+        "id": "mdblist.86757",
+        "name": "Apple TV+",
+        "sort": "default",
+        "type": "movie",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/snoak/latest-apple-tv-movies",
+          "author": "snoak",
+          "privacy": "public",
+          "itemCount": 88
+        },
+        "showInHome": true,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      },
+      {
+        "id": "mdblist.86756",
+        "name": "Apple TV+",
+        "sort": "default",
+        "type": "series",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/snoak/latest-apple-tv-shows",
+          "author": "snoak",
+          "privacy": "public",
+          "itemCount": 165
+        },
+        "showInHome": true,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      },
+      {
+        "id": "mdblist.86759",
+        "name": "Disney+",
+        "sort": "default",
+        "type": "movie",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/snoak/latest-disney-movies",
+          "author": "snoak",
+          "privacy": "public",
+          "itemCount": 200
+        },
+        "showInHome": true,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      },
+      {
+        "id": "mdblist.86758",
+        "name": "Disney+",
+        "sort": "default",
+        "type": "series",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/snoak/latest-disney-shows",
+          "author": "snoak",
+          "privacy": "public",
+          "itemCount": 200
+        },
+        "showInHome": true,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      },
+      {
+        "id": "streaming.gop",
+        "name": "Globoplay",
+        "sort": "default",
+        "type": "movie",
+        "order": "asc",
+        "source": "streaming",
+        "enabled": true,
+        "showInHome": true
+      },
+      {
+        "id": "streaming.gop",
+        "name": "Globoplay",
+        "sort": "default",
+        "type": "series",
+        "order": "asc",
+        "source": "streaming",
+        "enabled": true,
+        "showInHome": true
+      },
+      {
+        "id": "mdblist.89647",
+        "name": "HBO Max",
+        "sort": "default",
+        "type": "movie",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/snoak/latest-hbo-max-movies",
+          "author": "snoak",
+          "privacy": "public",
+          "itemCount": 200
+        },
+        "showInHome": true,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      },
+      {
+        "id": "mdblist.89649",
+        "name": "HBO Max",
+        "sort": "default",
+        "type": "series",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/snoak/latest-hbo-max-shows",
+          "author": "snoak",
+          "privacy": "public",
+          "itemCount": 200
+        },
+        "showInHome": true,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      },
+      {
+        "id": "mdblist.127955",
+        "name": "Hulu",
+        "sort": "default",
+        "type": "movie",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/snoak/latest-hulu-movies",
+          "author": "snoak",
+          "privacy": "public",
+          "itemCount": 200
+        },
+        "showInHome": false,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      },
+      {
+        "id": "mdblist.127954",
+        "name": "Hulu",
+        "sort": "default",
+        "type": "series",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/snoak/latest-hulu-shows",
+          "author": "snoak",
+          "privacy": "public",
+          "itemCount": 200
+        },
+        "showInHome": false,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      },
+      {
+        "id": "mdblist.86752",
+        "name": "Netflix",
+        "sort": "default",
+        "type": "movie",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/snoak/latest-netflix-movies",
+          "author": "snoak",
+          "privacy": "public",
+          "itemCount": 200
+        },
+        "showInHome": true,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      },
+      {
+        "id": "mdblist.86751",
+        "name": "Netflix",
+        "sort": "default",
+        "type": "series",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/snoak/latest-netflix-shows",
+          "author": "snoak",
+          "privacy": "public",
+          "itemCount": 200
+        },
+        "showInHome": true,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      },
+      {
+        "id": "mdblist.86628",
+        "name": "Netflix Top 10",
+        "sort": "default",
+        "type": "movie",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/snoak/top-netflix-movies",
+          "author": "snoak",
+          "privacy": "public",
+          "itemCount": 51
+        },
+        "showInHome": true,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      },
+      {
+        "id": "mdblist.86620",
+        "name": "Netflix Top 10",
+        "sort": "default",
+        "type": "series",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/snoak/top-netflix-shows",
+          "author": "snoak",
+          "privacy": "public",
+          "itemCount": 45
+        },
+        "showInHome": true,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      },
+      {
+        "id": "mdblist.86762",
+        "name": "Paramount+",
+        "sort": "default",
+        "type": "movie",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/snoak/latest-paramount-movies",
+          "author": "snoak",
+          "privacy": "public",
+          "itemCount": 162
+        },
+        "showInHome": true,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      },
+      {
+        "id": "mdblist.86761",
+        "name": "Paramount+",
+        "sort": "default",
+        "type": "series",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/snoak/latest-paramount-shows",
+          "author": "snoak",
+          "privacy": "public",
+          "itemCount": 200
+        },
+        "showInHome": true,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      },
+      {
+        "id": "mdblist.86755",
+        "name": "Prime Video",
+        "sort": "default",
+        "type": "movie",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/snoak/latest-amazon-prime-movies",
+          "author": "snoak",
+          "privacy": "public",
+          "itemCount": 200
+        },
+        "showInHome": true,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      },
+      {
+        "id": "mdblist.86753",
+        "name": "Prime Video",
+        "sort": "default",
+        "type": "series",
+        "order": "asc",
+        "source": "mdblist",
+        "enabled": true,
+        "cacheTTL": 86400,
+        "metadata": {
+          "url": "https://mdblist.com/lists/snoak/latest-amazon-prime-shows",
+          "author": "snoak",
+          "privacy": "public",
+          "itemCount": 200
+        },
+        "showInHome": true,
+        "genreSelection": "standard",
+        "enableRatingPosters": true
+      },
+      {
+        "id": "mal.top_anime",
+        "name": "🏅 Melhores",
+        "sort": "default",
+        "type": "anime",
+        "order": "asc",
+        "source": "mal",
+        "enabled": true,
+        "showInHome": true
+      },
+      {
+        "id": "mal.airing",
+        "name": "📡 No Ar",
+        "sort": "default",
+        "type": "anime",
+        "order": "asc",
+        "source": "mal",
+        "enabled": true,
+        "showInHome": true
+      },
+      {
+        "id": "mal.schedule",
+        "name": "🗓️ Programação",
+        "sort": "default",
+        "type": "anime",
+        "order": "asc",
+        "source": "mal",
+        "enabled": true,
+        "showInHome": false
+      }
+    ],
+    "language": "pt-BR",
+    "timezone": "America/Sao_Paulo",
+    "addonName": "Em Alta",
+    "ageRating": "None",
+    "castCount": 10,
+    "providers": {
+      "anime": "tvdb",
+      "movie": "tmdb",
+      "series": "tvdb",
+      "anime_id_provider": "kitsu",
+      "forceAnimeForDetectedImdb": false
+    },
+    "streaming": [],
+    "blurThumbs": false,
+    "showPrefix": false,
+    "artProviders": {
+      "anime": {
+        "logo": "imdb",
+        "poster": "mal",
+        "background": "imdb"
+      },
+      "movie": {
+        "logo": "meta",
+        "poster": "tmdb",
+        "background": "meta"
+      },
+      "series": {
+        "logo": "meta",
+        "poster": "meta",
+        "background": "meta"
+      },
+      "englishArtOnly": false,
+      "originalLangFallback": false
+    },
+    "includeAdult": false,
+    "searchEnabled": true,
+    "tvdbSeasonType": "default",
+    "usePosterProxy": true,
+    "displayAgeRating": false,
+    "hideWatchedSimkl": false,
+    "hideWatchedTrakt": false,
+    "malWatchTracking": false,
+    "showRateMeButton": false,
+    "hideWatchedAnilist": false,
+    "hideWatchedMdblist": false,
+    "simklWatchTracking": false,
+    "traktWatchTracking": false,
+    "allowUnratedContent": true,
+    "hideUnreleasedShows": false,
+    "anilistWatchTracking": false,
+    "catalogSetupComplete": true,
+    "customLogoUrlPattern": "",
+    "mdblistWatchTracking": false,
+    "posterRatingProvider": "none",
+    "showDisabledCatalogs": true,
+    "hideUnreleasedDigital": false,
+    "customPosterUrlPattern": "",
+    "customLandscapeUrlPattern": "",
+    "hideUnreleasedShowsSearch": false,
+    "publicmetadbWatchTracking": false,
+    "customBackgroundUrlPattern": "",
+    "hideUnreleasedDigitalSearch": false,
+    "showMetaProviderAttribution": false,
+    "enableRatingPostersForLibrary": true
+  },
+  "metadata": {
+    "apiKeysExcluded": true,
+    "totalCatalogs": 43,
+    "enabledCatalogs": 43
+  }
+}

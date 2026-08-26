@@ -1,0 +1,607 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Super Stremio</title>
+<meta name="description" content="Instale um setup completo de Stremio usando as suas próprias contas.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <p class="mark">Super Stremio <span>&nbsp;o setup inteiro, de uma vez</span></p>
+    <nav class="ticks" id="ticks" aria-label="Progresso"></nav>
+  </div>
+</header>
+
+<main>
+
+<!-- 0 ====================================================================== -->
+<section class="screen" data-screen="0"><div class="col">
+  <span class="count">Antes de começar</span>
+  <h1>O mesmo Stremio, com as suas contas</h1>
+  <p class="lede">
+    Onze addons, cerca de 150 prateleiras em português e streams que começam
+    na hora. Em cada passo você conecta uma conta sua.
+  </p>
+
+  <h2>Você vai precisar de três contas</h2>
+  <div class="card">
+    <div class="launch">
+      <div class="launch-txt">
+        <h3>MDBList <span class="tag" data-tone="free">grátis</span></h3>
+        <p>De onde vêm 86 das 150 prateleiras. O cadastro libera a chave na hora.</p>
+      </div>
+      <a class="btn btn-out btn-sm" href="https://mdblist.com/" target="_blank" rel="noopener">
+        Criar conta <span data-ico="sair"></span>
+      </a>
+    </div>
+    <div class="launch">
+      <div class="launch-txt">
+        <h3>TorBox <span class="tag" data-tone="paid">assinatura</span></h3>
+        <p>É o que faz o filme começar na hora. Sem ele, metade dos addons instala e não devolve nada.</p>
+      </div>
+      <a class="btn btn-out btn-sm" href="https://torbox.app/" target="_blank" rel="noopener">
+        Ver planos <span data-ico="sair"></span>
+      </a>
+    </div>
+    <div class="launch">
+      <div class="launch-txt">
+        <h3>Community Subtitles <span class="tag" data-tone="free">grátis</span></h3>
+        <p>Acervo de legendas da comunidade. É onde a legenda de episódio novo costuma sair primeiro.</p>
+      </div>
+      <a class="btn btn-out btn-sm" href="https://stremio-community-subtitles.top/" target="_blank" rel="noopener">
+        Criar conta <span data-ico="sair"></span>
+      </a>
+    </div>
+  </div>
+
+  <h2>Onde as suas senhas vão parar</h2>
+  <div class="quiet">
+    <p class="note">
+      <strong>Em lugar nenhum nosso.</strong> Este site é feito só de arquivos, não tem
+      servidor por trás. Não existe onde guardar o que você digita.
+    </p>
+    <p class="note">
+      A senha do Stremio sai do seu navegador direto para o <code>api.strem.io</code>.
+      As chaves de API você cola dentro de cada serviço, na página deles. O que fica
+      aqui, fica só no seu navegador, e some quando você limpar.
+    </p>
+  </div>
+
+  <div class="row next">
+    <button class="btn btn-go" data-go="1">Começar <span data-ico="seta"></span></button>
+    <span class="note" style="margin-left:6px">Leva uns 15 minutos</span>
+  </div>
+</div></section>
+
+<!-- 1 ====================================================================== -->
+<section class="screen" data-screen="1"><div class="col">
+  <span class="count">Passo 1 de 7</span>
+  <h1>Chave do MDBList</h1>
+  <p class="lede">
+    Comece por essa. É a que mais muda o resultado e a única que sai de graça
+    e na hora.
+  </p>
+
+  <h2>Por que ela importa tanto</h2>
+  <p class="note">
+    O MDBList é quem monta listas como Netflix Top 10, em alta essa semana ou
+    melhores dos anos 90. Das 150 prateleiras deste setup, <strong>86 saem de lá</strong>:
+    todas as por gênero, todas as por década e as de cada serviço de streaming.
+  </p>
+  <p class="note">
+    A instância pública do AIOMetadata já traz TMDB e TVDB embutidos, mas não traz
+    MDBList. Sem a sua chave, mais da metade das prateleiras carrega vazia.
+  </p>
+
+  <h2>Como pegar</h2>
+  <ol class="howto">
+    <li><b>1</b><span>Crie a conta em <em>mdblist.com</em>. Dá para entrar com Trakt ou com e-mail.</span></li>
+    <li><b>2</b><span>Abra <em>Preferences</em> no menu do seu perfil.</span></li>
+    <li><b>3</b><span>Role até <em>API Key</em> e copie o valor.</span></li>
+  </ol>
+
+  <div class="row" style="margin-top:20px">
+    <a class="btn btn-out btn-sm" href="https://mdblist.com/" target="_blank" rel="noopener">
+      Criar conta <span data-ico="sair"></span>
+    </a>
+    <a class="btn btn-out btn-sm" href="https://mdblist.com/preferences/" target="_blank" rel="noopener">
+      Abrir Preferences <span data-ico="sair"></span>
+    </a>
+  </div>
+
+  <div class="card" style="margin-top:24px">
+    <div class="field" data-campo="chave:mdblist">
+      <label for="f-mdb">Sua chave do MDBList</label>
+      <div class="pair">
+        <input id="f-mdb" type="text" placeholder="cole a chave aqui" autocomplete="off" spellcheck="false">
+        <button class="btn btn-out" data-verificar>Verificar</button>
+      </div>
+      <p class="msg" data-tone="idle" data-saida>Esperando a chave</p>
+    </div>
+    <p class="note" style="margin-top:18px">
+      Ela fica guardada só no seu navegador. Você vai colar essa mesma chave
+      dentro do AIOMetadata daqui a pouco, e o botão de copiar aparece lá.
+    </p>
+  </div>
+
+  <div class="row next">
+    <button class="btn btn-go" data-go="2">Continuar <span data-ico="seta"></span></button>
+    <button class="btn btn-txt" data-go="0">Voltar</button>
+  </div>
+</div></section>
+
+<!-- 2 ====================================================================== -->
+<section class="screen" data-screen="2"><div class="col">
+  <span class="count">Passo 2 de 7</span>
+  <h1>Chave do TorBox</h1>
+  <p class="lede">
+    A única parte paga do setup. É ela que separa o Stremio que engasga
+    do Stremio que abre mais rápido que a Netflix.
+  </p>
+
+  <h2>O que o TorBox faz</h2>
+  <p class="note">
+    O Stremio sozinho baixa o torrent na sua casa enquanto você assiste. Isso quer
+    dizer esperar o arquivo encher antes de começar, travar no meio quando tem pouca
+    gente compartilhando, e ficar visível para todo mundo que está no mesmo torrent.
+  </p>
+  <p class="note">
+    O TorBox já tem o arquivo pronto nos servidores dele e devolve um link normal de
+    vídeo. <strong>Começa na hora, em 4K, e sai do seu nome.</strong> É ele que faz o
+    Torrentio e o AIOStreams valerem a pena.
+  </p>
+
+  <h2>Como pegar</h2>
+  <ol class="howto">
+    <li><b>1</b><span>Assine um plano em <em>torbox.app</em>.</span></li>
+    <li><b>2</b><span>Abra <em>Settings</em> e vá até a seção <em>API</em>.</span></li>
+    <li><b>3</b><span>Copie a <em>API Key</em>.</span></li>
+  </ol>
+
+  <div class="row" style="margin-top:20px">
+    <a class="btn btn-out btn-sm" href="https://torbox.app/" target="_blank" rel="noopener">
+      Ver planos <span data-ico="sair"></span>
+    </a>
+    <a class="btn btn-out btn-sm" href="https://torbox.app/settings" target="_blank" rel="noopener">
+      Abrir Settings <span data-ico="sair"></span>
+    </a>
+  </div>
+
+  <div class="card" style="margin-top:24px">
+    <div class="field" data-campo="chave:torbox">
+      <label for="f-tb">Sua chave do TorBox</label>
+      <div class="pair">
+        <input id="f-tb" type="text" placeholder="cole a chave aqui" autocomplete="off" spellcheck="false">
+        <button class="btn btn-out" data-verificar>Verificar</button>
+      </div>
+      <p class="msg" data-tone="idle" data-saida>Esperando a chave</p>
+    </div>
+  </div>
+
+  <div class="row next">
+    <button class="btn btn-go" data-go="3">Continuar <span data-ico="seta"></span></button>
+    <button class="btn btn-txt" data-go="1">Voltar</button>
+  </div>
+</div></section>
+
+<!-- 3 ====================================================================== -->
+<section class="screen" data-screen="3"><div class="col">
+  <span class="count">Passo 3 de 7</span>
+  <h1>As cinco prateleiras</h1>
+  <p class="lede">
+    O passo mais longo, uns oito minutos. Também é o que você mais vai ver,
+    porque é a tela inicial do Stremio inteira.
+  </p>
+
+  <h2>O que o AIOMetadata substitui</h2>
+  <p class="note">
+    O Stremio vem com o Cinemeta, que funciona e é sem graça: pôster em inglês,
+    sinopse em inglês, e as mesmas quatro listas para todo mundo no mundo.
+  </p>
+  <p class="note">
+    O AIOMetadata troca a fonte dos dados por TMDB e TVDB em português e deixa você
+    montar as suas próprias prateleiras. Aqui ele está dividido em cinco configurações,
+    e <strong>cada uma vira uma linha separada na sua tela inicial.</strong>
+  </p>
+
+  <details class="ajuda">
+    <summary>
+      <span data-ico="ajuda"></span>
+      Nunca mexi nisso. Me explica com calma
+    </summary>
+    <div class="ajuda-corpo">
+      <p class="note">
+        <strong>Primeiro, o que é o AIOMetadata.</strong> Pense na tela inicial do Stremio
+        como uma estante. O Stremio vem com uma estante pronta, pequena e em inglês.
+        O AIOMetadata é um addon que deixa você montar a sua estante: quais prateleiras
+        existem, o nome de cada uma e de onde vêm os filmes que aparecem nelas.
+      </p>
+      <p class="note">
+        <strong>Por que cinco e não uma.</strong> Cada configuração do AIOMetadata vira
+        uma linha na sua tela inicial. Como aqui são cinco temas diferentes, você cria
+        cinco configurações. É repetitivo, e é o único jeito.
+      </p>
+      <p class="note">
+        <strong>O que é esse tal de UUID.</strong> Quando você salva uma configuração,
+        o site do AIOMetadata guarda ela e te dá um código de identificação, tipo
+        <code>11111111-aaaa-4aaa-8aaa-111111111111</code>. Esse código é o endereço da
+        sua configuração. É ele que você cola aqui.
+      </p>
+
+      <h3 class="ajuda-titulo">O passo a passo, para cada uma das cinco</h3>
+      <ol class="howto">
+        <li><b>1</b><span>Clique em <em>Baixar o catálogo</em> no cartão da fatia. Um arquivo <code>.json</code> vai para a sua pasta de downloads.</span></li>
+        <li><b>2</b><span>Clique em <em>Abrir configurador</em>. Abre uma aba nova, cheia de opções. Ignore quase tudo.</span></li>
+        <li><b>3</b><span>Procure a seção de chaves, chamada <em>API Keys</em>. Cole a sua chave do MDBList no campo <em>MDBList</em>. O botão de copiar ela está logo acima, aqui nesta página. <strong>Se pular esta parte, as prateleiras vêm vazias.</strong></span></li>
+        <li><b>4</b><span>Procure a área de importar, chamada <em>Import</em>. Escolha o arquivo que você baixou no passo 1.</span></li>
+        <li><b>5</b><span>A lista de catálogos vai se encher sozinha, já com os nomes em português. É assim que você sabe que deu certo.</span></li>
+        <li><b>6</b><span>Role até o fim e clique em <em>Save</em>. Ele vai pedir uma senha. Invente uma e <strong>anote</strong>: não existe recuperação de senha nesse serviço.</span></li>
+        <li><b>7</b><span>Depois de salvar aparece o UUID, perto do link de instalação. Copie ele.</span></li>
+        <li><b>8</b><span>Volte aqui e cole no campo daquela fatia. Clique em <em>Verificar</em>: se aparecer verde com o número de catálogos, acabou essa.</span></li>
+        <li><b>9</b><span>Repita da fatia seguinte. Cada uma precisa de uma configuração <strong>nova</strong>, com UUID diferente.</span></li>
+      </ol>
+
+      <h3 class="ajuda-titulo">Se der errado</h3>
+      <dl class="faq">
+        <dt>Salvei e não achei o UUID</dt>
+        <dd>Role a página do configurador até o fim. Ele fica junto do botão de instalar, e às vezes dentro do próprio endereço que aparece lá.</dd>
+
+        <dt>Colei o UUID e ficou vermelho dizendo que não existe</dt>
+        <dd>Quase sempre é o código pela metade. Ele tem 36 caracteres e cinco pedaços separados por hífen. Copie de novo, do começo ao fim.</dd>
+
+        <dt>Instalou, mas as prateleiras estão vazias no Stremio</dt>
+        <dd>Faltou a chave do MDBList naquela configuração. Volte no configurador dela, cole a chave, salve de novo. O UUID continua o mesmo.</dd>
+
+        <dt>Só apareceu uma linha no Stremio em vez de cinco</dt>
+        <dd>Você repetiu o mesmo UUID em mais de um campo. Cada fatia precisa da configuração dela.</dd>
+      </dl>
+    </div>
+  </details>
+
+  <h2>O mesmo roteiro, cinco vezes</h2>
+  <ol class="howto">
+    <li><b>1</b><span>Abra o configurador. Ele abre em outra aba.</span></li>
+    <li><b>2</b><span>Cole a sua chave do MDBList no campo <em>MDBList</em> de lá.</span></li>
+    <li><b>3</b><span>Em <em>Import</em>, use o arquivo que o botão baixa aqui.</span></li>
+    <li><b>4</b><span>Escolha uma senha, salve, e volte com o <em>UUID</em> que aparecer.</span></li>
+  </ol>
+
+  <div class="quiet" style="margin-top:22px" data-copiavel="chave:mdblist">
+    <div class="row">
+      <span class="note" style="margin:0">Sua chave do MDBList, para colar lá:</span>
+      <code data-valor>ainda não preenchida</code>
+      <button class="btn btn-out btn-sm" style="margin-left:auto" data-copiar>
+        <span data-ico="copiar"></span> Copiar
+      </button>
+    </div>
+  </div>
+
+  <h2>Cinco configurações</h2>
+  <div class="cards" id="fatias"></div>
+
+  <div class="row next">
+    <button class="btn btn-go" data-go="4">Continuar <span data-ico="seta"></span></button>
+    <button class="btn btn-txt" data-go="2">Voltar</button>
+  </div>
+</div></section>
+
+<!-- 4 ====================================================================== -->
+<section class="screen" data-screen="4"><div class="col">
+  <span class="count">Passo 4 de 7</span>
+  <h1>AIOStreams</h1>
+  <p class="lede">
+    Se o passo anterior era a vitrine, este é o motor. É ele que decide qual
+    arquivo você assiste quando aperta play.
+  </p>
+
+  <h2>Por que não basta instalar vários addons de stream</h2>
+  <p class="note">
+    Com seis addons de torrent instalados, apertar play abre uma lista de sessenta
+    linhas com o mesmo filme repetido, sem ordem, misturando 4K com gravação feita
+    dentro do cinema.
+  </p>
+  <p class="note">
+    O AIOStreams consulta todos de uma vez, junta num resultado só e ordena do jeito
+    que você mandar: dublado primeiro, 4K antes de 1080p, descartando gravação de
+    cinema. <strong>Você aperta play e assiste.</strong>
+  </p>
+
+  <div class="quiet" style="margin-top:22px">
+    <p class="note">
+      <strong>As chaves de debrid você digita lá dentro, não aqui.</strong>
+      A configuração do AIOStreams é criptografada com a senha que você escolher,
+      então este site não consegue preencher por você. É de propósito, e é
+      exatamente o que permite compartilhar uma configuração sem entregar as contas de ninguém.
+    </p>
+  </div>
+
+  <details class="ajuda">
+    <summary>
+      <span data-ico="ajuda"></span>
+      Nunca mexi nisso. Me explica com calma
+    </summary>
+    <div class="ajuda-corpo">
+      <p class="note">
+        <strong>Primeiro, a diferença entre os dois.</strong> O passo anterior, o
+        AIOMetadata, cuida do que você <em>vê</em>: capas, nomes, prateleiras. O
+        AIOStreams cuida do que <em>toca</em> quando você aperta play. Um é a estante,
+        o outro é o toca-discos.
+      </p>
+      <p class="note">
+        <strong>Por que ele existe.</strong> Cada addon de stream é um buscador de
+        arquivo. Se você instalar seis, apertar play abre uma lista de sessenta linhas
+        com o mesmo filme repetido, sem ordem, misturando 4K com gravação de celular
+        feita dentro do cinema. O AIOStreams pergunta para todos de uma vez, junta tudo
+        numa lista só e ordena. Você aperta play e assiste.
+      </p>
+      <p class="note">
+        <strong>Por que a sua chave do TorBox vai lá dentro e não aqui.</strong> A
+        configuração do AIOStreams é criptografada com a senha que você escolher. Nem
+        este site nem ninguém consegue preencher por você. É chato, e é justamente isso
+        que permite compartilhar uma configuração inteira sem entregar conta de ninguém.
+      </p>
+
+      <h3 class="ajuda-titulo">O passo a passo</h3>
+      <ol class="howto">
+        <li><b>1</b><span>Clique em <em>Baixar a configuração</em> aqui embaixo. Um arquivo <code>.json</code> vai para os seus downloads.</span></li>
+        <li><b>2</b><span>Clique em <em>Abrir configurador</em>. Na primeira vez ele cria uma conta para você: escolha uma senha e <strong>anote</strong>. O UUID ele gera sozinho.</span></li>
+        <li><b>3</b><span>Procure a seção <em>Backups</em> e clique em <em>Import</em>. Escolha o arquivo do passo 1.</span></li>
+        <li><b>4</b><span>Pronto, toda a configuração de filtro e ordenação entrou. Falta só a sua chave.</span></li>
+        <li><b>5</b><span>Procure a seção <em>Services</em>. Ache o <em>TorBox</em> na lista e ligue ele.</span></li>
+        <li><b>6</b><span>Cole a sua chave do TorBox no campo dele. É a mesma do passo 2, e o botão de copiar está logo acima.</span></li>
+        <li><b>7</b><span>Salve. Vai aparecer um endereço longo, terminando em <code>/manifest.json</code>.</span></li>
+        <li><b>8</b><span>Copie esse endereço inteiro e cole aqui embaixo.</span></li>
+      </ol>
+
+      <h3 class="ajuda-titulo">Se der errado</h3>
+      <dl class="faq">
+        <dt>Colei o endereço e ele reclamou</dt>
+        <dd>Confira se você copiou o endereço de instalação e não o da página de configuração. O certo termina em <code>/manifest.json</code>.</dd>
+
+        <dt>Instalou mas não aparece stream nenhum</dt>
+        <dd>Quase sempre é a chave do TorBox faltando ou errada lá dentro. Volte no configurador, confira a seção Services, salve de novo.</dd>
+
+        <dt>Perdi a senha que criei</dt>
+        <dd>Não tem recuperação. Você cria uma configuração nova do zero, importa o mesmo arquivo, e volta aqui com o endereço novo.</dd>
+      </dl>
+    </div>
+  </details>
+
+  <h2>Como fazer</h2>
+  <ol class="howto">
+    <li><b>1</b><span>Abra o configurador e crie uma conta com <em>UUID e senha</em>.</span></li>
+    <li><b>2</b><span>Em <em>Backups</em>, importe o arquivo que o botão baixa aqui. Ele traz a configuração de filtro e ordenação inteira, e nenhuma chave.</span></li>
+    <li><b>3</b><span>Preencha o campo <em>TorBox</em> com a sua chave, a mesma do passo anterior.</span></li>
+    <li><b>4</b><span>Salve e volte com o endereço do addon que aparecer.</span></li>
+  </ol>
+
+  <div class="quiet" style="margin-top:22px" data-copiavel="chave:torbox">
+    <div class="row">
+      <span class="note" style="margin:0">Sua chave do TorBox, para colar lá:</span>
+      <code data-valor>ainda não preenchida</code>
+      <button class="btn btn-out btn-sm" style="margin-left:auto" data-copiar>
+        <span data-ico="copiar"></span> Copiar
+      </button>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:12px" data-addon="com.aiostreams.viren070">
+    <div class="row" style="margin-bottom:20px">
+      <a class="btn btn-out btn-sm" data-configurador target="_blank" rel="noopener">
+        Abrir configurador <span data-ico="sair"></span>
+      </a>
+      <button class="btn btn-out btn-sm" data-baixar>
+        <span data-ico="baixar"></span> Baixar a configuração
+      </button>
+    </div>
+    <div class="field">
+      <label for="f-aio">Endereço do seu AIOStreams</label>
+      <div class="pair">
+        <input id="f-aio" type="text" autocomplete="off" spellcheck="false"
+               placeholder="https://aiostreams.elfhosted.com/stremio/.../manifest.json">
+        <button class="btn btn-out" data-verificar>Verificar</button>
+      </div>
+      <p class="msg" data-tone="idle" data-saida>Esperando o endereço</p>
+    </div>
+  </div>
+
+  <div class="row next">
+    <button class="btn btn-go" data-go="5">Continuar <span data-ico="seta"></span></button>
+    <button class="btn btn-txt" data-go="3">Voltar</button>
+  </div>
+</div></section>
+
+<!-- 5 ====================================================================== -->
+<section class="screen" data-screen="5"><div class="col">
+  <span class="count">Passo 5 de 7</span>
+  <h1>Legendas, em dois lugares</h1>
+  <p class="lede">
+    São dois addons de legenda de propósito. Eles falham em momentos diferentes,
+    e um cobre o buraco do outro.
+  </p>
+
+  <div class="card" style="margin-top:40px">
+    <div class="slice-head"><h3>opensubtitles PRO</h3><span class="tag" data-tone="free">nada a fazer</span></div>
+    <p class="slice-p">
+      Pega legenda em português do acervo do OpenSubtitles sem exigir conta. Quando
+      não existe legenda em PT-BR, ele traduz com IA na hora. E corrige sozinho quando
+      a legenda está adiantada ou atrasada, que é o defeito mais chato de legenda solta.
+    </p>
+    <p class="msg" data-tone="ok" style="margin-top:14px">
+      <span data-ico="check"></span> Já vem com português e inglês configurados. Você não precisa fazer nada.
+    </p>
+  </div>
+
+  <div class="card" data-addon="com.community.stremio-subtitles">
+    <div class="slice-head"><h3>Stremio Community Subtitles</h3><span class="tag">precisa de conta</span></div>
+    <p class="slice-p">
+      Acervo mantido pela comunidade, com upload aberto. Vale pelo caso em que o outro
+      falha: episódio que estreou ontem, série pequena, filme antigo. Costuma aparecer
+      aqui antes de aparecer em qualquer outro lugar.
+    </p>
+    <div class="slice-act" style="margin-top:16px">
+      <a class="btn btn-out btn-sm" data-configurador target="_blank" rel="noopener">
+        Criar conta <span data-ico="sair"></span>
+      </a>
+    </div>
+    <div class="field">
+      <label for="f-sub">Endereço que aparecer depois de criar a conta</label>
+      <div class="pair">
+        <input id="f-sub" type="text" autocomplete="off" spellcheck="false"
+               placeholder="https://stremio-community-subtitles.top/.../manifest.json">
+        <button class="btn btn-out" data-verificar>Verificar</button>
+      </div>
+      <p class="msg" data-tone="idle" data-saida>Esperando o endereço</p>
+    </div>
+  </div>
+
+  <div class="row next">
+    <button class="btn btn-go" data-go="6">Continuar <span data-ico="seta"></span></button>
+    <button class="btn btn-txt" data-go="4">Voltar</button>
+  </div>
+</div></section>
+
+<!-- 6 ====================================================================== -->
+<section class="screen" data-screen="6"><div class="col">
+  <span class="count">Passo 6 de 7</span>
+  <h1>Os onze, antes de instalar</h1>
+  <p class="lede">
+    Cada endereço abaixo foi conferido batendo no manifesto do addon.
+    O que está verde respondeu de verdade.
+  </p>
+
+  <div class="list" id="revisao" style="margin-top:40px"></div>
+
+  <div class="quiet" style="margin-top:20px">
+    <p class="note">
+      <strong>Isso vai substituir a sua lista de addons.</strong>
+      Os que o Stremio protege continuam onde estão: o Cinemeta e o de arquivos locais,
+      que é o que toca vídeo do seu computador. Se você tinha outros addons instalados,
+      eles saem. Por isso o passo seguinte baixa uma cópia antes de mexer.
+    </p>
+  </div>
+
+  <div class="row next">
+    <button class="btn btn-go" data-go="7">Continuar <span data-ico="seta"></span></button>
+    <button class="btn btn-txt" data-go="5">Voltar</button>
+  </div>
+</div></section>
+
+<!-- 7 ====================================================================== -->
+<section class="screen" data-screen="7"><div class="col">
+  <span class="count">Passo 7 de 7</span>
+  <h1>Como você quer instalar</h1>
+  <p class="lede">
+    Três caminhos, mesmo resultado. O primeiro é o mais rápido e o único que
+    consegue arrumar a ordem e tirar o que sobrou. Os outros dois não pedem senha.
+  </p>
+
+  <h2>Entrar na conta e deixar o site instalar</h2>
+  <div class="card">
+    <div class="field">
+      <label for="s-mail">E-mail da conta Stremio</label>
+      <input id="s-mail" type="email" autocomplete="username" placeholder="voce@email.com">
+    </div>
+    <div class="field" style="margin-top:16px">
+      <label for="s-pass">Senha</label>
+      <input id="s-pass" type="password" autocomplete="current-password" placeholder="a sua senha do Stremio">
+      <p class="help">
+        Vai do seu navegador direto para o api.strem.io. Não passa por aqui e não é guardada.
+      </p>
+    </div>
+
+    <label class="check" style="margin-top:22px">
+      <input type="checkbox" id="s-backup" checked>
+      <span><strong>Baixar uma cópia dos meus addons atuais antes de instalar.</strong>
+        Um arquivo <code>.json</code> que serve para voltar atrás se você não gostar.</span>
+    </label>
+
+    <div class="row" style="margin-top:24px">
+      <button class="btn btn-go" id="instalar">Instalar os addons</button>
+    </div>
+    <p class="msg" data-tone="idle" id="saida-instalar" style="margin-top:14px"></p>
+  </div>
+
+  <h2>Instalar um por um, sem senha nenhuma</h2>
+  <p class="note">
+    Cada botão abaixo abre o Stremio no seu computador e pergunta se você quer
+    instalar aquele addon. Não passa por conta nem por site nenhum. O custo é que
+    a ordem fica por sua conta, e os addons que você já tinha continuam onde estão.
+  </p>
+  <div class="list" id="links-diretos" style="margin-top:18px"></div>
+
+  <h2>Baixar a lista num arquivo</h2>
+  <p class="note">
+    Se você já usa algum gerenciador de addons do Stremio, este arquivo é o que
+    ele importa. Vem com os onze mais o Cinemeta e o de arquivos locais, que são
+    os que o Stremio protege, para você não perder a reprodução de vídeo local.
+  </p>
+  <div class="card" style="margin-top:18px">
+    <div class="row">
+      <button class="btn btn-out btn-sm" id="baixar-colecao">
+        <span data-ico="baixar"></span> Baixar a lista completa
+      </button>
+      <span class="note" style="margin:0">arquivo <code>.json</code></span>
+    </div>
+    <p class="msg" data-tone="idle" id="saida-colecao" style="margin-top:12px"></p>
+  </div>
+
+  <div class="row next">
+    <button class="btn btn-txt" data-go="6">Voltar</button>
+  </div>
+</div></section>
+
+<!-- 8 ====================================================================== -->
+<section class="screen" data-screen="8"><div class="col">
+  <span class="count">Pronto</span>
+  <h1>Instalado. Pode abrir o Stremio.</h1>
+  <p class="lede" id="resumo-final">
+    Os addons já estão na sua conta e sincronizaram. Se o Stremio estava aberto,
+    feche e abra de novo para as prateleiras aparecerem.
+  </p>
+
+  <h2>O que esperar na primeira vez</h2>
+  <p class="note">
+    A tela inicial vai demorar alguns segundos a mais para montar, porque são muitas
+    prateleiras buscando dados pela primeira vez. Da segunda em diante fica instantâneo:
+    o AIOMetadata guarda por 24 horas.
+  </p>
+  <p class="note">
+    Se alguma prateleira aparecer vazia, quase sempre é a chave do MDBList que ficou
+    faltando em uma das cinco configurações. Volte no configurador daquela fatia e confira.
+  </p>
+
+  <h2>Guarde isso em algum lugar</h2>
+  <div class="card">
+    <p class="note" style="margin:0">
+      As senhas que você criou no AIOMetadata e no AIOStreams são a única forma de
+      editar essas configurações depois. Anote junto com os UUIDs.
+      <strong>Não existe recuperação de senha nesses serviços.</strong>
+    </p>
+    <div class="row" style="margin-top:20px">
+      <button class="btn btn-out btn-sm" id="baixar-uuids">
+        <span data-ico="baixar"></span> Baixar meus UUIDs num arquivo
+      </button>
+      <a class="btn btn-out btn-sm" href="https://web.stremio.com/" target="_blank" rel="noopener">
+        Abrir o Stremio <span data-ico="sair"></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="row next">
+    <button class="btn btn-txt" id="recomecar">Apagar o que ficou guardado neste navegador</button>
+  </div>
+</div></section>
+
+</main>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>

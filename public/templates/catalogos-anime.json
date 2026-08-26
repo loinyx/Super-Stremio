@@ -1,0 +1,282 @@
+{
+  "version": "2.15.0",
+  "exportedAt": "2026-08-26T13:17:36.055Z",
+  "config": {
+    "mal": {
+      "skipRecap": false,
+      "skipFiller": false,
+      "allowEpisodeMarking": false,
+      "useImdbIdForCatalogAndSearch": false
+    },
+    "sfw": true,
+    "tmdb": {
+      "scrapeImdb": false,
+      "forceLatinCastNames": false
+    },
+    "search": {
+      "enabled": true,
+      "ai_model": "gemini-2.5-flash",
+      "providers": {
+        "movie": "tmdb.search",
+        "series": "tvdb.search",
+        "anime_movie": "kitsu.search.movie",
+        "anime_series": "kitsu.search.series",
+        "people_search_movie": "tmdb.people.search",
+        "people_search_series": "tmdb.people.search"
+      },
+      "ai_enabled": false,
+      "ai_provider": "gemini",
+      "searchNames": {},
+      "searchOrder": [
+        "movie",
+        "series",
+        "tvdb.collections.search",
+        "gemini.search",
+        "anime_series",
+        "anime_movie",
+        "people_search_movie",
+        "people_search_series"
+      ],
+      "engineEnabled": {
+        "tmdb.search": true,
+        "tvdb.search": true,
+        "simkl.search": true,
+        "trakt.search": true,
+        "tvmaze.search": true,
+        "mdblist.search": true,
+        "mal.search.movie": true,
+        "mal.search.series": true,
+        "kitsu.search.movie": true,
+        "simkl.search.movie": true,
+        "kitsu.search.series": true,
+        "people_search_movie": false,
+        "simkl.search.series": true,
+        "people_search_series": false,
+        "imdb.suggestions.search": true,
+        "tvdb.collections.search": false
+      },
+      "ai_trigger_keyword": ""
+    },
+    "catalogs": [
+      {
+        "id": "mal.season_top",
+        "name": "📈 Top da Semana",
+        "sort": "default",
+        "type": "anime",
+        "order": "asc",
+        "source": "mal",
+        "enabled": true,
+        "showInHome": false
+      },
+      {
+        "id": "mal.season_top_new",
+        "name": "✨ Estreias",
+        "sort": "default",
+        "type": "anime",
+        "order": "asc",
+        "source": "mal",
+        "enabled": true,
+        "showInHome": false
+      },
+      {
+        "id": "mal.most_popular",
+        "name": "👀 Mais Assistidos",
+        "sort": "default",
+        "type": "anime",
+        "order": "asc",
+        "source": "mal",
+        "enabled": true,
+        "showInHome": false
+      },
+      {
+        "id": "mal.most_favorites",
+        "name": "💖 Favoritos",
+        "sort": "default",
+        "type": "anime",
+        "order": "asc",
+        "source": "mal",
+        "enabled": true,
+        "showInHome": false
+      },
+      {
+        "id": "mal.top_movies",
+        "name": "🎥 Melhores Filmes",
+        "sort": "default",
+        "type": "anime",
+        "order": "asc",
+        "source": "mal",
+        "enabled": true,
+        "showInHome": false
+      },
+      {
+        "id": "mal.top_series",
+        "name": "📺 Melhores Séries",
+        "sort": "default",
+        "type": "anime",
+        "order": "asc",
+        "source": "mal",
+        "enabled": true,
+        "showInHome": false
+      },
+      {
+        "id": "mal.upcoming",
+        "name": "⏭️ Próxima Temporada",
+        "sort": "default",
+        "type": "anime",
+        "order": "asc",
+        "source": "mal",
+        "enabled": true,
+        "showInHome": false
+      },
+      {
+        "id": "mal.genres",
+        "name": "🗂️ Por Gênero",
+        "sort": "default",
+        "type": "anime",
+        "order": "asc",
+        "source": "mal",
+        "enabled": true,
+        "showInHome": false
+      },
+      {
+        "id": "mal.seasons",
+        "name": "🌱 Por Temporada",
+        "sort": "default",
+        "type": "anime",
+        "order": "asc",
+        "source": "mal",
+        "enabled": true,
+        "showInHome": false
+      },
+      {
+        "id": "mal.studios",
+        "name": "🏢 Por Estúdio",
+        "sort": "default",
+        "type": "anime",
+        "order": "asc",
+        "source": "mal",
+        "enabled": true,
+        "showInHome": false
+      },
+      {
+        "id": "mal.80sDecade",
+        "name": "📼 Anos 80",
+        "sort": "default",
+        "type": "anime",
+        "order": "asc",
+        "source": "mal",
+        "enabled": true,
+        "showInHome": false
+      },
+      {
+        "id": "mal.90sDecade",
+        "name": "💿 Anos 90",
+        "sort": "default",
+        "type": "anime",
+        "order": "asc",
+        "source": "mal",
+        "enabled": true,
+        "showInHome": false
+      },
+      {
+        "id": "mal.00sDecade",
+        "name": "📀 Anos 2000",
+        "sort": "default",
+        "type": "anime",
+        "order": "asc",
+        "source": "mal",
+        "enabled": true,
+        "showInHome": false
+      },
+      {
+        "id": "mal.10sDecade",
+        "name": "📱 Anos 2010",
+        "sort": "default",
+        "type": "anime",
+        "order": "asc",
+        "source": "mal",
+        "enabled": true,
+        "showInHome": false
+      },
+      {
+        "id": "mal.20sDecade",
+        "name": "🎬 Anos 2020",
+        "sort": "default",
+        "type": "anime",
+        "order": "asc",
+        "source": "mal",
+        "enabled": true,
+        "showInHome": false
+      }
+    ],
+    "language": "pt-BR",
+    "timezone": "America/Sao_Paulo",
+    "addonName": "Anime",
+    "ageRating": "None",
+    "castCount": 10,
+    "providers": {
+      "anime": "tvdb",
+      "movie": "tmdb",
+      "series": "tvdb",
+      "anime_id_provider": "kitsu",
+      "forceAnimeForDetectedImdb": false
+    },
+    "streaming": [],
+    "blurThumbs": false,
+    "showPrefix": false,
+    "artProviders": {
+      "anime": {
+        "logo": "imdb",
+        "poster": "mal",
+        "background": "imdb"
+      },
+      "movie": {
+        "logo": "meta",
+        "poster": "tmdb",
+        "background": "meta"
+      },
+      "series": {
+        "logo": "meta",
+        "poster": "meta",
+        "background": "meta"
+      },
+      "englishArtOnly": false,
+      "originalLangFallback": false
+    },
+    "includeAdult": false,
+    "searchEnabled": true,
+    "tvdbSeasonType": "default",
+    "usePosterProxy": true,
+    "displayAgeRating": false,
+    "hideWatchedSimkl": false,
+    "hideWatchedTrakt": false,
+    "malWatchTracking": false,
+    "showRateMeButton": false,
+    "hideWatchedAnilist": false,
+    "hideWatchedMdblist": false,
+    "simklWatchTracking": false,
+    "traktWatchTracking": false,
+    "allowUnratedContent": true,
+    "hideUnreleasedShows": false,
+    "anilistWatchTracking": false,
+    "catalogSetupComplete": true,
+    "customLogoUrlPattern": "",
+    "mdblistWatchTracking": false,
+    "posterRatingProvider": "none",
+    "showDisabledCatalogs": true,
+    "hideUnreleasedDigital": false,
+    "customPosterUrlPattern": "",
+    "customLandscapeUrlPattern": "",
+    "hideUnreleasedShowsSearch": false,
+    "publicmetadbWatchTracking": false,
+    "customBackgroundUrlPattern": "",
+    "hideUnreleasedDigitalSearch": false,
+    "showMetaProviderAttribution": false,
+    "enableRatingPostersForLibrary": true
+  },
+  "metadata": {
+    "apiKeysExcluded": true,
+    "totalCatalogs": 15,
+    "enabledCatalogs": 15
+  }
+}

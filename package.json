@@ -1,0 +1,9 @@
+{
+  "name": "super-stremio",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "sanitize": "node scripts/sanitize.mjs",
+    "test": "node --test scripts/lib/sanitize.test.mjs public/js/core.test.mjs"
+  }
+}
