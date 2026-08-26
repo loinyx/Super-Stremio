@@ -1,7 +1,7 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
 
-import { ADDONS, montarUrl, base64url, addonsQueExigem, linkInstalar } from "./catalog.js"
+import { ADDONS, DEBRIDS, montarUrl, montarTorrentio, base64url, addonsQueExigem, linkInstalar } from "./catalog.js"
 import { mesclar, backupJson, entrar, lerColecao, ErroStremio } from "./stremio.js"
 import { conferirFormato, validar, descritor } from "./validation.js"
 import { injetarChaves, nomeDoArquivo, avisoDoDownload } from "./inject.js"
@@ -29,11 +29,43 @@ test("nenhuma URL do catálogo carrega credencial", () => {
   assert.ok(!/\b[0-9a-f]{25,}\b/i.test(texto))
 })
 
-test("a chave do TorBox entra na URL do Torrentio já escapada", () => {
-  const url = montarUrl(acharAddon("com.stremio.torrentio.addon"), "abc/def+ghi")
+test("a chave de debrid entra na URL do Torrentio já escapada", () => {
+  const url = montarTorrentio({ torbox: "abc/def+ghi" })
   assert.ok(url.includes("torbox=abc%2Fdef%2Bghi"))
-  assert.ok(!url.includes("{TORBOX}"))
   assert.ok(url.endsWith("/manifest.json"))
+})
+
+test("o Torrentio aceita um serviço, o outro, ou os dois", () => {
+  const so_tb = montarTorrentio({ torbox: "chave-do-torbox-aqui" })
+  const so_rd = montarTorrentio({ realdebrid: "chave-do-realdebrid" })
+  const ambos = montarTorrentio({ torbox: "chave-do-torbox-aqui", realdebrid: "chave-do-realdebrid" })
+
+  assert.ok(so_tb.includes("torbox=") && !so_tb.includes("realdebrid="))
+  assert.ok(so_rd.includes("realdebrid=") && !so_rd.includes("torbox="))
+  assert.ok(ambos.includes("torbox=") && ambos.includes("realdebrid="))
+})
+
+test("sem nenhum debrid o Torrentio falha em vez de gerar URL inútil", () => {
+  assert.throws(() => montarTorrentio({}), /pelo menos um serviço de debrid/)
+  assert.throws(() => montarTorrentio({ torbox: "   " }), /pelo menos um serviço de debrid/)
+})
+
+test("os filtros do setup sobrevivem seja qual for o debrid", () => {
+  for (const chaves of [{ torbox: "x".repeat(20) }, { realdebrid: "y".repeat(20) }]) {
+    const url = montarTorrentio(chaves)
+    assert.ok(url.includes("language=portuguese"), "idioma")
+    assert.ok(url.includes("qualityfilter=scr,cam"), "descarta gravação de cinema")
+    assert.ok(url.includes("micoleaodublado"), "trackers brasileiros")
+  }
+})
+
+test("são dois serviços de debrid, com id único", () => {
+  assert.equal(DEBRIDS.length, 2)
+  assert.deepEqual(DEBRIDS.map((d) => d.id).sort(), ["realdebrid", "torbox"])
+  for (const d of DEBRIDS) {
+    assert.ok(d.planos.startsWith("https://"), d.id)
+    assert.ok(d.chave.startsWith("https://"), d.id)
+  }
 })
 
 test("o UUID entra na URL do AIOMetadata", () => {
@@ -268,16 +300,17 @@ test("o link direto funciona para todo addon que não exige nada", () => {
   }
 })
 
-test("o link direto do Torrentio carrega a chave de quem instala", () => {
-  const torrentio = ADDONS.find((a) => a.exige === "chave-torbox")
-  const link = linkInstalar(montarUrl(torrentio, "minha-chave"))
+test("o link direto do Torrentio carrega as chaves de quem instala", () => {
+  const torrentio = ADDONS.find((a) => a.exige === "debrid")
+  const link = linkInstalar(montarUrl(torrentio, "", { realdebrid: "minha-chave-rd" }))
   assert.ok(link.startsWith("stremio://torrentio.strem.fun/"))
-  assert.ok(link.includes("torbox=minha-chave"))
+  assert.ok(link.includes("realdebrid=minha-chave-rd"))
 })
 
 /* ------------------------------------------ injecao das chaves no download */
 
 const CHAVES = { mdblist: "chave-mdblist-de-quem-instala", torbox: "chave-torbox-de-quem-instala" }
+const SO_RD = { realdebrid: "chave-realdebrid-de-quem-instala" }
 
 const templateMetadata = () => ({
   version: "2.15.0",
@@ -289,8 +322,11 @@ const templateStreams = () => ({
   services: [
     { id: "torbox", enabled: true, credentials: {} },
     { id: "realdebrid", enabled: false, credentials: {} },
+    { id: "premiumize", enabled: false, credentials: {} },
   ],
 })
+
+const acharServico = (arq, id) => arq.services.find((s) => s.id === id)
 
 test("a chave do MDBList entra no arquivo do AIOMetadata", () => {
   const { arquivo, aplicadas } = injetarChaves(templateMetadata(), acharAddon("aio-metadata:em-alta"), CHAVES)
@@ -301,9 +337,39 @@ test("a chave do MDBList entra no arquivo do AIOMetadata", () => {
 
 test("a chave do TorBox entra no arquivo do AIOStreams", () => {
   const { arquivo, aplicadas } = injetarChaves(templateStreams(), acharAddon("com.aiostreams.viren070"), CHAVES)
-  assert.equal(arquivo.services[0].credentials.apiKey, CHAVES.torbox)
-  assert.equal(arquivo.services[0].enabled, true)
+  assert.equal(acharServico(arquivo, "torbox").credentials.apiKey, CHAVES.torbox)
+  assert.equal(acharServico(arquivo, "torbox").enabled, true)
   assert.deepEqual(aplicadas, ["TorBox"])
+})
+
+test("quem usa só Real-Debrid recebe ele ligado e o TorBox desligado", () => {
+  const { arquivo, aplicadas } = injetarChaves(templateStreams(), acharAddon("com.aiostreams.viren070"), SO_RD)
+
+  assert.equal(acharServico(arquivo, "realdebrid").credentials.apiKey, SO_RD.realdebrid)
+  assert.equal(acharServico(arquivo, "realdebrid").enabled, true)
+  assert.deepEqual(aplicadas, ["Real-Debrid"])
+
+  // O template vem com o TorBox ligado. Serviço ligado sem credencial faz o
+  // AIOStreams tentar usar e falhar em silêncio, então ele tem que sair desligado.
+  assert.equal(acharServico(arquivo, "torbox").enabled, false)
+  assert.deepEqual(acharServico(arquivo, "torbox").credentials, {})
+})
+
+test("quem tem os dois recebe os dois ligados", () => {
+  const { arquivo, aplicadas } = injetarChaves(
+    templateStreams(),
+    acharAddon("com.aiostreams.viren070"),
+    { ...CHAVES, ...SO_RD },
+  )
+  assert.equal(acharServico(arquivo, "torbox").enabled, true)
+  assert.equal(acharServico(arquivo, "realdebrid").enabled, true)
+  assert.deepEqual(aplicadas.sort(), ["Real-Debrid", "TorBox"])
+})
+
+test("serviço que ninguém preencheu continua desligado e sem credencial", () => {
+  const { arquivo } = injetarChaves(templateStreams(), acharAddon("com.aiostreams.viren070"), SO_RD)
+  assert.equal(acharServico(arquivo, "premiumize").enabled, false)
+  assert.deepEqual(acharServico(arquivo, "premiumize").credentials, {})
 })
 
 test("cada formato recebe só a chave que lhe cabe", () => {
@@ -328,8 +394,9 @@ test("chave só com espaço é tratada como ausente", () => {
 
 test("o template original nunca é modificado", () => {
   const original = templateStreams()
-  injetarChaves(original, acharAddon("com.aiostreams.viren070"), CHAVES)
+  injetarChaves(original, acharAddon("com.aiostreams.viren070"), { ...CHAVES, ...SO_RD })
   assert.deepEqual(original.services[0].credentials, {})
+  assert.equal(original.services[1].enabled, false)
 })
 
 test("o nome do arquivo avisa quando ele carrega credencial", () => {

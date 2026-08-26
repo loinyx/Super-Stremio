@@ -44,8 +44,11 @@
     </div>
     <div class="launch">
       <div class="launch-txt">
-        <h3>TorBox <span class="tag" data-tone="paid">assinatura</span></h3>
-        <p>É o que faz o filme começar na hora. Sem ele, metade dos addons instala e não devolve nada.</p>
+        <h3>Um serviço de debrid <span class="tag" data-tone="paid">assinatura</span></h3>
+        <p>
+          TorBox ou Real-Debrid, tanto faz, e dá para usar os dois. É o que faz o filme
+          começar na hora. Sem nenhum, metade dos addons instala e não devolve nada.
+        </p>
       </div>
       <a class="btn btn-out btn-sm" href="https://torbox.app/" target="_blank" rel="noopener">
         Ver planos <span data-ico="sair"></span>
@@ -170,50 +173,34 @@
 <!-- 2 ====================================================================== -->
 <section class="screen" data-screen="2"><div class="col">
   <span class="count">Passo 2 de 7</span>
-  <h1>Chave do TorBox</h1>
+  <h1>Seu serviço de debrid</h1>
   <p class="lede">
     A única parte paga. É ela que separa o Stremio que engasga do Stremio que
     abre mais rápido que a Netflix.
   </p>
 
-  <h2>O que o TorBox faz</h2>
+  <h2>O que um debrid faz</h2>
   <p class="note">
     O Stremio sozinho baixa o torrent na sua casa enquanto você assiste. Isso quer
     dizer esperar o arquivo encher antes de começar, travar no meio quando tem pouca
     gente compartilhando, e ficar visível para todo mundo que está no mesmo torrent.
   </p>
   <p class="note">
-    O TorBox já tem o arquivo pronto nos servidores dele e devolve um link normal de
-    vídeo. <strong>Começa na hora, em 4K, e sai do seu nome.</strong> É ele que faz o
-    Torrentio e o AIOStreams valerem a pena.
+    O debrid já tem o arquivo pronto nos servidores dele e devolve um link normal de
+    vídeo. <strong>Começa na hora, em 4K, e sai do seu nome.</strong>
   </p>
 
-  <h2>Como pegar</h2>
-  <ol class="howto">
-    <li><b>1</b><span>Assine um plano em <em>torbox.app</em>.</span></li>
-    <li><b>2</b><span>Abra <em>Settings</em> e vá até a seção <em>API</em>.</span></li>
-    <li><b>3</b><span>Copie a <em>API Key</em>.</span></li>
-  </ol>
+  <h2>Preencha o que você tem</h2>
+  <p class="note">
+    Um serviço basta. Se você tiver os dois, preencha os dois: o Torrentio consulta
+    ambos e o AIOStreams também.
+  </p>
 
-  <div class="row" style="margin-top:20px">
-    <a class="btn btn-out btn-sm" href="https://torbox.app/" target="_blank" rel="noopener">
-      Ver planos <span data-ico="sair"></span>
-    </a>
-    <a class="btn btn-out btn-sm" href="https://torbox.app/settings" target="_blank" rel="noopener">
-      Abrir Settings <span data-ico="sair"></span>
-    </a>
-  </div>
+  <div class="cards" id="debrids"></div>
 
-  <div class="card" style="margin-top:24px">
-    <div class="field" data-campo="chave:torbox">
-      <label for="f-tb">Sua chave do TorBox</label>
-      <div class="pair">
-        <input id="f-tb" type="text" placeholder="cole a chave aqui" autocomplete="off" spellcheck="false">
-        <button class="btn btn-out" data-verificar>Verificar</button>
-      </div>
-      <p class="msg" data-tone="idle" data-saida>Esperando a chave</p>
-    </div>
-  </div>
+  <p class="msg" data-tone="idle" id="saida-debrid" style="margin-top:16px">
+    Preencha pelo menos um para seguir.
+  </p>
 
   <div class="row next">
     <button class="btn btn-go" data-go="3">Continuar <span data-ico="seta"></span></button>
@@ -346,7 +333,7 @@
 
   <div class="quiet" style="margin-top:22px">
     <p class="note">
-      <strong>A sua chave do TorBox já vai dentro do arquivo.</strong>
+      <strong>As suas chaves de debrid já vão dentro do arquivo.</strong>
       Ela entra no momento em que você clica para baixar, aqui no seu navegador.
       A configuração que fica publicada não tem chave nenhuma, e é isso que permite
       compartilhar um setup inteiro sem entregar a conta de ninguém.
@@ -372,7 +359,7 @@
         ordena. Você aperta play e assiste.
       </p>
       <p class="note">
-        <strong>A sua chave do TorBox já vai no arquivo.</strong> O botão aqui embaixo
+        <strong>As suas chaves de debrid já vão no arquivo.</strong> O botão aqui embaixo
         baixa a configuração com ela dentro, então você não precisa procurar campo
         nenhum lá.
       </p>
@@ -411,7 +398,7 @@
           zera. Quem coloca o português em primeiro lugar é o <em>Preferred Languages</em>,
           que já vem preenchido no arquivo.
           <br><br>
-          <strong>2. A chave do TorBox.</strong> Na instância pública, streams P2P e HTTP
+          <strong>2. A chave do debrid.</strong> Na instância pública, streams P2P e HTTP
           são desligados por eles, então sem debrid funcionando não sobra nada para
           mostrar. Confira se você baixou o arquivo depois de preencher a chave no passo 2
           daqui. Se baixou antes, baixe de novo e importe outra vez.
@@ -430,7 +417,7 @@
         <b>1</b>
         <div class="guia-txt">
           <strong>Baixe a configuração</strong>
-          <small>Já sai com a sua chave do TorBox dentro.</small>
+          <small>Já sai com as suas chaves de debrid dentro.</small>
         </div>
         <button class="btn btn-out btn-sm" data-baixar>
           <span data-ico="baixar"></span> Baixar
@@ -465,15 +452,7 @@
     </ol>
   </div>
 
-  <div class="quiet" style="margin-top:12px" data-copiavel="chave:torbox">
-    <div class="row">
-      <span class="note" style="margin:0">Sua chave do TorBox, caso precise colar à mão:</span>
-      <code data-valor>ainda não preenchida</code>
-      <button class="btn btn-out btn-sm" style="margin-left:auto" data-copiar>
-        <span data-ico="copiar"></span> Copiar
-      </button>
-    </div>
-  </div>
+  <div id="copiar-debrids" style="margin-top:12px"></div>
 
   <div class="row next">
     <button class="btn btn-go" data-go="5">Continuar <span data-ico="seta"></span></button>

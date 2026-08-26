@@ -8,7 +8,7 @@
  */
 
 /**
- * @typedef {"nada" | "chave-torbox" | "uuid-aiometadata" | "url-completa"} Exigencia
+ * @typedef {"nada" | "debrid" | "uuid-aiometadata" | "url-completa"} Exigencia
  * @typedef {"catalogo" | "streams" | "legendas"} Papel
  *
  * @typedef {object} Addon
@@ -50,8 +50,63 @@ const TORRENTIO_FILTROS = [
   "language=portuguese",
   "qualityfilter=scr,cam",
   "debridoptions=nocatalog",
-  "torbox={TORBOX}",
-].join("%7C")
+]
+
+/**
+ * Serviços de debrid aceitos. Quem instala pode usar um, o outro, ou os dois.
+ *
+ * @typedef {object} Debrid
+ * @property {string} id
+ * @property {string} nome
+ * @property {string} parametro  como o Torrentio chama esse serviço na URL
+ * @property {string} planos     onde assinar
+ * @property {string} chave      onde pegar a chave depois de assinar
+ * @property {string} ondeAchar  instrução curta de onde a chave fica
+ */
+
+/** @type {Debrid[]} */
+export const DEBRIDS = [
+  {
+    id: "torbox",
+    nome: "TorBox",
+    parametro: "torbox",
+    planos: "https://torbox.app/",
+    chave: "https://torbox.app/settings",
+    ondeAchar: "Settings, seção API.",
+  },
+  {
+    id: "realdebrid",
+    nome: "Real-Debrid",
+    parametro: "realdebrid",
+    planos: "https://real-debrid.com/",
+    chave: "https://real-debrid.com/apitoken",
+    ondeAchar: "A página do token mostra a chave direto.",
+  },
+]
+
+/**
+ * Monta a URL do Torrentio com os serviços que a pessoa tem.
+ *
+ * O Torrentio aceita mais de um debrid na mesma URL e se renomeia conforme o
+ * que recebe: com os dois, ele se chama "Torrentio RD/TB".
+ *
+ * @param {Record<string, string>} debrids ex.: { torbox: "...", realdebrid: "..." }
+ * @returns {string}
+ * @throws {Error} quando nenhum serviço foi preenchido
+ */
+export function montarTorrentio(debrids = {}) {
+  const partes = [...TORRENTIO_FILTROS]
+
+  for (const d of DEBRIDS) {
+    const chave = (debrids[d.id] ?? "").trim()
+    if (chave) partes.push(`${d.parametro}=${encodeURIComponent(chave)}`)
+  }
+
+  if (partes.length === TORRENTIO_FILTROS.length) {
+    throw new Error("O Torrentio precisa de pelo menos um serviço de debrid")
+  }
+  return `https://torrentio.strem.fun/${partes.join("%7C")}/manifest.json`
+}
 
 // O fragmento #general pula a tela de boas-vindas do AIOMetadata e cai direto
 // na configuração. Sem ele a pessoa precisa achar um botão Skip discreto.
@@ -121,8 +176,7 @@ export const ADDONS = [
     id: "com.stremio.torrentio.addon",
     nome: "Torrentio",
     papel: "streams",
-    exige: "chave-torbox",
-    molde: `https://torrentio.strem.fun/${TORRENTIO_FILTROS}/manifest.json`,
+    exige: "debrid",
   },
   {
     id: "com.stremio.brazuca.addon",
@@ -159,15 +213,18 @@ export const ADDONS = [
  * Monta a URL final de um addon a partir do que o visitante preencheu.
  *
  * @param {Addon} addon
- * @param {string} [valor] chave, uuid ou URL, conforme `addon.exige`
+ * @param {string} [valor] uuid ou URL, conforme `addon.exige`
+ * @param {Record<string,string>} [debrids] chaves de debrid, para o Torrentio
  * @returns {string}
  * @throws {Error} quando falta o valor que aquele addon exige
  */
-export function montarUrl(addon, valor) {
+export function montarUrl(addon, valor, debrids = {}) {
   if (addon.exige === "nada") {
     if (!addon.url) throw new Error(`${addon.nome} não tem URL fixa`)
     return addon.url
   }
+
+  if (addon.exige === "debrid") return montarTorrentio(debrids)
 
   const limpo = (valor ?? "").trim()
   if (!limpo) throw new Error(`${addon.nome} precisa de um valor`)
@@ -175,8 +232,7 @@ export function montarUrl(addon, valor) {
   if (addon.exige === "url-completa") return limpo
   if (!addon.molde) throw new Error(`${addon.nome} não tem molde de URL`)
 
-  const marcador = addon.exige === "chave-torbox" ? "{TORBOX}" : "{UUID}"
-  return addon.molde.replace(marcador, encodeURIComponent(limpo))
+  return addon.molde.replace("{UUID}", encodeURIComponent(limpo))
 }
 
 /** @param {Exigencia} exigencia @returns {Addon[]} */

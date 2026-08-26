@@ -56,17 +56,18 @@ export async function aferirMdblist(chave, buscar = fetch) {
 }
 
 /**
- * Confere o que dá para conferir na chave do TorBox, que é só o formato.
+ * Confere o que dá para conferir numa chave de debrid, que é só o formato.
  *
- * A API do TorBox não manda cabeçalho de CORS, então o navegador não consegue
- * consultá-la. Em vez de mostrar um check verde que não significa nada, esta
- * função devolve `verificado: false` e a tela avisa que a conferência de
- * verdade só acontece quando o primeiro filme abrir.
+ * Nem o TorBox nem o Real-Debrid mandam cabeçalho de CORS, então o navegador
+ * não consegue consultar nenhum dos dois. Em vez de mostrar um sinal verde que
+ * não significa nada, esta função devolve `verificado: false` e a tela avisa
+ * que a prova real é o primeiro filme abrir.
  *
  * @param {string} chave
+ * @param {string} [nome] como chamar o serviço na mensagem
  * @returns {Aferição}
  */
-export function aferirTorbox(chave) {
+export function aferirDebrid(chave, nome = "serviço") {
   const limpa = chave.trim()
   if (!limpa) {
     return { ok: false, verificado: false, mensagem: "Cole a chave antes de continuar." }
@@ -75,7 +76,7 @@ export function aferirTorbox(chave) {
     return {
       ok: false,
       verificado: true,
-      mensagem: "Essa chave é curta demais. Copie o valor inteiro da seção API do TorBox.",
+      mensagem: `Essa chave é curta demais. Copie o valor inteiro do ${nome}.`,
     }
   }
   if (/\s/.test(limpa)) {
@@ -90,7 +91,7 @@ export function aferirTorbox(chave) {
     ok: true,
     verificado: false,
     mensagem:
-      "Formato certo. O TorBox não deixa este site consultar a chave dele, " +
+      `Formato certo. O ${nome} não deixa este site consultar a chave dele, ` +
       "então a prova real é o primeiro filme abrir.",
   }
 }

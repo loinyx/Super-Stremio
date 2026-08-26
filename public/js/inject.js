@@ -16,7 +16,11 @@
  * @typedef {object} Chaves
  * @property {string} [mdblist]
  * @property {string} [torbox]
+ * @property {string} [realdebrid]
  */
+
+/** Nome de exibição de cada serviço, para o aviso do download. */
+const NOMES = { torbox: "TorBox", realdebrid: "Real-Debrid" }
 
 /**
  * Devolve uma cópia do template com as chaves aplicadas.
@@ -46,13 +50,17 @@ export function injetarChaves(template, addon, chaves = {}) {
   }
 
   if (addon.id === "com.aiostreams.viren070") {
-    const torbox = (chaves.torbox ?? "").trim()
-    if (torbox) {
-      const servico = (arquivo.services ?? []).find((s) => s.id === "torbox")
-      if (servico) {
-        servico.credentials = { apiKey: torbox }
+    for (const servico of arquivo.services ?? []) {
+      const chave = (chaves[servico.id] ?? "").trim()
+
+      if (chave) {
+        servico.credentials = { apiKey: chave }
         servico.enabled = true
-        aplicadas.push("TorBox")
+        aplicadas.push(NOMES[servico.id] ?? servico.id)
+      } else if (servico.enabled) {
+        // Serviço ligado sem credencial faz o AIOStreams tentar usar e falhar
+        // em silêncio, então quem não foi preenchido sai desligado.
+        servico.enabled = false
       }
     }
   }

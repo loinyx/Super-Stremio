@@ -53,10 +53,6 @@ export function conferirFormato(addon, valor) {
     return null
   }
 
-  if (addon.exige === "chave-torbox" && limpo.length < 16) {
-    return "Essa chave parece curta demais. Copie o valor inteiro da seção API do TorBox."
-  }
-
   return null
 }
 
@@ -68,17 +64,18 @@ export function conferirFormato(addon, valor) {
  * @param {object} [opcoes]
  * @param {typeof fetch} [opcoes.buscar] injetável para teste
  * @param {number} [opcoes.limiteMs]
+ * @param {Record<string,string>} [opcoes.debrids] chaves de debrid, para o Torrentio
  * @returns {Promise<Resultado>}
  */
-export async function validar(addon, valor = "", { buscar = fetch, limiteMs = 12000 } = {}) {
-  if (addon.exige !== "nada") {
+export async function validar(addon, valor = "", { buscar = fetch, limiteMs = 12000, debrids = {} } = {}) {
+  if (addon.exige !== "nada" && addon.exige !== "debrid") {
     const problema = conferirFormato(addon, valor)
     if (problema) return { ok: false, mensagem: problema }
   }
 
   let url
   try {
-    url = montarUrl(addon, valor)
+    url = montarUrl(addon, valor, debrids)
   } catch (e) {
     return { ok: false, mensagem: e instanceof Error ? e.message : String(e) }
   }

@@ -4,9 +4,9 @@
  * catalog, validation, stremio, keys e wizard, que são testáveis sem navegador.
  */
 
-import { ADDONS, addonsQueExigem, montarUrl, linkInstalar } from "./catalog.js"
+import { ADDONS, DEBRIDS, addonsQueExigem, montarUrl, linkInstalar } from "./catalog.js"
 import { validar, descritor } from "./validation.js"
-import { aferirMdblist, aferirTorbox } from "./keys.js"
+import { aferirMdblist, aferirDebrid } from "./keys.js"
 import { entrar, lerColecao, gravarColecao, mesclar, backupJson, ErroStremio } from "./stremio.js"
 import {
   carregar, guardar, limpar, registrar, conferirPacote,
@@ -63,6 +63,19 @@ const FATIAS = {
 
 let estado = carregar()
 let telaAtual = 0
+
+/** As chaves de debrid preenchidas, no formato que catalog e inject esperam. */
+function debridsPreenchidos() {
+  const saida = {}
+  for (const d of DEBRIDS) {
+    const chave = (estado[`chave:${d.id}`]?.valor ?? "").trim()
+    if (chave) saida[d.id] = chave
+  }
+  return saida
+}
+
+/** @returns {boolean} true quando pelo menos um debrid foi preenchido */
+const temAlgumDebrid = () => Object.keys(debridsPreenchidos()).length > 0
 
 /* ------------------------------------------------------------------ util */
 
@@ -122,6 +135,7 @@ function irPara(n) {
     const feito = i < n || (i === PASSOS.length - 1 && pronto)
     b.setAttribute("data-state", i === n ? "now" : feito ? "done" : "todo")
   })
+  if (n === 2) pintarResumoDebrid()
   if (n === 3) sincronizarCopiaveis()
   if (n === 4) sincronizarCopiaveis()
   if (n === 6) montarRevisao()
@@ -130,6 +144,53 @@ function irPara(n) {
 }
 
 /* ------------------------------------------------------- fatias e campos */
+
+function montarDebrids() {
+  $("#debrids").innerHTML = DEBRIDS.map(
+    (d) => `
+    <div class="card" data-campo="chave:${d.id}">
+      <div class="slice-head">
+        <h3>${escapar(d.nome)}</h3>
+        <span class="tag" data-tone="paid">assinatura</span>
+      </div>
+      <p class="slice-p">A chave fica em: ${escapar(d.ondeAchar)}</p>
+      <div class="slice-act" style="margin-top:14px">
+        <a class="btn btn-out btn-sm" href="${d.planos}" target="_blank" rel="noopener">
+          Ver planos ${svg("sair")}
+        </a>
+        <a class="btn btn-out btn-sm" href="${d.chave}" target="_blank" rel="noopener">
+          Pegar a chave ${svg("sair")}
+        </a>
+      </div>
+      <div class="field">
+        <div class="pair">
+          <input type="text" autocomplete="off" spellcheck="false" placeholder="cole a chave do ${escapar(d.nome)}">
+          <button class="btn btn-out" data-verificar>Verificar</button>
+        </div>
+        <p class="msg" data-tone="idle" data-saida>Deixe em branco se você não usa este</p>
+      </div>
+    </div>`,
+  ).join("")
+}
+
+/** Libera o passo seguinte só quando existe pelo menos um debrid. */
+function pintarResumoDebrid() {
+  const preenchidos = debridsPreenchidos()
+  const nomes = DEBRIDS.filter((d) => preenchidos[d.id]).map((d) => d.nome)
+  const seguir = $('.screen[data-screen="2"] [data-go="3"]')
+  const saida = $("#saida-debrid")
+
+  if (nomes.length === 0) {
+    dizer(saida, "idle", "Preencha pelo menos um para seguir.")
+    seguir.disabled = true
+    seguir.title = "Sem debrid, metade dos addons instala e não devolve nada."
+    return
+  }
+
+  dizer(saida, "ok", `O Torrentio e o AIOStreams vão usar ${nomes.join(" e ")}.`)
+  seguir.disabled = false
+  seguir.title = ""
+}
 
 function montarFatias() {
   const alvo = $("#fatias")
@@ -239,7 +300,7 @@ function ligarAddons() {
           // mora no repositório continua sem credencial nenhuma.
           const { arquivo, aplicadas } = injetarChaves(await r.json(), addon, {
             mdblist: estado["chave:mdblist"]?.valor,
-            torbox: estado["chave:torbox"]?.valor,
+            ...debridsPreenchidos(),
           })
 
           baixar(nomeDoArquivo(addon.template, aplicadas), JSON.stringify(arquivo, null, 2))
@@ -308,6 +369,31 @@ function sincronizarCopiaveis() {
     mostra.textContent = valor ? mascarar(valor) : "ainda não preenchida"
     $("[data-copiar]", caixa).disabled = !valor
   }
+
+  // As chaves de debrid: uma linha por serviço preenchido, nenhuma se não houver.
+  const alvo = $("#copiar-debrids")
+  if (!alvo) return
+
+  const preenchidos = DEBRIDS.filter((d) => (estado[`chave:${d.id}`]?.valor ?? "").trim())
+  alvo.innerHTML = preenchidos
+    .map(
+      (d) => `
+      <div class="quiet" data-copiavel="chave:${d.id}" style="margin-bottom:8px">
+        <div class="row">
+          <span class="note" style="margin:0">Sua chave do ${escapar(d.nome)}, caso precise colar à mão:</span>
+          <code data-valor></code>
+          <button class="btn btn-out btn-sm" style="margin-left:auto" data-copiar>
+            ${svg("copiar")} Copiar
+          </button>
+        </div>
+      </div>`,
+    )
+    .join("")
+
+  for (const caixa of $$("[data-copiavel]", alvo)) {
+    const valor = estado[caixa.dataset.copiavel]?.valor ?? ""
+    $("[data-valor]", caixa).textContent = mascarar(valor)
+  }
 }
 
 const mascarar = (v) => (v.length <= 12 ? v : `${v.slice(0, 8)}${"•".repeat(Math.min(12, v.length - 8))}`)
@@ -339,7 +425,7 @@ async function verificarAddon(caixa) {
   botao.disabled = true
   dizer(saida, "wait", "Perguntando ao addon...")
 
-  const resultado = await validar(addon, campo.value)
+  const resultado = await validar(addon, campo.value, { debrids: debridsPreenchidos() })
   botao.disabled = false
 
   campo.setAttribute("data-state", resultado.ok ? "ok" : "bad")
@@ -357,10 +443,12 @@ async function verificarChave(caixa) {
   const botao = $("[data-verificar]", caixa)
   const valor = campo.value.trim()
 
+  const debrid = DEBRIDS.find((d) => `chave:${d.id}` === qual)
+
   botao.disabled = true
   if (qual === "chave:mdblist") dizer(saida, "wait", "Perguntando ao MDBList...")
 
-  const afericao = qual === "chave:mdblist" ? await aferirMdblist(valor) : aferirTorbox(valor)
+  const afericao = debrid ? aferirDebrid(valor, debrid.nome) : await aferirMdblist(valor)
   botao.disabled = false
 
   // Formato certo mas impossível de conferir daqui conta como preenchido, e a
@@ -372,18 +460,31 @@ async function verificarChave(caixa) {
   estado = registrar(estado, qual, valor, { ok: afericao.ok, mensagem: afericao.mensagem })
   guardar(estado)
 
-  // A chave do TorBox também é o que monta a URL do Torrentio.
-  if (qual === "chave:torbox" && afericao.ok) {
-    const torrentio = ADDONS.find((a) => a.exige === "chave-torbox")
-    estado = registrar(estado, torrentio.id, valor, {
-      ok: true,
-      url: montarUrl(torrentio, valor),
-      mensagem: "Montado com a sua chave.",
-    })
-    guardar(estado)
+  // Qualquer debrid preenchido remonta a URL do Torrentio, que aceita mais de um.
+  if (debrid) {
+    atualizarTorrentio()
+    pintarResumoDebrid()
   }
 
   sincronizarCopiaveis()
+}
+
+/** Remonta a URL do Torrentio com todos os debrids preenchidos. */
+function atualizarTorrentio() {
+  const torrentio = ADDONS.find((a) => a.exige === "debrid")
+  const debrids = debridsPreenchidos()
+
+  if (Object.keys(debrids).length === 0) {
+    estado = registrar(estado, torrentio.id, "", { ok: false, mensagem: "Falta um serviço de debrid." })
+  } else {
+    const nomes = DEBRIDS.filter((d) => debrids[d.id]).map((d) => d.nome).join(" e ")
+    estado = registrar(estado, torrentio.id, Object.keys(debrids).join(","), {
+      ok: true,
+      url: montarUrl(torrentio, "", debrids),
+      mensagem: `Montado com ${nomes}.`,
+    })
+  }
+  guardar(estado)
 }
 
 /* ----------------------------------------------------------------- revisão */
@@ -397,8 +498,8 @@ function montarRevisao() {
     if (addon.exige === "nada") {
       selo = addon.protegido ? "mantido" : "nada a configurar"
       tom = "auto"
-    } else if (addon.exige === "chave-torbox") {
-      selo = salvo?.validado ? "montado para você" : "falta a chave"
+    } else if (addon.exige === "debrid") {
+      selo = salvo?.validado ? "montado para você" : "falta o debrid"
       tom = salvo?.validado ? "auto" : "bad"
     } else {
       selo = salvo?.validado ? "verificado" : "falta verificar"
@@ -459,7 +560,7 @@ async function instalar() {
     const pacote = []
     for (const addon of ADDONS) {
       const salvo = estado[addon.id]
-      const resultado = await validar(addon, salvo?.valor ?? "")
+      const resultado = await validar(addon, salvo?.valor ?? "", { debrids: debridsPreenchidos() })
       if (!resultado.ok) {
         throw new ErroStremio(`${addon.nome} parou de responder: ${resultado.mensagem}`)
       }
@@ -545,7 +646,7 @@ async function baixarColecao() {
     const pacote = []
     const fora = []
     for (const addon of ADDONS) {
-      const resultado = await validar(addon, estado[addon.id]?.valor ?? "")
+      const resultado = await validar(addon, estado[addon.id]?.valor ?? "", { debrids: debridsPreenchidos() })
       if (resultado.ok) pacote.push(descritor(resultado, addon))
       else fora.push(addon.nome)
     }
@@ -580,7 +681,7 @@ function baixarUuids() {
   const linhas = ["As suas configurações do Super Stremio", ""]
   for (const addon of ADDONS) {
     const salvo = estado[addon.id]
-    if (!salvo?.valor || addon.exige === "chave-torbox") continue
+    if (!salvo?.valor || addon.exige === "debrid") continue
     linhas.push(`${addon.nome}`)
     linhas.push(`  ${salvo.valor}`)
     if (addon.configurador) linhas.push(`  ${addon.configurador}`)
@@ -600,11 +701,13 @@ function iniciar() {
   if ("scrollRestoration" in history) history.scrollRestoration = "manual"
 
   montarTicks()
+  montarDebrids()
   montarFatias()
   pintarIcones()
   ligarAddons()
   reidratar()
   sincronizarCopiaveis()
+  pintarResumoDebrid()
 
   document.addEventListener("click", (e) => {
     const alvo = e.target instanceof Element ? e.target : null
