@@ -13,31 +13,61 @@ import {
   marcarAbertura, abriuConfigurador, jaUsadoPor,
 } from "./wizard.js"
 import { injetarChaves, nomeDoArquivo, avisoDoDownload } from "./inject.js"
+import { icone } from "./icons.js"
 
-/** Glifos, desenhados como traço para herdar a cor e o peso do texto ao redor. */
-const ICONES = {
-  sair: '<path d="M6 2.5H3.2A1.2 1.2 0 0 0 2 3.7v9.1A1.2 1.2 0 0 0 3.2 14h9.1a1.2 1.2 0 0 0 1.2-1.2V10"/><path d="M9.5 2.5H14v4.5"/><path d="M7 9 14 2.5"/>',
-  seta: '<path d="M3 8h10"/><path d="M9 4l4 4-4 4"/>',
-  check: '<path d="M3 8.5 6.2 11.5 13 4.8"/>',
-  alerta: '<circle cx="8" cy="8" r="6"/><path d="M8 5v3.5"/><path d="M8 11h.01"/>',
-  copiar: '<path d="M5.5 5.5V3.2A1.2 1.2 0 0 1 6.7 2h6.1A1.2 1.2 0 0 1 14 3.2v6.1a1.2 1.2 0 0 1-1.2 1.2h-2.3"/><rect x="2" y="5.5" width="8.5" height="8.5" rx="1.2"/>',
-  baixar: '<path d="M8 2.5v8"/><path d="M4.8 7.5 8 10.7l3.2-3.2"/><path d="M2.5 13h11"/>',
-  ajuda: '<circle cx="8" cy="8" r="6.2"/><path d="M6.3 6.2a1.75 1.75 0 1 1 2.3 1.66c-.4.14-.6.5-.6.92v.3"/><path d="M8 12h.01"/>',
-}
 
-/** Onde a pessoa assiste. Os addons são os mesmos; só o fim do fluxo muda. */
+/**
+ * Onde a pessoa assiste.
+ *
+ * A diferença que importa não é em que aparelho cada um roda. É o que cada um
+ * faz com os addons: o Stremio mostra o que eles devolvem, e o Nuvio monta uma
+ * camada de navegação própria por cima dos mesmos addons.
+ */
 const APPS = [
-  { id: "stremio", nome: "Stremio", nota: "O de sempre. Instalo direto na sua conta." },
-  { id: "nuvio", nome: "Nuvio", nota: "Sem conta central: você adiciona os endereços no aplicativo." },
-  { id: "ambos", nome: "Os dois", nota: "Mesmos addons nos dois, e as coleções extras do Nuvio." },
+  {
+    id: "stremio",
+    nome: "Stremio",
+    selo: "o original",
+    nota: "Os addons montam a tela. O que você vê é o que eles devolvem, em prateleiras simples.",
+    baixar: "https://www.stremio.com/downloads",
+  },
+  {
+    id: "nuvio",
+    nome: "Nuvio",
+    selo: "para TV",
+    nota: "Os mesmos addons, com uma camada de curadoria por cima: coleções em pastas, com capa e logo, para escolher no controle.",
+    baixar: "https://github.com/NuvioMedia/NuvioWeb/releases",
+  },
+  {
+    id: "ambos",
+    nome: "Os dois",
+    selo: "",
+    nota: "Instala a mesma lista nos dois, e leva as coleções do Nuvio junto.",
+    baixar: "",
+    larga: true,
+  },
 ]
 
+/** Logo do Nuvio, do arquivo de marca do projeto deles. */
+const LOGO_NUVIO = "data:image/png;base64,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"
 /** @returns {string} o app escolhido, com o Stremio como padrão */
 const appEscolhido = () => estado["app"]?.valor || "stremio"
 const usaNuvio = () => ["nuvio", "ambos"].includes(appEscolhido())
 const usaStremio = () => ["stremio", "ambos"].includes(appEscolhido())
 
-const PASSOS = ["Início", "Aplicativo", "MDBList", "Debrid", "Catálogos", "AIOStreams", "Legendas", "Revisão", "Instalar", "Pronto"]
+/** Os passos do painel lateral: rótulo curto e um ícone que diga do que se trata. */
+const PASSOS = [
+  { nome: "Início",     icone: "sparkle" },
+  { nome: "Aplicativo", icone: "television" },
+  { nome: "MDBList",    icone: "key" },
+  { nome: "Debrid",     icone: "lightning" },
+  { nome: "Catálogos",  icone: "squares-four" },
+  { nome: "Streams",    icone: "play-circle" },
+  { nome: "Legendas",   icone: "closed-captioning" },
+  { nome: "Revisão",    icone: "list-checks" },
+  { nome: "Instalar",   icone: "download-simple" },
+  { nome: "Pronto",     icone: "check-circle" },
+]
 
 /** Copy de cada fatia do AIOMetadata, indexada pelo id do catálogo. */
 const FATIAS = {
@@ -96,13 +126,12 @@ const temAlgumDebrid = () => Object.keys(debridsPreenchidos()).length > 0
 const $ = (sel, raiz = document) => raiz.querySelector(sel)
 const $$ = (sel, raiz = document) => [...raiz.querySelectorAll(sel)]
 
-const svg = (nome) =>
-  `<svg class="ico" viewBox="0 0 16 16" aria-hidden="true">${ICONES[nome] ?? ""}</svg>`
+const svg = (nome, classe) => icone(nome, classe ?? "ic")
 
 /** Troca os marcadores `data-ico` por SVG de verdade. */
 function pintarIcones(raiz = document) {
   for (const alvo of $$("[data-ico]", raiz)) {
-    alvo.outerHTML = svg(alvo.getAttribute("data-ico"))
+    alvo.outerHTML = svg(alvo.getAttribute("data-ico"), alvo.getAttribute("data-cls") ?? "ic")
   }
 }
 
@@ -114,8 +143,14 @@ function pintarIcones(raiz = document) {
 function dizer(alvo, tom, texto) {
   if (!alvo) return
   alvo.setAttribute("data-tone", tom)
-  const icone = tom === "ok" ? svg("check") : tom === "bad" ? svg("alerta") : ""
-  alvo.innerHTML = `${icone}<span>${escapar(texto)}</span>`
+  // Nada de `icone` como nome local: sombreia o import e, pior, um nome solto
+  // aqui dentro cai no elemento de mesmo id, que o navegador expõe como global.
+  const marca =
+    tom === "ok" ? svg("circle-check")
+    : tom === "bad" ? svg("warning-circle")
+    : tom === "wait" ? svg("circle-notch")
+    : ""
+  alvo.innerHTML = `${marca}<span>${escapar(texto)}</span>`
 }
 
 const escapar = (t) =>
@@ -132,10 +167,16 @@ function baixar(nome, conteudo, tipo = "application/json") {
 
 /* ---------------------------------------------------------------- navegação */
 
-function montarTicks() {
-  const ticks = $("#ticks")
-  ticks.innerHTML = PASSOS.map(
-    (nome, i) => `<button data-go="${i}" title="${nome}" aria-label="${nome}"><i></i></button>`,
+function montarTrilho() {
+  $("#marca").innerHTML = `${svg("sparkle", "ic-m")}<b>Super Stremio</b>`
+  $("#trilho").innerHTML = PASSOS.map(
+    (p, i) => `
+    <li data-e="todo">
+      <button data-go="${i}" title="${escapar(p.nome)}">
+        <span class="pino">${svg(p.icone, "ic-p")}</span>
+        <span class="rot">${escapar(p.nome)}</span>
+      </button>
+    </li>`,
   ).join("")
 }
 
@@ -145,9 +186,11 @@ function irPara(n) {
     tela.setAttribute("data-on", tela.dataset.screen === String(n) ? "1" : "0")
   }
   const { pronto } = conferirPacote(estado, ADDONS)
-  $$("#ticks button").forEach((b, i) => {
+  $$("#trilho li").forEach((li, i) => {
     const feito = i < n || (i === PASSOS.length - 1 && pronto)
-    b.setAttribute("data-state", i === n ? "now" : feito ? "done" : "todo")
+    li.setAttribute("data-e", i === n ? "agora" : feito ? "feito" : "todo")
+    const pino = $(".pino", li)
+    pino.innerHTML = feito && i !== n ? svg("circle-check", "ic-p") : svg(PASSOS[i].icone, "ic-p")
   })
   if (n === 3) pintarResumoDebrid()
   if (n === 4) sincronizarCopiaveis()
@@ -161,12 +204,21 @@ function irPara(n) {
 
 function montarEscolhaApp() {
   const atual = appEscolhido()
+  const marca = (a) =>
+    a.id === "stremio" ? svg("stremio", "ic-l")
+    : a.id === "nuvio" ? `<img src="${LOGO_NUVIO}" alt="">`
+    : svg("squares-four", "ic-l")
+
   $("#escolha-app").innerHTML = APPS.map(
     (a) => `
-    <label>
+    <label${a.larga ? " data-larga" : ""}>
       <input type="radio" name="app" value="${a.id}"${a.id === atual ? " checked" : ""}>
-      <strong>${escapar(a.nome)}</strong>
-      <small>${escapar(a.nota)}</small>
+      <span class="logo">${marca(a)}</span>
+      <div class="duo-tx">
+        <strong>${escapar(a.nome)}${a.selo ? ` <span class="selo">${escapar(a.selo)}</span>` : ""}</strong>
+        <p>${escapar(a.nota)}</p>
+      </div>
+      ${a.baixar ? `<a class="bt bt-s bt-sm" href="${a.baixar}" target="_blank" rel="noopener">Baixar ${svg("arrow-square-out")}</a>` : ""}
     </label>`,
   ).join("")
 
@@ -175,6 +227,25 @@ function montarEscolhaApp() {
     guardar(estado)
     pintarPorApp()
   })
+}
+
+/** Os três pré-requisitos da tela de entrada. */
+function montarPreRequisitos() {
+  const itens = [
+    { i: "key", n: "MDBList", s: "grátis", t: "De onde vêm 86 das 150 prateleiras." },
+    { i: "lightning", n: "Um debrid", s: "assinatura", t: "TorBox ou Real-Debrid. É o que faz o filme abrir na hora." },
+    { i: "closed-captioning", n: "Community Subtitles", s: "grátis", t: "Onde a legenda de episódio novo sai primeiro." },
+  ]
+  $("#pre-requisitos").innerHTML = itens.map(
+    (x) => `
+    <div class="cartao">
+      <div class="cab-cartao">
+        ${svg(x.i, "ic-g")}<h3>${escapar(x.n)}</h3>
+        <span class="selo"${x.s === "grátis" ? ' data-tone="free"' : ' data-tone="paid"'}>${escapar(x.s)}</span>
+      </div>
+      <p class="nota m-0">${escapar(x.t)}</p>
+    </div>`,
+  ).join("")
 }
 
 /** Como chamar o aplicativo no meio de uma frase. */
@@ -194,53 +265,50 @@ function pintarPorApp() {
   const nome = nomeDoApp()
   for (const el of $$("[data-app-nome]")) el.textContent = nome
 
+  const lede = $("#lede-instalar")
+  if (lede) {
+    lede.textContent = usaStremio()
+      ? "Entrar na conta é o caminho curto. Os outros dois não pedem senha nenhuma."
+      : "O Nuvio não tem conta central, então a instalação é por link ou por arquivo."
+  }
+
   for (const el of $$("#escolha-app input")) el.checked = el.value === appEscolhido()
 }
 
 function montarDebrids() {
-  $("#debrids").innerHTML = DEBRIDS.map((d) => {
-    const selo = d.recomendado
-      ? '<span class="tag" data-tone="rec">recomendado</span>'
-      : '<span class="tag">alternativa</span>'
-    return `
-    <div class="card" data-campo="chave:${d.id}" data-ativo="0">
-      <div class="slice-head">
-        <h3>${escapar(d.nome)}</h3>
-        ${selo}
+  $("#debrids").innerHTML = DEBRIDS.map((d) => `
+    <div class="cartao" data-campo="chave:${d.id}" data-ativo="0">
+      <div class="cab-cartao">
+        ${svg("lightning", "ic-g")}<h3>${escapar(d.nome)}</h3>
+        <span class="selo"${d.recomendado ? ' data-tone="rec"' : ""}>${d.recomendado ? "recomendado" : "alternativa"}</span>
         <label class="liga" title="Usar ${escapar(d.nome)}">
-          <input type="checkbox" data-ligar>
-          <span aria-hidden="true"></span>
-          <em>Usar</em>
+          <input type="checkbox" data-ligar><span aria-hidden="true"></span>
         </label>
       </div>
-      <div class="corpo-debrid"><div>
-        <p class="slice-p">A chave fica em: ${escapar(d.ondeAchar)}</p>
-        <div class="slice-act mt-4">
-          <a class="btn btn-out btn-sm" href="${d.planos}" target="_blank" rel="noopener">
-            Ver planos ${svg("sair")}
+      <div class="corpo"><div>
+        <div class="linha">
+          <a class="bt bt-s bt-sm" href="${d.planos}" target="_blank" rel="noopener">
+            Ver planos ${svg("arrow-square-out")}
           </a>
-          <a class="btn btn-out btn-sm" href="${d.chave}" target="_blank" rel="noopener">
-            Pegar a chave ${svg("sair")}
+          <a class="bt bt-s bt-sm" href="${d.chave}" target="_blank" rel="noopener">
+            Pegar a chave ${svg("arrow-square-out")}
           </a>
         </div>
-        <div class="field">
-          <div class="pair">
+        <div class="campo mt-3">
+          <div class="par">
             <input type="text" autocomplete="off" spellcheck="false" placeholder="cole a chave do ${escapar(d.nome)}">
-            <button class="btn btn-out" data-verificar>Verificar</button>
+            <button class="bt bt-s" data-verificar>Verificar</button>
           </div>
-          <p class="msg" data-tone="idle" data-saida>Esperando a chave</p>
+          <p class="msg" data-tone="idle" data-saida>${escapar(d.ondeAchar)}</p>
         </div>
       </div></div>
-    </div>`
-  }).join("")
+    </div>`,
+  ).join("")
 
   for (const caixa of $$("#debrids [data-campo]")) {
     $("[data-ligar]", caixa).addEventListener("change", (e) => {
       const chave = caixa.dataset.campo
-      estado = {
-        ...estado,
-        [chave]: { valor: "", validado: false, ...estado[chave], ativo: e.target.checked },
-      }
+      estado = { ...estado, [chave]: { valor: "", validado: false, ...estado[chave], ativo: e.target.checked } }
       guardar(estado)
       pintarDebrid(caixa)
       atualizarTorrentio()
@@ -288,46 +356,47 @@ function pintarResumoDebrid() {
 function montarFatias() {
   const alvo = $("#fatias")
   alvo.innerHTML = addonsQueExigem("uuid-aiometadata")
-    .map((addon) => {
+    .map((addon, i) => {
       const copy = FATIAS[addon.id] ?? { resumo: "", prateleiras: [] }
       const chips = copy.prateleiras.map((p) => `<span>${escapar(p)}</span>`).join("")
       return `
-      <div class="card slice" data-addon="${addon.id}">
-        <div class="slice-head">
+      <div class="cartao" data-addon="${addon.id}">
+        <div class="cab-cartao">
+          <span class="ord">${i + 1}</span>
           <h3>${escapar(addon.nome)}</h3>
-          <span class="tag">${addon.catalogos} catálogos</span>
+          <span class="selo">${addon.catalogos} catálogos</span>
         </div>
-        <p class="slice-p">${escapar(copy.resumo)}</p>
-        <div class="shelves">${chips}</div>
+        <p class="nota">${escapar(copy.resumo)}</p>
+        <div class="prateleiras">${chips}</div>
 
         <ol class="guia">
           <li data-passo="baixar">
             <b>1</b>
-            <div class="guia-txt">
+            <div class="guia-tx">
               <strong>Baixe o catálogo</strong>
               <small>Já sai com a sua chave do MDBList dentro.</small>
             </div>
-            <button class="btn btn-out btn-sm" data-baixar>${svg("baixar")} Baixar</button>
+            <button class="bt bt-s bt-sm" data-baixar>${svg("download-simple")} Baixar</button>
           </li>
           <li data-passo="abrir">
             <b>2</b>
-            <div class="guia-txt">
-              <strong>Abra o configurador</strong>
-              <small>Numa aba nova, só para esta fileira. Importe o arquivo e salve.</small>
+            <div class="guia-tx">
+              <strong>Abra o configurador numa aba nova</strong>
+              <small>Importe o arquivo, crie uma senha e salve. Uma aba só para esta fileira.</small>
             </div>
-            <a class="btn btn-out btn-sm" data-configurador target="_blank" rel="noopener">
-              Abrir ${svg("sair")}
+            <a class="bt bt-s bt-sm" data-configurador target="_blank" rel="noopener">
+              Abrir ${svg("arrow-square-out")}
             </a>
           </li>
-          <li data-passo="valor">
+          <li data-passo="valor" data-larga>
             <b>3</b>
-            <div class="guia-txt">
-              <strong>Cole o UUID que apareceu</strong>
-              <div class="pair mt-2">
-                <input type="text" autocomplete="off" spellcheck="false" placeholder="cole aqui">
-                <button class="btn btn-out" data-verificar>Verificar</button>
+            <div class="guia-tx">
+              <strong>Cole o identificador desta fileira</strong>
+              <div class="par">
+                <input type="text" autocomplete="off" spellcheck="false" placeholder="cole o UUID desta configuração">
+                <button class="bt bt-s" data-verificar>Verificar</button>
               </div>
-              <p class="msg" data-tone="idle" data-saida>Esperando o UUID</p>
+              <p class="msg" data-saida data-tone="idle">Cada fileira tem o seu, e nenhum se repete</p>
             </div>
           </li>
         </ol>
@@ -335,6 +404,7 @@ function montarFatias() {
     })
     .join("")
 }
+
 
 /**
  * Pinta o progresso dos passos de um cartão guiado.
@@ -351,7 +421,7 @@ function pintarGuia(caixa) {
   $$("[data-passo]", caixa).forEach((li, i) => {
     const ok = Boolean(feito[li.dataset.passo])
     li.setAttribute("data-feito", ok ? "1" : "0")
-    li.querySelector("b").innerHTML = ok ? svg("check") : String(i + 1)
+    li.querySelector("b").innerHTML = ok ? svg("circle-check") : String(i + 1)
   })
 }
 
@@ -471,13 +541,11 @@ function sincronizarCopiaveis() {
   alvo.innerHTML = preenchidos
     .map(
       (d) => `
-      <div class="quiet" data-copiavel="chave:${d.id}" class="mb-2">
-        <div class="row">
-          <span class="note m-0">Sua chave do ${escapar(d.nome)}, caso precise colar à mão:</span>
+      <div class="caixa" data-copiavel="chave:${d.id}">
+        <div class="linha">
+          <span class="nota">Sua chave do ${escapar(d.nome)}, caso precise colar à mão:</span>
           <code data-valor></code>
-          <button class="btn btn-out btn-sm push" data-copiar>
-            ${svg("copiar")} Copiar
-          </button>
+          <button class="bt bt-s bt-sm push" data-copiar>${svg("copy")} Copiar</button>
         </div>
       </div>`,
     )
@@ -596,16 +664,16 @@ function montarRevisao() {
       tom = salvo?.validado ? "auto" : "bad"
     } else {
       selo = salvo?.validado ? "verificado" : "falta verificar"
-      tom = salvo?.validado ? "" : "bad"
+      tom = salvo?.validado ? "ok" : "bad"
     }
 
     const detalhe = addon.catalogos
       ? `${PAPEL[addon.papel]}, ${addon.catalogos} prateleiras`
       : PAPEL[addon.papel]
 
-    return `<div class="list-row">
+    return `<div class="lista-l">
       <div><strong>${escapar(addon.nome)}</strong><small>${escapar(detalhe)}</small></div>
-      <span class="pill"${tom ? ` data-tone="${tom}"` : ""}>${escapar(selo)}</span>
+      <span class="selo" data-tone="${tom}">${escapar(selo)}</span>
     </div>`
   }).join("")
 
@@ -708,10 +776,10 @@ function montarLinksDiretos() {
     const detalhe = addon.catalogos ? `${PAPEL[addon.papel]}, ${addon.catalogos} prateleiras` : PAPEL[addon.papel]
 
     const acao = url
-      ? `<a class="btn btn-out btn-sm" href="${escapar(linkInstalar(url))}">Instalar ${svg("seta")}</a>`
-      : `<span class="pill" data-tone="bad">falta verificar</span>`
+      ? `<a class="bt bt-s bt-sm" href="${escapar(linkInstalar(url))}">Instalar ${svg("arrow-right")}</a>`
+      : `<span class="selo" data-tone="bad">falta verificar</span>`
 
-    return `<div class="list-row">
+    return `<div class="lista-l">
       <div><strong>${escapar(addon.nome)}</strong><small>${escapar(detalhe)}</small></div>
       ${acao}
     </div>`
@@ -793,7 +861,8 @@ function iniciar() {
   // e isso atropela o scroll para o topo que cada passo faz.
   if ("scrollRestoration" in history) history.scrollRestoration = "manual"
 
-  montarTicks()
+  montarTrilho()
+  montarPreRequisitos()
   montarEscolhaApp()
   montarDebrids()
   montarFatias()
@@ -830,7 +899,7 @@ function iniciar() {
       if (valor) {
         navigator.clipboard?.writeText(valor)
         const antes = copiar.innerHTML
-        copiar.innerHTML = `${svg("check")} Copiada`
+        copiar.innerHTML = `${svg("circle-check")} Copiada`
         setTimeout(() => (copiar.innerHTML = antes), 1600)
       }
     }
