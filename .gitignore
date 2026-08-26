@@ -2,3 +2,4 @@ node_modules/
 dist/
 privado/
 __pycache__/
+.vercel
