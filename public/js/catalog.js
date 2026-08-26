@@ -53,7 +53,9 @@ const TORRENTIO_FILTROS = [
   "torbox={TORBOX}",
 ].join("%7C")
 
-const CONFIGURADOR_METADATA = "https://aiometadata.elfhosted.com/configure"
+// O fragmento #general pula a tela de boas-vindas do AIOMetadata e cai direto
+// na configuração. Sem ele a pessoa precisa achar um botão Skip discreto.
+const CONFIGURADOR_METADATA = "https://aiometadata.elfhosted.com/configure/#general"
 
 /** @type {Addon[]} */
 export const ADDONS = [

@@ -390,3 +390,11 @@ test("validar de novo não apaga o progresso da guia", () => {
   assert.equal(depois["aio-metadata:anime"].baixou, true)
   assert.equal(depois["aio-metadata:anime"].valor, "novo")
 })
+
+test("o configurador do AIOMetadata aponta para a âncora que pula as boas-vindas", () => {
+  const fatias = addonsQueExigem("uuid-aiometadata")
+  assert.equal(fatias.length, 5)
+  for (const f of fatias) {
+    assert.ok(f.configurador.endsWith("/configure/#general"), `${f.nome}: ${f.configurador}`)
+  }
+})
