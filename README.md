@@ -1,8 +1,11 @@
 # Super Stremio
 
-Um assistente que instala um setup completo de Stremio na sua conta, usando as
-**suas** contas nos serviços envolvidos. Onze addons, cerca de 150 prateleiras de
-catálogo em português, streams via debrid e legendas em PT-BR.
+Seu Stremio, perfeitamente organizado.
+
+Um assistente que monta a sua tela inicial do zero, usando as **suas** contas nos
+serviços envolvidos. Cerca de 150 prateleiras em português, cada uma no seu lugar:
+o que está em alta, por gênero, por década, por serviço de streaming. Streams que
+abrem na hora e legendas que aparecem sozinhas. Quinze minutos, do começo ao fim.
 
 ## Como funciona
 

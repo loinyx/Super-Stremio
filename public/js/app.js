@@ -9,6 +9,7 @@ import { validar, descritor } from "./validation.js"
 import { aferirMdblist, aferirTorbox } from "./keys.js"
 import { entrar, lerColecao, gravarColecao, mesclar, backupJson, ErroStremio } from "./stremio.js"
 import { carregar, guardar, limpar, registrar, conferirPacote } from "./wizard.js"
+import { injetarChaves, nomeDoArquivo, avisoDoDownload } from "./inject.js"
 
 /** Glifos, desenhados como traço para herdar a cor e o peso do texto ao redor. */
 const ICONES = {
@@ -171,12 +172,23 @@ function ligarAddons() {
     const botao = $("[data-baixar]", caixa)
     if (botao && addon.template) {
       botao.addEventListener("click", async () => {
+        const saida = $("[data-saida]", caixa)
         try {
           const r = await fetch(`templates/${addon.template}`)
           if (!r.ok) throw new Error(String(r.status))
-          baixar(addon.template, await r.text())
+
+          // As chaves entram aqui, no navegador de quem instala. O arquivo que
+          // mora no repositório continua sem credencial nenhuma.
+          const { arquivo, aplicadas } = injetarChaves(await r.json(), addon, {
+            mdblist: estado["chave:mdblist"]?.valor,
+            torbox: estado["chave:torbox"]?.valor,
+          })
+
+          baixar(nomeDoArquivo(addon.template, aplicadas), JSON.stringify(arquivo, null, 2))
+          const aviso = avisoDoDownload(aplicadas)
+          dizer(saida, aviso.tom, aviso.texto)
         } catch {
-          dizer($("[data-saida]", caixa), "bad", "Não deu para baixar o arquivo. Recarregue a página e tente de novo.")
+          dizer(saida, "bad", "Não deu para baixar o arquivo. Recarregue a página e tente de novo.")
         }
       })
     }

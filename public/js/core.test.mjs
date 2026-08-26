@@ -4,6 +4,7 @@ import assert from "node:assert/strict"
 import { ADDONS, montarUrl, base64url, addonsQueExigem, linkInstalar } from "./catalog.js"
 import { mesclar, backupJson, entrar, lerColecao, ErroStremio } from "./stremio.js"
 import { conferirFormato, validar, descritor } from "./validation.js"
+import { injetarChaves, nomeDoArquivo, avisoDoDownload } from "./inject.js"
 
 const acharAddon = (id) => ADDONS.find((a) => a.id === id)
 
@@ -271,4 +272,71 @@ test("o link direto do Torrentio carrega a chave de quem instala", () => {
   const link = linkInstalar(montarUrl(torrentio, "minha-chave"))
   assert.ok(link.startsWith("stremio://torrentio.strem.fun/"))
   assert.ok(link.includes("torbox=minha-chave"))
+})
+
+/* ------------------------------------------ injecao das chaves no download */
+
+const CHAVES = { mdblist: "chave-mdblist-de-quem-instala", torbox: "chave-torbox-de-quem-instala" }
+
+const templateMetadata = () => ({
+  version: "2.15.0",
+  config: { addonName: "Em Alta", catalogs: [{ id: "mdblist.87667" }] },
+  metadata: { apiKeysExcluded: true },
+})
+const templateStreams = () => ({
+  preferredLanguages: ["Portuguese (Brazil)"],
+  services: [
+    { id: "torbox", enabled: true, credentials: {} },
+    { id: "realdebrid", enabled: false, credentials: {} },
+  ],
+})
+
+test("a chave do MDBList entra no arquivo do AIOMetadata", () => {
+  const { arquivo, aplicadas } = injetarChaves(templateMetadata(), acharAddon("aio-metadata:em-alta"), CHAVES)
+  assert.equal(arquivo.config.apiKeys.mdblist, CHAVES.mdblist)
+  assert.equal(arquivo.metadata.apiKeysExcluded, false)
+  assert.deepEqual(aplicadas, ["MDBList"])
+})
+
+test("a chave do TorBox entra no arquivo do AIOStreams", () => {
+  const { arquivo, aplicadas } = injetarChaves(templateStreams(), acharAddon("com.aiostreams.viren070"), CHAVES)
+  assert.equal(arquivo.services[0].credentials.apiKey, CHAVES.torbox)
+  assert.equal(arquivo.services[0].enabled, true)
+  assert.deepEqual(aplicadas, ["TorBox"])
+})
+
+test("cada formato recebe só a chave que lhe cabe", () => {
+  const meta = injetarChaves(templateMetadata(), acharAddon("aio-metadata:anime"), CHAVES).arquivo
+  assert.equal(meta.config.apiKeys.torbox, undefined)
+
+  const streams = injetarChaves(templateStreams(), acharAddon("com.aiostreams.viren070"), CHAVES).arquivo
+  assert.equal(streams.config, undefined)
+})
+
+test("sem chave preenchida o download continua valendo, só sem injeção", () => {
+  const { arquivo, aplicadas } = injetarChaves(templateMetadata(), acharAddon("aio-metadata:pijama"), {})
+  assert.deepEqual(aplicadas, [])
+  assert.equal(arquivo.config.apiKeys, undefined)
+  assert.equal(arquivo.metadata.apiKeysExcluded, true)
+})
+
+test("chave só com espaço é tratada como ausente", () => {
+  const { aplicadas } = injetarChaves(templateMetadata(), acharAddon("aio-metadata:anime"), { mdblist: "   " })
+  assert.deepEqual(aplicadas, [])
+})
+
+test("o template original nunca é modificado", () => {
+  const original = templateStreams()
+  injetarChaves(original, acharAddon("com.aiostreams.viren070"), CHAVES)
+  assert.deepEqual(original.services[0].credentials, {})
+})
+
+test("o nome do arquivo avisa quando ele carrega credencial", () => {
+  assert.equal(nomeDoArquivo("catalogos-em-alta.json", []), "catalogos-em-alta.json")
+  assert.equal(nomeDoArquivo("catalogos-em-alta.json", ["MDBList"]), "catalogos-em-alta-com-minha-chave.json")
+})
+
+test("o aviso do download alerta para não compartilhar o arquivo com chave", () => {
+  assert.match(avisoDoDownload(["MDBList"]).texto, /não mande esse arquivo para ninguém/i)
+  assert.equal(avisoDoDownload([]).tom, "idle")
 })
