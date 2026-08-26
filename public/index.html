@@ -24,18 +24,13 @@
 <!-- 0 ====================================================================== -->
 <section class="screen" data-screen="0"><div class="col">
   <span class="count">Antes de começar</span>
-  <h1>Seu Stremio, perfeitamente organizado</h1>
+  <h1>Sua biblioteca, perfeitamente organizada</h1>
   <p class="lede">
     Cerca de 150 prateleiras em português, cada uma no seu lugar: o que está em alta,
     por gênero, por década, por serviço de streaming. Streams que abrem na hora e
-    legendas que aparecem sozinhas. Quinze minutos, com as suas contas.
+    legendas que aparecem sozinhas. Funciona no Stremio e no Nuvio, e leva quinze
+    minutos com as suas contas.
   </p>
-
-  <h2>Onde você assiste?</h2>
-  <p class="note">
-    Os addons são os mesmos nos dois. O que muda é só a forma de instalar no fim.
-  </p>
-  <div class="escolha" id="escolha-app" role="radiogroup" aria-label="Aplicativo"></div>
 
   <h2>Três contas, e o resto já vem pronto</h2>
   <div class="card">
@@ -121,7 +116,31 @@
 
 <!-- 1 ====================================================================== -->
 <section class="screen" data-screen="1"><div class="col">
-  <span class="count">Passo 1 de 7</span>
+  <span class="count">Passo 1 de 8</span>
+  <h1>Onde você assiste?</h1>
+  <p class="lede">
+    Os onze addons são os mesmos nos dois aplicativos. O que muda é como eles
+    entram no fim, e alguns textos daqui para frente.
+  </p>
+
+  <div class="escolha" id="escolha-app" role="radiogroup" aria-label="Aplicativo"></div>
+
+  <div class="quiet mt-6">
+    <p class="note m-0">
+      Dá para trocar depois, a qualquer momento, voltando aqui. Nada do que você
+      preencher se perde.
+    </p>
+  </div>
+
+  <div class="row next">
+    <button class="btn btn-go" data-go="2">Continuar <span data-ico="seta"></span></button>
+    <button class="btn btn-txt" data-go="0">Voltar</button>
+  </div>
+</div></section>
+
+<!-- 2 ====================================================================== -->
+<section class="screen" data-screen="2"><div class="col">
+  <span class="count">Passo 2 de 8</span>
   <h1>Chave do MDBList</h1>
   <p class="lede">
     Comece por ela. É a que mais muda o resultado, e sai de graça em dois minutos.
@@ -171,14 +190,14 @@
   </div>
 
   <div class="row next">
-    <button class="btn btn-go" data-go="2">Continuar <span data-ico="seta"></span></button>
-    <button class="btn btn-txt" data-go="0">Voltar</button>
+    <button class="btn btn-go" data-go="3">Continuar <span data-ico="seta"></span></button>
+    <button class="btn btn-txt" data-go="1">Voltar</button>
   </div>
 </div></section>
 
-<!-- 2 ====================================================================== -->
-<section class="screen" data-screen="2"><div class="col">
-  <span class="count">Passo 2 de 7</span>
+<!-- 3 ====================================================================== -->
+<section class="screen" data-screen="3"><div class="col">
+  <span class="count">Passo 3 de 8</span>
   <h1>Seu serviço de debrid</h1>
   <p class="lede">
     A única parte paga. É ela que separa o Stremio que engasga do Stremio que
@@ -187,7 +206,7 @@
 
   <h2>O que um debrid faz</h2>
   <p class="note">
-    O Stremio sozinho baixa o torrent na sua casa enquanto você assiste. Isso quer
+    Sem debrid, o aplicativo baixa o torrent na sua casa enquanto você assiste. Isso quer
     dizer esperar o arquivo encher antes de começar, travar no meio quando tem pouca
     gente compartilhando, e ficar visível para todo mundo que está no mesmo torrent.
   </p>
@@ -209,24 +228,24 @@
   </p>
 
   <div class="row next">
-    <button class="btn btn-go" data-go="3">Continuar <span data-ico="seta"></span></button>
-    <button class="btn btn-txt" data-go="1">Voltar</button>
+    <button class="btn btn-go" data-go="4">Continuar <span data-ico="seta"></span></button>
+    <button class="btn btn-txt" data-go="2">Voltar</button>
   </div>
 </div></section>
 
-<!-- 3 ====================================================================== -->
-<section class="screen" data-screen="3"><div class="col">
-  <span class="count">Passo 3 de 7</span>
+<!-- 4 ====================================================================== -->
+<section class="screen" data-screen="4"><div class="col">
+  <span class="count">Passo 4 de 8</span>
   <h1>A sua tela inicial, em cinco fileiras</h1>
   <p class="lede">
     O passo mais longo, uns oito minutos. Também é o que você mais vai ver:
-    é a tela inicial do Stremio inteira sendo montada.
+    é a tela inicial do <span data-app-nome>Stremio</span> inteira sendo montada.
   </p>
 
   <h2>O que o AIOMetadata substitui</h2>
   <p class="note">
-    O Stremio vem com o Cinemeta, que funciona e é sem graça: pôster em inglês,
-    sinopse em inglês, e as mesmas quatro listas para todo mundo no mundo.
+    Os dois aplicativos vêm com o Cinemeta, que funciona e é sem graça: pôster em
+    inglês, sinopse em inglês, e as mesmas quatro listas para todo mundo no mundo.
   </p>
   <p class="note">
     O AIOMetadata troca a fonte dos dados por TMDB e TVDB em português e deixa você
@@ -241,7 +260,7 @@
     </summary>
     <div class="ajuda-corpo">
       <p class="note">
-        <strong>O que é o AIOMetadata.</strong> Pense na tela inicial do Stremio como
+        <strong>O que é o AIOMetadata.</strong> Pense na tela inicial do aplicativo como
         uma estante. O Stremio vem com uma estante pronta, pequena e em inglês. O
         AIOMetadata deixa você montar a sua: quais prateleiras existem, o nome de cada
         uma e de onde vêm os filmes que aparecem nelas.
@@ -311,14 +330,14 @@
   <div class="cards" id="fatias"></div>
 
   <div class="row next">
-    <button class="btn btn-go" data-go="4">Continuar <span data-ico="seta"></span></button>
-    <button class="btn btn-txt" data-go="2">Voltar</button>
+    <button class="btn btn-go" data-go="5">Continuar <span data-ico="seta"></span></button>
+    <button class="btn btn-txt" data-go="3">Voltar</button>
   </div>
 </div></section>
 
-<!-- 4 ====================================================================== -->
-<section class="screen" data-screen="4"><div class="col">
-  <span class="count">Passo 4 de 7</span>
+<!-- 5 ====================================================================== -->
+<section class="screen" data-screen="5"><div class="col">
+  <span class="count">Passo 5 de 8</span>
   <h1>AIOStreams</h1>
   <p class="lede">
     Organizar a estante resolveu o que você encontra. Este passo resolve o que
@@ -461,14 +480,14 @@
   <div id="copiar-debrids" class="mt-3"></div>
 
   <div class="row next">
-    <button class="btn btn-go" data-go="5">Continuar <span data-ico="seta"></span></button>
-    <button class="btn btn-txt" data-go="3">Voltar</button>
+    <button class="btn btn-go" data-go="6">Continuar <span data-ico="seta"></span></button>
+    <button class="btn btn-txt" data-go="4">Voltar</button>
   </div>
 </div></section>
 
-<!-- 5 ====================================================================== -->
-<section class="screen" data-screen="5"><div class="col">
-  <span class="count">Passo 5 de 7</span>
+<!-- 6 ====================================================================== -->
+<section class="screen" data-screen="6"><div class="col">
+  <span class="count">Passo 6 de 8</span>
   <h1>Legendas, em dois lugares</h1>
   <p class="lede">
     São dois, de propósito. Eles falham em momentos diferentes, e um cobre o
@@ -543,14 +562,14 @@
   </div>
 
   <div class="row next">
-    <button class="btn btn-go" data-go="6">Continuar <span data-ico="seta"></span></button>
-    <button class="btn btn-txt" data-go="4">Voltar</button>
+    <button class="btn btn-go" data-go="7">Continuar <span data-ico="seta"></span></button>
+    <button class="btn btn-txt" data-go="5">Voltar</button>
   </div>
 </div></section>
 
-<!-- 6 ====================================================================== -->
-<section class="screen" data-screen="6"><div class="col">
-  <span class="count">Passo 6 de 7</span>
+<!-- 7 ====================================================================== -->
+<section class="screen" data-screen="7"><div class="col">
+  <span class="count">Passo 7 de 8</span>
   <h1>Tudo conferido, antes de instalar</h1>
   <p class="lede">
     Cada endereço abaixo foi testado de verdade, perguntando ao próprio addon
@@ -569,14 +588,14 @@
   </div>
 
   <div class="row next">
-    <button class="btn btn-go" data-go="7">Continuar <span data-ico="seta"></span></button>
-    <button class="btn btn-txt" data-go="5">Voltar</button>
+    <button class="btn btn-go" data-go="8">Continuar <span data-ico="seta"></span></button>
+    <button class="btn btn-txt" data-go="6">Voltar</button>
   </div>
 </div></section>
 
-<!-- 7 ====================================================================== -->
-<section class="screen" data-screen="7"><div class="col">
-  <span class="count">Passo 7 de 7</span>
+<!-- 8 ====================================================================== -->
+<section class="screen" data-screen="8"><div class="col">
+  <span class="count">Passo 8 de 8</span>
   <h1>Como você quer instalar</h1>
   <p class="lede">
     Três caminhos, mesmo resultado. O primeiro deixa tudo na ordem certa e tira o
@@ -657,14 +676,14 @@
   </div>
 
   <div class="row next">
-    <button class="btn btn-txt" data-go="6">Voltar</button>
+    <button class="btn btn-txt" data-go="7">Voltar</button>
   </div>
 </div></section>
 
-<!-- 8 ====================================================================== -->
-<section class="screen" data-screen="8"><div class="col">
+<!-- 9 ====================================================================== -->
+<section class="screen" data-screen="9"><div class="col">
   <span class="count">Pronto</span>
-  <h1>Pronto. Seu Stremio está organizado.</h1>
+  <h1>Pronto. Está tudo organizado.</h1>
   <p class="lede" id="resumo-final">
     Os addons já estão na sua conta e sincronizaram. Se o Stremio estava aberto,
     feche e abra de novo para as prateleiras aparecerem.

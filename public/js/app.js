@@ -37,7 +37,7 @@ const appEscolhido = () => estado["app"]?.valor || "stremio"
 const usaNuvio = () => ["nuvio", "ambos"].includes(appEscolhido())
 const usaStremio = () => ["stremio", "ambos"].includes(appEscolhido())
 
-const PASSOS = ["Início", "MDBList", "TorBox", "Catálogos", "AIOStreams", "Legendas", "Revisão", "Instalar", "Pronto"]
+const PASSOS = ["Início", "Aplicativo", "MDBList", "Debrid", "Catálogos", "AIOStreams", "Legendas", "Revisão", "Instalar", "Pronto"]
 
 /** Copy de cada fatia do AIOMetadata, indexada pelo id do catálogo. */
 const FATIAS = {
@@ -149,11 +149,11 @@ function irPara(n) {
     const feito = i < n || (i === PASSOS.length - 1 && pronto)
     b.setAttribute("data-state", i === n ? "now" : feito ? "done" : "todo")
   })
-  if (n === 2) pintarResumoDebrid()
-  if (n === 3) sincronizarCopiaveis()
+  if (n === 3) pintarResumoDebrid()
   if (n === 4) sincronizarCopiaveis()
-  if (n === 6) montarRevisao()
-  if (n === 7) montarLinksDiretos()
+  if (n === 5) sincronizarCopiaveis()
+  if (n === 7) montarRevisao()
+  if (n === 8) montarLinksDiretos()
   window.scrollTo({ top: 0, behavior: "instant" })
 }
 
@@ -177,10 +177,24 @@ function montarEscolhaApp() {
   })
 }
 
+/** Como chamar o aplicativo no meio de uma frase. */
+function nomeDoApp() {
+  const escolha = appEscolhido()
+  if (escolha === "nuvio") return "Nuvio"
+  if (escolha === "ambos") return "Stremio e no Nuvio"
+  return "Stremio"
+}
+
 /** Mostra e esconde o que só faz sentido para cada aplicativo. */
 function pintarPorApp() {
   for (const el of $$("[data-so-stremio]")) el.hidden = !usaStremio()
   for (const el of $$("[data-so-nuvio]")) el.hidden = !usaNuvio()
+
+  // Onde só o nome muda, o marcador evita duplicar a frase inteira por app.
+  const nome = nomeDoApp()
+  for (const el of $$("[data-app-nome]")) el.textContent = nome
+
+  for (const el of $$("#escolha-app input")) el.checked = el.value === appEscolhido()
 }
 
 function montarDebrids() {
@@ -250,7 +264,7 @@ function pintarResumoDebrid() {
   const preenchidos = debridsPreenchidos()
   const nomes = DEBRIDS.filter((d) => preenchidos[d.id]).map((d) => d.nome)
   const ligados = DEBRIDS.filter((d) => estado[`chave:${d.id}`]?.ativo)
-  const seguir = $('.screen[data-screen="2"] [data-go="3"]')
+  const seguir = $('.screen[data-screen="3"] [data-go="4"]')
   const saida = $("#saida-debrid")
 
   if (nomes.length > 0) {
@@ -598,7 +612,7 @@ function montarRevisao() {
   // Escopo na própria tela: `[data-go="7"]` solto pegaria o tick do topo, que é
   // navegação e nunca deve travar.
   const { pronto, faltam } = conferirPacote(estado, ADDONS)
-  const seguir = $('.screen[data-screen="6"] [data-go="7"]')
+  const seguir = $('.screen[data-screen="7"] [data-go="8"]')
   seguir.disabled = !pronto
   seguir.title = pronto ? "" : `Ainda falta: ${faltam.join(", ")}`
 }
@@ -672,7 +686,7 @@ async function instalar() {
     $("#resumo-final").textContent =
       `Os ${conferencia.length} addons já estão na sua conta e sincronizaram. ` +
       `Se o Stremio estava aberto, feche e abra de novo para as prateleiras aparecerem.`
-    irPara(8)
+    irPara(9)
   } catch (e) {
     const msg = e instanceof Error ? e.message : String(e)
     const codigo = e instanceof ErroStremio && e.codigo ? ` (código ${e.codigo})` : ""
