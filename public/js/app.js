@@ -192,7 +192,7 @@ function montarFatias() {
  */
 function pintarGuia(caixa) {
   const salvo = estado[caixa.dataset.addon] ?? {}
-  const feito = { baixar: salvo.baixou, abrir: salvo.abriu, valor: salvo.validado }
+  const feito = { baixar: salvo.baixou, abrir: salvo.abriu, ajustar: salvo.ajustou, valor: salvo.validado }
 
   $$("[data-passo]", caixa).forEach((li, i) => {
     const ok = Boolean(feito[li.dataset.passo])
@@ -212,6 +212,16 @@ function ligarAddons() {
       link.href = addon.configurador
       link.addEventListener("click", () => {
         estado = marcarAbertura(estado, addon.id)
+        guardar(estado)
+        pintarGuia(caixa)
+      })
+    }
+
+    // Passos extras marcam o próprio progresso pelo nome que carregam.
+    for (const marcador of $$("[data-marca]", caixa)) {
+      marcador.addEventListener("click", () => {
+        const chave = marcador.getAttribute("data-marca")
+        estado = { ...estado, [addon.id]: { valor: "", validado: false, ...estado[addon.id], [chave]: true } }
         guardar(estado)
         pintarGuia(caixa)
       })
@@ -269,30 +279,25 @@ function ligarAddons() {
 
 /** Restaura o que estava guardado nos campos. */
 function reidratar() {
-  for (const caixa of $$("[data-addon]")) {
-    const id = caixa.dataset.addon
-    const salvo = estado[id]
+  const restaurar = (caixa, chave) => {
+    const salvo = estado[chave]
     const campo = $("input", caixa)
-    if (!campo || !salvo) continue
-    campo.value = salvo.valor
+    if (!campo || !salvo) return
+
+    // Campo vazio nunca é erro. O estado existe assim que a pessoa clica em
+    // qualquer botão do cartão, e pintar de vermelho um campo em que ela ainda
+    // não digitou nada faz parecer que ela errou algo.
+    const valor = salvo.valor ?? ""
+    campo.value = valor
+    if (!valor) return
+
     campo.setAttribute("data-state", salvo.validado ? "ok" : "bad")
-    // Estado guardado por uma versão antiga pode não ter mensagem. Melhor um
-    // texto genérico do que um ícone solto sem explicação.
     const padrao = salvo.validado ? "Verificado." : "Precisa ser verificado de novo."
     dizer($("[data-saida]", caixa), salvo.validado ? "ok" : "bad", salvo.mensagem || padrao)
   }
 
-  for (const caixa of $$("[data-campo]")) {
-    const salvo = estado[caixa.dataset.campo]
-    const campo = $("input", caixa)
-    if (!campo || !salvo) continue
-    campo.value = salvo.valor
-    campo.setAttribute("data-state", salvo.validado ? "ok" : "bad")
-    // Estado guardado por uma versão antiga pode não ter mensagem. Melhor um
-    // texto genérico do que um ícone solto sem explicação.
-    const padrao = salvo.validado ? "Verificado." : "Precisa ser verificado de novo."
-    dizer($("[data-saida]", caixa), salvo.validado ? "ok" : "bad", salvo.mensagem || padrao)
-  }
+  for (const caixa of $$("[data-addon]")) restaurar(caixa, caixa.dataset.addon)
+  for (const caixa of $$("[data-campo]")) restaurar(caixa, caixa.dataset.campo)
 }
 
 function sincronizarCopiaveis() {

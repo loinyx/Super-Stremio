@@ -493,22 +493,43 @@
       falha: episódio que estreou ontem, série pequena, filme antigo. Costuma aparecer
       aqui antes de aparecer em qualquer outro lugar.
     </p>
+    <p class="slice-p" style="margin-top:8px">
+      É o único addon aqui que precisa ser ajustado por dentro: ele nasce procurando
+      legenda em inglês, e o idioma se troca na conta, não neste site.
+    </p>
 
     <ol class="guia">
       <li data-passo="abrir">
         <b>1</b>
         <div class="guia-txt">
           <strong>Crie a conta</strong>
-          <small>Grátis. Depois de entrar, ele mostra o endereço do seu addon.</small>
+          <small>Grátis, leva um minuto.</small>
         </div>
         <a class="btn btn-out btn-sm" data-configurador target="_blank" rel="noopener">
           Criar conta <span data-ico="sair"></span>
         </a>
       </li>
-      <li data-passo="valor">
+      <li data-passo="ajustar">
         <b>2</b>
         <div class="guia-txt">
+          <strong>Troque o idioma nas preferências</strong>
+          <small>
+            Já logado, em <em>Preferências de idioma</em> escolha <em>Português (Brasil)</em>
+            e clique em <em>Atualizar preferências</em>. Sem isso ele procura legenda em
+            inglês. Se quiser mais fontes, conecte OpenSubtitles, SubDL e SubSource em
+            <em>Provedores de legendas</em>, na mesma página.
+          </small>
+        </div>
+        <a class="btn btn-out btn-sm" data-marca="ajustou" target="_blank" rel="noopener"
+           href="https://stremio-community-subtitles.top/account">
+          Abrir preferências <span data-ico="sair"></span>
+        </a>
+      </li>
+      <li data-passo="valor">
+        <b>3</b>
+        <div class="guia-txt">
           <strong>Cole o endereço que apareceu</strong>
+          <small>Em <em>Instalação do Addon</em>, clique em <em>Instalar o Addon</em> e copie o endereço.</small>
           <div class="pair" style="margin-top:8px">
             <input id="f-sub" type="text" autocomplete="off" spellcheck="false"
                    placeholder="https://stremio-community-subtitles.top/.../manifest.json">
