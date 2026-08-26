@@ -72,6 +72,10 @@
       As chaves de API você cola dentro de cada serviço, na página deles. O que fica
       aqui, fica só no seu navegador, e some quando você limpar.
     </p>
+    <p class="note">
+      A única exceção é a contagem de visitas, feita pela Vercel, que hospeda o site.
+      Ela conta acesso e página, e não enxerga nada do que você digita nos campos.
+    </p>
   </div>
 
   <div class="row next">
@@ -603,5 +607,11 @@
 </main>
 
 <script type="module" src="js/app.js"></script>
+
+<!-- Vercel Web Analytics: contagem de visita e de página, sem npm e sem build.
+     Só responde quando o site está hospedado na Vercel; em qualquer outro
+     lugar o arquivo dá 404 e a página segue funcionando igual. -->
+<script src="js/va.js"></script>
+<script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>

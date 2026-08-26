@@ -9,14 +9,21 @@ catálogo em português, streams via debrid e legendas em PT-BR.
 O site é feito só de arquivos estáticos. Não existe servidor por trás, então não
 existe onde guardar o que você digita, nem se alguém quisesse.
 
-Três coisas saem do seu navegador, e só elas:
+Quatro coisas saem do seu navegador, e só elas:
 
 - os `fetch` de `manifest.json` para validar cada addon, indo direto ao addon
 - as chamadas a `api.strem.io`, quando você escolhe instalar entrando na conta
 - o download dos arquivos de configuração, que são públicos e não contêm chave
+- a contagem de visitas do [Vercel Web Analytics](https://vercel.com/docs/analytics/privacy-policy),
+  que registra acesso e página e não enxerga o conteúdo dos campos
 
 A senha do Stremio, se você optar por usá-la, vai do seu navegador direto para o
 `api.strem.io`. Ela nunca é guardada, nem no navegador.
+
+O site também é servido com `Content-Security-Policy` restrita, `frame-ancestors
+'none'` contra clickjacking na tela de senha, e `Referrer-Policy: no-referrer`.
+Os cabeçalhos estão em [`vercel.json`](vercel.json), e o servidor local os
+espelha, para que testar aqui valha para valer.
 
 ## Três formas de instalar
 
@@ -59,6 +66,7 @@ Não há build e não há `node_modules`. O que está no ar é o que está aqui.
 | `public/js/keys.js` | aferição das chaves de MDBList e TorBox |
 | `public/js/wizard.js` | estado do fluxo, persistido no navegador |
 | `scripts/sanitize.mjs` | remove credenciais e gera os templates públicos |
+| `vercel.json` | raiz do deploy e cabeçalhos de segurança |
 | `docs/superpowers/specs/` | o desenho, com o que a investigação apurou |
 
 ## Detalhes que custaram caro

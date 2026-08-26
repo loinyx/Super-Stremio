@@ -3,7 +3,12 @@
 Em produção o site é servido como arquivo, sem build. Este script existe só
 para conferir localmente com os mesmos cabeçalhos.
 """
-import functools, http.server, socketserver, pathlib
+import functools, http.server, json, socketserver, pathlib
+
+CABECALHOS = {
+    h["key"]: h["value"]
+    for h in json.loads((pathlib.Path(__file__).parent / "vercel.json").read_text())["headers"][0]["headers"]
+}
 
 class H(http.server.SimpleHTTPRequestHandler):
     extensions_map = {
@@ -15,6 +20,9 @@ class H(http.server.SimpleHTTPRequestHandler):
     }
     def end_headers(self):
         self.send_header("Cache-Control", "no-store")
+        # Mesmos cabeçalhos que a Vercel aplica, para que o teste local valha.
+        for chave, valor in CABECALHOS.items():
+            self.send_header(chave, valor)
         super().end_headers()
 
 socketserver.TCPServer.allow_reuse_address = True
