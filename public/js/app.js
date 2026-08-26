@@ -165,7 +165,7 @@ function montarFatias() {
               Abrir ${svg("sair")}
             </a>
           </li>
-          <li data-passo="uuid">
+          <li data-passo="valor">
             <b>3</b>
             <div class="guia-txt">
               <strong>Cole o UUID que apareceu</strong>
@@ -183,17 +183,22 @@ function montarFatias() {
 }
 
 /**
- * Pinta o progresso dos três passos de uma fatia.
+ * Pinta o progresso dos passos de um cartão guiado.
+ *
+ * O número sai da posição na lista, não de um mapa fixo: assim um cartão com
+ * dois passos numera 1 e 2 sem ninguém precisar lembrar de ajustar aqui.
+ *
  * @param {Element} caixa
  */
 function pintarGuia(caixa) {
   const salvo = estado[caixa.dataset.addon] ?? {}
-  const feito = { baixar: salvo.baixou, abrir: salvo.abriu, uuid: salvo.validado }
-  for (const li of $$("[data-passo]", caixa)) {
+  const feito = { baixar: salvo.baixou, abrir: salvo.abriu, valor: salvo.validado }
+
+  $$("[data-passo]", caixa).forEach((li, i) => {
     const ok = Boolean(feito[li.dataset.passo])
     li.setAttribute("data-feito", ok ? "1" : "0")
-    li.querySelector("b").innerHTML = ok ? svg("check") : li.dataset.passo === "baixar" ? "1" : li.dataset.passo === "abrir" ? "2" : "3"
-  }
+    li.querySelector("b").innerHTML = ok ? svg("check") : String(i + 1)
+  })
 }
 
 /** Liga os botões de configurador e download aos dados do catálogo. */

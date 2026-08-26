@@ -408,41 +408,54 @@
     </div>
   </details>
 
-  <h2>Como fazer</h2>
-  <ol class="howto">
-    <li><b>1</b><span>Clique em <em>Baixar a configuração</em>. Ela já sai com a sua chave do TorBox dentro.</span></li>
-    <li><b>2</b><span>Abra o configurador e vá em <em>Save &amp; Install</em>.</span></li>
-    <li><b>3</b><span>Em <em>BACKUPS</em>, clique em <em>Import</em> e escolha o arquivo.</span></li>
-    <li><b>4</b><span>Em <em>CREATE CONFIGURATION</em>, crie uma senha e clique em <em>Create</em>. Volte com o endereço que aparecer.</span></li>
-  </ol>
+  <h2>Três passos</h2>
+  <div class="card" data-addon="com.aiostreams.viren070">
+    <ol class="guia">
+      <li data-passo="baixar">
+        <b>1</b>
+        <div class="guia-txt">
+          <strong>Baixe a configuração</strong>
+          <small>Já sai com a sua chave do TorBox dentro.</small>
+        </div>
+        <button class="btn btn-out btn-sm" data-baixar>
+          <span data-ico="baixar"></span> Baixar
+        </button>
+      </li>
+      <li data-passo="abrir">
+        <b>2</b>
+        <div class="guia-txt">
+          <strong>Abra o configurador e importe</strong>
+          <small>
+            Vá em <em>Save &amp; Install</em>, seção <em>BACKUPS</em>, botão <em>Import</em>.
+            Depois crie uma senha em <em>CREATE CONFIGURATION</em> e clique em <em>Create</em>.
+          </small>
+        </div>
+        <a class="btn btn-out btn-sm" data-configurador target="_blank" rel="noopener">
+          Abrir <span data-ico="sair"></span>
+        </a>
+      </li>
+      <li data-passo="valor">
+        <b>3</b>
+        <div class="guia-txt">
+          <strong>Cole o endereço que apareceu</strong>
+          <div class="pair" style="margin-top:8px">
+            <input id="f-aio" type="text" autocomplete="off" spellcheck="false"
+                   placeholder="https://aiostreams.elfhosted.com/stremio/.../manifest.json">
+            <button class="btn btn-out" data-verificar>Verificar</button>
+          </div>
+          <p class="msg" data-tone="idle" data-saida>Esperando o endereço</p>
+        </div>
+      </li>
+    </ol>
+  </div>
 
-  <div class="quiet" style="margin-top:22px" data-copiavel="chave:torbox">
+  <div class="quiet" style="margin-top:12px" data-copiavel="chave:torbox">
     <div class="row">
       <span class="note" style="margin:0">Sua chave do TorBox, caso precise colar à mão:</span>
       <code data-valor>ainda não preenchida</code>
       <button class="btn btn-out btn-sm" style="margin-left:auto" data-copiar>
         <span data-ico="copiar"></span> Copiar
       </button>
-    </div>
-  </div>
-
-  <div class="card" style="margin-top:12px" data-addon="com.aiostreams.viren070">
-    <div class="row" style="margin-bottom:20px">
-      <a class="btn btn-out btn-sm" data-configurador target="_blank" rel="noopener">
-        Abrir configurador <span data-ico="sair"></span>
-      </a>
-      <button class="btn btn-out btn-sm" data-baixar>
-        <span data-ico="baixar"></span> Baixar a configuração
-      </button>
-    </div>
-    <div class="field">
-      <label for="f-aio">Endereço do seu AIOStreams</label>
-      <div class="pair">
-        <input id="f-aio" type="text" autocomplete="off" spellcheck="false"
-               placeholder="https://aiostreams.elfhosted.com/stremio/.../manifest.json">
-        <button class="btn btn-out" data-verificar>Verificar</button>
-      </div>
-      <p class="msg" data-tone="idle" data-saida>Esperando o endereço</p>
     </div>
   </div>
 
@@ -480,20 +493,31 @@
       falha: episódio que estreou ontem, série pequena, filme antigo. Costuma aparecer
       aqui antes de aparecer em qualquer outro lugar.
     </p>
-    <div class="slice-act" style="margin-top:16px">
-      <a class="btn btn-out btn-sm" data-configurador target="_blank" rel="noopener">
-        Criar conta <span data-ico="sair"></span>
-      </a>
-    </div>
-    <div class="field">
-      <label for="f-sub">Endereço que aparecer depois de criar a conta</label>
-      <div class="pair">
-        <input id="f-sub" type="text" autocomplete="off" spellcheck="false"
-               placeholder="https://stremio-community-subtitles.top/.../manifest.json">
-        <button class="btn btn-out" data-verificar>Verificar</button>
-      </div>
-      <p class="msg" data-tone="idle" data-saida>Esperando o endereço</p>
-    </div>
+
+    <ol class="guia">
+      <li data-passo="abrir">
+        <b>1</b>
+        <div class="guia-txt">
+          <strong>Crie a conta</strong>
+          <small>Grátis. Depois de entrar, ele mostra o endereço do seu addon.</small>
+        </div>
+        <a class="btn btn-out btn-sm" data-configurador target="_blank" rel="noopener">
+          Criar conta <span data-ico="sair"></span>
+        </a>
+      </li>
+      <li data-passo="valor">
+        <b>2</b>
+        <div class="guia-txt">
+          <strong>Cole o endereço que apareceu</strong>
+          <div class="pair" style="margin-top:8px">
+            <input id="f-sub" type="text" autocomplete="off" spellcheck="false"
+                   placeholder="https://stremio-community-subtitles.top/.../manifest.json">
+            <button class="btn btn-out" data-verificar>Verificar</button>
+          </div>
+          <p class="msg" data-tone="idle" data-saida>Esperando o endereço</p>
+        </div>
+      </li>
+    </ol>
   </div>
 
   <div class="row next">
