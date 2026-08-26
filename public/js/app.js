@@ -8,7 +8,10 @@ import { ADDONS, addonsQueExigem, montarUrl, linkInstalar } from "./catalog.js"
 import { validar, descritor } from "./validation.js"
 import { aferirMdblist, aferirTorbox } from "./keys.js"
 import { entrar, lerColecao, gravarColecao, mesclar, backupJson, ErroStremio } from "./stremio.js"
-import { carregar, guardar, limpar, registrar, conferirPacote } from "./wizard.js"
+import {
+  carregar, guardar, limpar, registrar, conferirPacote,
+  marcarAbertura, abriuConfigurador, jaUsadoPor,
+} from "./wizard.js"
 import { injetarChaves, nomeDoArquivo, avisoDoDownload } from "./inject.js"
 
 /** Glifos, desenhados como traço para herdar a cor e o peso do texto ao redor. */
@@ -142,22 +145,55 @@ function montarFatias() {
         </div>
         <p class="slice-p">${escapar(copy.resumo)}</p>
         <div class="shelves">${chips}</div>
-        <div class="slice-act">
-          <a class="btn btn-out btn-sm" data-configurador target="_blank" rel="noopener">
-            Abrir configurador ${svg("sair")}
-          </a>
-          <button class="btn btn-out btn-sm" data-baixar>${svg("baixar")} Baixar o catálogo</button>
-        </div>
-        <div class="field">
-          <div class="pair">
-            <input type="text" autocomplete="off" spellcheck="false" placeholder="cole o UUID que apareceu">
-            <button class="btn btn-out" data-verificar>Verificar</button>
-          </div>
-          <p class="msg" data-tone="idle" data-saida>Esperando o UUID</p>
-        </div>
+
+        <ol class="guia">
+          <li data-passo="baixar">
+            <b>1</b>
+            <div class="guia-txt">
+              <strong>Baixe o catálogo</strong>
+              <small>Já sai com a sua chave do MDBList dentro.</small>
+            </div>
+            <button class="btn btn-out btn-sm" data-baixar>${svg("baixar")} Baixar</button>
+          </li>
+          <li data-passo="abrir">
+            <b>2</b>
+            <div class="guia-txt">
+              <strong>Abra o configurador</strong>
+              <small>Numa aba nova, só para esta fileira. Importe o arquivo e salve.</small>
+            </div>
+            <a class="btn btn-out btn-sm" data-configurador target="_blank" rel="noopener">
+              Abrir ${svg("sair")}
+            </a>
+          </li>
+          <li data-passo="uuid">
+            <b>3</b>
+            <div class="guia-txt">
+              <strong>Cole o UUID que apareceu</strong>
+              <div class="pair" style="margin-top:8px">
+                <input type="text" autocomplete="off" spellcheck="false" placeholder="cole aqui">
+                <button class="btn btn-out" data-verificar>Verificar</button>
+              </div>
+              <p class="msg" data-tone="idle" data-saida>Esperando o UUID</p>
+            </div>
+          </li>
+        </ol>
       </div>`
     })
     .join("")
+}
+
+/**
+ * Pinta o progresso dos três passos de uma fatia.
+ * @param {Element} caixa
+ */
+function pintarGuia(caixa) {
+  const salvo = estado[caixa.dataset.addon] ?? {}
+  const feito = { baixar: salvo.baixou, abrir: salvo.abriu, uuid: salvo.validado }
+  for (const li of $$("[data-passo]", caixa)) {
+    const ok = Boolean(feito[li.dataset.passo])
+    li.setAttribute("data-feito", ok ? "1" : "0")
+    li.querySelector("b").innerHTML = ok ? svg("check") : li.dataset.passo === "baixar" ? "1" : li.dataset.passo === "abrir" ? "2" : "3"
+  }
 }
 
 /** Liga os botões de configurador e download aos dados do catálogo. */
@@ -167,7 +203,14 @@ function ligarAddons() {
     if (!addon) continue
 
     const link = $("[data-configurador]", caixa)
-    if (link && addon.configurador) link.href = addon.configurador
+    if (link && addon.configurador) {
+      link.href = addon.configurador
+      link.addEventListener("click", () => {
+        estado = marcarAbertura(estado, addon.id)
+        guardar(estado)
+        pintarGuia(caixa)
+      })
+    }
 
     const botao = $("[data-baixar]", caixa)
     if (botao && addon.template) {
@@ -185,6 +228,10 @@ function ligarAddons() {
           })
 
           baixar(nomeDoArquivo(addon.template, aplicadas), JSON.stringify(arquivo, null, 2))
+          estado = { ...estado, [addon.id]: { valor: "", validado: false, ...estado[addon.id], baixou: true } }
+          guardar(estado)
+          pintarGuia(caixa)
+
           const aviso = avisoDoDownload(aplicadas)
           dizer(saida, aviso.tom, aviso.texto)
         } catch {
@@ -192,6 +239,26 @@ function ligarAddons() {
         }
       })
     }
+
+    // Avisa quem tenta colar sem ter ido criar a configuração daquela fatia.
+    const campo = $("input", caixa)
+    if (campo && addon.exige === "uuid-aiometadata") {
+      const avisarSePulou = () => {
+        if (abriuConfigurador(estado, addon.id)) return
+        dizer(
+          $("[data-saida]", caixa),
+          "bad",
+          `Você ainda não abriu o configurador desta fileira. Cada uma das cinco precisa ` +
+            `de uma configuração própria, criada na aba dela. Se você repetir aqui o UUID ` +
+            `de outra fileira, o Stremio junta as duas e mostra uma linha só. Use o passo 2 ` +
+            `aqui em cima.`,
+        )
+      }
+      campo.addEventListener("paste", avisarSePulou)
+      campo.addEventListener("focus", avisarSePulou)
+    }
+
+    pintarGuia(caixa)
   }
 }
 
@@ -204,7 +271,10 @@ function reidratar() {
     if (!campo || !salvo) continue
     campo.value = salvo.valor
     campo.setAttribute("data-state", salvo.validado ? "ok" : "bad")
-    dizer($("[data-saida]", caixa), salvo.validado ? "ok" : "bad", salvo.mensagem ?? "")
+    // Estado guardado por uma versão antiga pode não ter mensagem. Melhor um
+    // texto genérico do que um ícone solto sem explicação.
+    const padrao = salvo.validado ? "Verificado." : "Precisa ser verificado de novo."
+    dizer($("[data-saida]", caixa), salvo.validado ? "ok" : "bad", salvo.mensagem || padrao)
   }
 
   for (const caixa of $$("[data-campo]")) {
@@ -213,7 +283,10 @@ function reidratar() {
     if (!campo || !salvo) continue
     campo.value = salvo.valor
     campo.setAttribute("data-state", salvo.validado ? "ok" : "bad")
-    dizer($("[data-saida]", caixa), salvo.validado ? "ok" : "bad", salvo.mensagem ?? "")
+    // Estado guardado por uma versão antiga pode não ter mensagem. Melhor um
+    // texto genérico do que um ícone solto sem explicação.
+    const padrao = salvo.validado ? "Verificado." : "Precisa ser verificado de novo."
+    dizer($("[data-saida]", caixa), salvo.validado ? "ok" : "bad", salvo.mensagem || padrao)
   }
 }
 
@@ -237,6 +310,22 @@ async function verificarAddon(caixa) {
   const saida = $("[data-saida]", caixa)
   const botao = $("[data-verificar]", caixa)
 
+  // Repetir o UUID entre fileiras é o erro que termina com uma linha no Stremio
+  // em vez de cinco. Vale barrar antes de gastar uma ida à rede.
+  const conflito = jaUsadoPor(estado, ADDONS, addon.id, campo.value)
+  if (conflito) {
+    campo.setAttribute("data-state", "bad")
+    dizer(
+      saida,
+      "bad",
+      `Esse UUID já está na fileira "${conflito}". Cada fileira precisa da configuração ` +
+        `dela: como as cinco compartilham o mesmo identificador interno, repetir o UUID faz ` +
+        `o Stremio juntar as duas numa linha só. Abra o configurador de novo e crie uma ` +
+        `configuração nova para esta.`,
+    )
+    return
+  }
+
   botao.disabled = true
   dizer(saida, "wait", "Perguntando ao addon...")
 
@@ -248,6 +337,7 @@ async function verificarAddon(caixa) {
 
   estado = registrar(estado, addon.id, campo.value.trim(), resultado)
   guardar(estado)
+  pintarGuia(caixa)
 }
 
 async function verificarChave(caixa) {

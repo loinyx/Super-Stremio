@@ -473,3 +473,42 @@ code[data-valor] { font-size: 13.5px; color: var(--ink); }
   max-width: 38em;
   box-shadow: inset 2px 0 0 var(--veil-borda);
 }
+
+/* ---------------------------------------------------------------- guia -- */
+
+/* Os três passos de cada fileira, na ordem em que devem ser feitos. Baixar vem
+   antes de abrir porque o arquivo precisa existir para ser importado. */
+.guia { list-style: none; margin: var(--e5) 0 0; padding: 0; display: flex; flex-direction: column; }
+
+.guia li {
+  display: grid; grid-template-columns: 26px 1fr auto;
+  gap: var(--e3) var(--e4); align-items: start;
+  padding: var(--e4) 0;
+}
+.guia li + li { box-shadow: 0 -1px 0 var(--veil-linha); }
+.guia li:first-child { padding-top: 0; }
+.guia li:last-child { padding-bottom: 0; }
+
+.guia b {
+  font-family: var(--mono); font-size: 12px; font-weight: 500;
+  color: var(--accent); background: var(--accent-veil);
+  border-radius: var(--r-pilula); height: 26px; width: 26px;
+  display: grid; place-items: center;
+  transition: background-color .24s var(--suave), color .24s var(--suave);
+}
+.guia li[data-feito="1"] b { background: var(--ok-veil); color: var(--ok); }
+.guia li[data-feito="1"] b .ico { stroke-width: 2.5; width: 13px; height: 13px; }
+
+.guia-txt { min-width: 0; }
+.guia-txt strong { display: block; font-size: 15px; font-weight: 600; }
+.guia-txt small { display: block; font-size: 13.5px; color: var(--ink-mute); margin-top: 2px; line-height: 1.5; }
+.guia li[data-feito="1"] .guia-txt strong { color: var(--ink-dim); }
+
+/* O passo do UUID ocupa a linha inteira, porque o campo precisa de largura. */
+.guia li[data-passo="uuid"] { grid-template-columns: 26px 1fr; }
+.guia li[data-passo="uuid"] .pair { width: 100%; }
+
+@media (max-width: 46rem) {
+  .guia li { grid-template-columns: 26px 1fr; }
+  .guia li > .btn { grid-column: 2; justify-self: start; }
+}

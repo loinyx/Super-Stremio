@@ -5,6 +5,7 @@ import { ADDONS, montarUrl, base64url, addonsQueExigem, linkInstalar } from "./c
 import { mesclar, backupJson, entrar, lerColecao, ErroStremio } from "./stremio.js"
 import { conferirFormato, validar, descritor } from "./validation.js"
 import { injetarChaves, nomeDoArquivo, avisoDoDownload } from "./inject.js"
+import { registrar, marcarAbertura, abriuConfigurador, jaUsadoPor } from "./wizard.js"
 
 const acharAddon = (id) => ADDONS.find((a) => a.id === id)
 
@@ -339,4 +340,53 @@ test("o nome do arquivo avisa quando ele carrega credencial", () => {
 test("o aviso do download alerta para não compartilhar o arquivo com chave", () => {
   assert.match(avisoDoDownload(["MDBList"]).texto, /não mande esse arquivo para ninguém/i)
   assert.equal(avisoDoDownload([]).tom, "idle")
+})
+
+/* --------------------------------------- guia das fatias e UUID repetido */
+
+test("UUID repetido entre fileiras é detectado pelo nome da outra", () => {
+  const estado = { "aio-metadata:em-alta": { valor: "11111111-aaaa-4aaa-8aaa-111111111111" } }
+  assert.equal(
+    jaUsadoPor(estado, ADDONS, "aio-metadata:generos", "11111111-aaaa-4aaa-8aaa-111111111111"),
+    "Em Alta",
+  )
+})
+
+test("o mesmo UUID no próprio campo não conta como repetição", () => {
+  const estado = { "aio-metadata:anime": { valor: "abc-123" } }
+  assert.equal(jaUsadoPor(estado, ADDONS, "aio-metadata:anime", "abc-123"), null)
+})
+
+test("a comparação ignora espaço em volta e caixa", () => {
+  const estado = { "aio-metadata:pijama": { valor: "AAAA-BBBB" } }
+  assert.equal(jaUsadoPor(estado, ADDONS, "aio-metadata:anime", "  aaaa-bbbb  "), "Pijama")
+})
+
+test("campo vazio nunca acusa repetição", () => {
+  const estado = { "aio-metadata:pijama": { valor: "" }, "aio-metadata:anime": { valor: "" } }
+  assert.equal(jaUsadoPor(estado, ADDONS, "aio-metadata:anime", "   "), null)
+})
+
+test("abrir o configurador fica registrado por fileira", () => {
+  let estado = {}
+  assert.equal(abriuConfigurador(estado, "aio-metadata:anime"), false)
+  estado = marcarAbertura(estado, "aio-metadata:anime")
+  assert.equal(abriuConfigurador(estado, "aio-metadata:anime"), true)
+  assert.equal(abriuConfigurador(estado, "aio-metadata:pijama"), false, "não vaza para as outras")
+})
+
+test("marcar abertura preserva o que já estava preenchido", () => {
+  const antes = { "aio-metadata:anime": { valor: "algo", validado: true, url: "https://x" } }
+  const depois = marcarAbertura(antes, "aio-metadata:anime")
+  assert.equal(depois["aio-metadata:anime"].valor, "algo")
+  assert.equal(depois["aio-metadata:anime"].validado, true)
+  assert.equal(depois["aio-metadata:anime"].abriu, true)
+})
+
+test("validar de novo não apaga o progresso da guia", () => {
+  const antes = { "aio-metadata:anime": { abriu: true, baixou: true } }
+  const depois = registrar(antes, "aio-metadata:anime", "novo", { ok: true, url: "https://x" })
+  assert.equal(depois["aio-metadata:anime"].abriu, true)
+  assert.equal(depois["aio-metadata:anime"].baixou, true)
+  assert.equal(depois["aio-metadata:anime"].valor, "novo")
 })

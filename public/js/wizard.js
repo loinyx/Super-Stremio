@@ -88,10 +88,53 @@ export function registrar(estado, id, valor, resultado) {
   return {
     ...estado,
     [id]: {
+      // preserva o que já foi feito nesta fatia, como o download e a abertura
+      ...estado[id],
       valor,
       validado: resultado.ok,
       url: resultado.url,
       mensagem: resultado.mensagem,
     },
   }
+}
+
+/**
+ * Marca que a pessoa abriu o configurador de um addon.
+ *
+ * Serve para o site saber quando ela está prestes a colar um valor sem ter ido
+ * criar a configuração. É o erro mais comum das cinco fatias do AIOMetadata:
+ * abrir o configurador uma vez só e repetir o mesmo UUID nos cinco campos.
+ *
+ * @param {Estado} estado
+ * @param {string} id
+ * @returns {Estado}
+ */
+export function marcarAbertura(estado, id) {
+  return { ...estado, [id]: { valor: "", validado: false, ...estado[id], abriu: true } }
+}
+
+/** @param {Estado} estado @param {string} id @returns {boolean} */
+export const abriuConfigurador = (estado, id) => Boolean(estado[id]?.abriu)
+
+/**
+ * Diz qual outro addon já está usando o mesmo valor.
+ *
+ * Duas fatias com o mesmo UUID não são um aviso cosmético: como o AIOMetadata
+ * devolve o mesmo `manifest.id` em todas, o Stremio trata as duas como o mesmo
+ * addon e a pessoa termina com uma fileira em vez de duas.
+ *
+ * @param {Estado} estado
+ * @param {import("./catalog.js").Addon[]} addons
+ * @param {string} id addon que está sendo preenchido agora
+ * @param {string} valor
+ * @returns {string | null} nome do outro addon, ou null
+ */
+export function jaUsadoPor(estado, addons, id, valor) {
+  const limpo = (valor ?? "").trim().toLowerCase()
+  if (!limpo) return null
+
+  const outro = addons.find(
+    (a) => a.id !== id && (estado[a.id]?.valor ?? "").trim().toLowerCase() === limpo,
+  )
+  return outro ? outro.nome : null
 }
