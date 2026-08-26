@@ -528,9 +528,12 @@ function sincronizarCopiaveis() {
   for (const caixa of $$("[data-copiavel]")) {
     const salvo = estado[caixa.dataset.copiavel]
     const valor = salvo?.valor ?? ""
-    const mostra = $("[data-valor]", caixa)
-    mostra.textContent = valor ? mascarar(valor) : "ainda não preenchida"
-    $("[data-copiar]", caixa).disabled = !valor
+    // Nasce escondida no HTML e nada a mostrava, então a caixa de copiar a
+    // chave nunca aparecia. Sem valor ela não tem o que dizer mesmo.
+    caixa.hidden = !valor
+    if (!valor) continue
+    $("[data-valor]", caixa).textContent = mascarar(valor)
+    $("[data-copiar]", caixa).disabled = false
   }
 
   // As chaves de debrid: uma linha por serviço preenchido, nenhuma se não houver.

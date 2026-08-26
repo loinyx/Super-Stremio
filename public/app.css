@@ -54,6 +54,8 @@
 
   --alt: 40px;
   --alt-sm: 34px;
+  --alt-selo: 22px;
+  --disco: 24px;
   --painel: 232px;
 
   --ease: cubic-bezier(.2,0,0,1);
@@ -203,9 +205,12 @@ h1 + .lede        { margin-top: var(--e4) }   /* 16, apoio junto do título */
 .cab-cartao h3 { flex: 0 1 auto }
 .cab-cartao + .nota { margin-top: calc(var(--e2) - var(--e4)) }
 
+/* Altura fixa e line-height próprio. Sem isso o selo herda o line-height de
+   quem o contém e mede 21px dentro de um título e 24 no resto da página. */
 .selo {
-  font-size: var(--t-5); font-weight: 600; letter-spacing: 0;
-  border-radius: var(--r-pilula); padding: 3px 9px;
+  display: inline-flex; align-items: center; height: var(--alt-selo);
+  font-size: var(--t-5); font-weight: 600; letter-spacing: 0; line-height: 1;
+  border-radius: var(--r-pilula); padding: 0 var(--e2);
   color: var(--tx-dim); background: var(--veu-forte);
 }
 .selo[data-tone="rec"]  { color: var(--ac);  background: var(--ac-veu) }
@@ -218,7 +223,7 @@ h1 + .lede        { margin-top: var(--e4) }   /* 16, apoio junto do título */
    configurações separadas, e em que ordem fazer. */
 .ord {
   font-family: var(--mono); font-size: var(--t-5); font-weight: 500; flex: none;
-  width: 24px; height: 24px; border-radius: var(--r-pilula);
+  width: var(--disco); height: var(--disco); border-radius: var(--r-pilula);
   display: grid; place-items: center;
   color: var(--ac); background: var(--ac-veu);
 }
@@ -296,7 +301,7 @@ input:disabled { color: var(--tx-fraco); border-style: dashed; background: trans
 
 .guia { list-style: none; margin: 0; padding: 0 }
 .guia li {
-  display: grid; grid-template-columns: 26px 1fr auto;
+  display: grid; grid-template-columns: var(--disco) 1fr auto;
   gap: var(--e3) var(--e4); align-items: start; padding: var(--e4) 0;
 }
 .guia li + li { box-shadow: 0 -1px 0 var(--linha) }
@@ -305,7 +310,7 @@ input:disabled { color: var(--tx-fraco); border-style: dashed; background: trans
 .guia b {
   font-family: var(--mono); font-size: var(--t-5); font-weight: 500;
   color: var(--ac); background: var(--ac-veu); border-radius: var(--r-pilula);
-  width: 26px; height: 26px; display: grid; place-items: center;
+  width: var(--disco); height: var(--disco); display: grid; place-items: center;
   transition: background-color .22s var(--ease), color .22s var(--ease);
 }
 .guia li[data-feito="1"] b { background: var(--ok-veu); color: var(--ok) }
@@ -313,10 +318,11 @@ input:disabled { color: var(--tx-fraco); border-style: dashed; background: trans
 .guia-tx strong { display: block; font-size: var(--t-3); font-weight: 600 }
 .guia-tx small { display: block; font-size: var(--t-4); color: var(--tx-fraco); margin-top: 2px; line-height: 1.5 }
 .guia li[data-feito="1"] .guia-tx strong { color: var(--tx-dim) }
-.guia li[data-larga] { grid-template-columns: 26px 1fr }
+.guia li[data-larga] { grid-template-columns: var(--disco) 1fr }
 
 /* -------------------------------------------------------------------- lista */
 
+.lista:empty { display: none }
 .lista { border: 1px solid var(--linha); border-radius: var(--r-caixa); background: var(--veu); overflow: hidden }
 .lista-l { display: flex; align-items: center; gap: var(--e3); padding: var(--e3) var(--e4); min-height: 56px }
 .lista-l + .lista-l { box-shadow: 0 -1px 0 var(--linha) }
@@ -440,7 +446,7 @@ input:disabled { color: var(--tx-fraco); border-style: dashed; background: trans
   .duo { grid-template-columns: 1fr }
   .par { flex-direction: column }
   .par .bt { width: 100% }
-  .guia li { grid-template-columns: 26px 1fr }
+  .guia li { grid-template-columns: var(--disco) 1fr }
   .guia li > .bt { grid-column: 2; justify-self: start }
 }
 
@@ -452,11 +458,11 @@ input:disabled { color: var(--tx-fraco); border-style: dashed; background: trans
 /* ------------------------------------------------------------------ howto */
 
 .howto { list-style: none; margin: var(--e3) 0 0; padding: 0; display: flex; flex-direction: column; gap: var(--e3) }
-.howto li { display: grid; grid-template-columns: 24px 1fr; gap: var(--e3); font-size: var(--t-4); color: var(--tx-dim) }
+.howto li { display: grid; grid-template-columns: var(--disco) 1fr; gap: var(--e3); font-size: var(--t-4); color: var(--tx-dim) }
 .howto b {
   font-family: var(--mono); font-size: var(--t-5); font-weight: 500;
   color: var(--ac); background: var(--ac-veu); border-radius: var(--r-pilula);
-  height: 24px; display: grid; place-items: center;
+  height: var(--disco); display: grid; place-items: center;
 }
 .howto em { font-style: normal; color: var(--tx); font-weight: 600 }
 
