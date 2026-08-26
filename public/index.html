@@ -67,11 +67,11 @@
 
   <h2>Suas chaves ficam com você</h2>
   <div class="quiet">
-    <p class="note" style="max-width:44em">
+    <p class="note larga">
       O site é só arquivo estático, sem servidor nosso no meio. O que você digitar
       fica no seu navegador.
     </p>
-    <div class="row" style="margin-top:14px">
+    <div class="row mt-4">
       <a class="btn btn-out btn-sm" href="https://github.com/loinyx/Super-Stremio"
          target="_blank" rel="noopener">
         Ver o código <span data-ico="sair"></span>
@@ -109,7 +109,7 @@
 
   <div class="row next">
     <button class="btn btn-go" data-go="1">Organizar o meu <span data-ico="seta"></span></button>
-    <span class="note" style="margin-left:6px">Quinze minutos, do começo ao fim</span>
+    <span class="note">Quinze minutos, do começo ao fim</span>
   </div>
 </div></section>
 
@@ -139,7 +139,7 @@
     <li><b>3</b><span>Role até <em>API Key</em> e copie o valor.</span></li>
   </ol>
 
-  <div class="row" style="margin-top:20px">
+  <div class="row mt-5">
     <a class="btn btn-out btn-sm" href="https://mdblist.com/" target="_blank" rel="noopener">
       Criar conta <span data-ico="sair"></span>
     </a>
@@ -148,7 +148,7 @@
     </a>
   </div>
 
-  <div class="card" style="margin-top:24px">
+  <div class="card mt-6">
     <div class="field" data-campo="chave:mdblist">
       <label for="f-mdb">Sua chave do MDBList</label>
       <div class="pair">
@@ -157,7 +157,7 @@
       </div>
       <p class="msg" data-tone="idle" data-saida>Esperando a chave</p>
     </div>
-    <p class="note" style="margin-top:18px">
+    <p class="note mt-5">
       Ela fica guardada só no seu navegador. E você não vai precisar digitar ela de
       novo: os arquivos de configuração que este site baixa nos próximos passos já
       saem com ela dentro.
@@ -198,7 +198,7 @@
 
   <div class="cards" id="debrids"></div>
 
-  <p class="msg" data-tone="idle" id="saida-debrid" style="margin-top:16px">
+  <p class="msg" data-tone="idle" id="saida-debrid" class="mt-4">
     Preencha pelo menos um para seguir.
   </p>
 
@@ -291,11 +291,11 @@
     <li><b>4</b><span>Clique em <em>Save Configuration</em>, crie uma senha, e volte com o <em>UUID</em>.</span></li>
   </ol>
 
-  <div class="quiet" style="margin-top:22px" data-copiavel="chave:mdblist">
+  <div class="quiet mt-6" data-copiavel="chave:mdblist">
     <div class="row">
-      <span class="note" style="margin:0">Sua chave do MDBList, caso precise colar à mão:</span>
+      <span class="note m-0">Sua chave do MDBList, caso precise colar à mão:</span>
       <code data-valor>ainda não preenchida</code>
-      <button class="btn btn-out btn-sm" style="margin-left:auto" data-copiar>
+      <button class="btn btn-out btn-sm push" data-copiar>
         <span data-ico="copiar"></span> Copiar
       </button>
     </div>
@@ -331,7 +331,7 @@
     cinema. <strong>Você aperta play e assiste.</strong>
   </p>
 
-  <div class="quiet" style="margin-top:22px">
+  <div class="quiet mt-6">
     <p class="note">
       <strong>As suas chaves de debrid já vão dentro do arquivo.</strong>
       Ela entra no momento em que você clica para baixar, aqui no seu navegador.
@@ -441,7 +441,7 @@
         <b>3</b>
         <div class="guia-txt">
           <strong>Cole o endereço que apareceu</strong>
-          <div class="pair" style="margin-top:8px">
+          <div class="pair mt-2">
             <input id="f-aio" type="text" autocomplete="off" spellcheck="false"
                    placeholder="https://aiostreams.elfhosted.com/stremio/.../manifest.json">
             <button class="btn btn-out" data-verificar>Verificar</button>
@@ -452,7 +452,7 @@
     </ol>
   </div>
 
-  <div id="copiar-debrids" style="margin-top:12px"></div>
+  <div id="copiar-debrids" class="mt-3"></div>
 
   <div class="row next">
     <button class="btn btn-go" data-go="5">Continuar <span data-ico="seta"></span></button>
@@ -469,14 +469,14 @@
     buraco do outro. Na prática, a legenda certa aparece sem você procurar.
   </p>
 
-  <div class="card" style="margin-top:40px">
+  <div class="card mt-7">
     <div class="slice-head"><h3>opensubtitles PRO</h3><span class="tag" data-tone="free">nada a fazer</span></div>
     <p class="slice-p">
       Pega legenda em português do acervo do OpenSubtitles sem exigir conta. Quando
       não existe legenda em PT-BR, ele traduz com IA na hora. E corrige sozinho quando
       a legenda está adiantada ou atrasada, que é o defeito mais chato de legenda solta.
     </p>
-    <p class="msg" data-tone="ok" style="margin-top:14px">
+    <p class="msg" data-tone="ok" class="mt-4">
       <span data-ico="check"></span> Já vem com português e inglês configurados. Você não precisa fazer nada.
     </p>
   </div>
@@ -488,7 +488,7 @@
       falha: episódio que estreou ontem, série pequena, filme antigo. Costuma aparecer
       aqui antes de aparecer em qualquer outro lugar.
     </p>
-    <p class="slice-p" style="margin-top:8px">
+    <p class="slice-p mt-2">
       É o único addon aqui que precisa ser ajustado por dentro: ele nasce procurando
       legenda em inglês, e o idioma se troca na conta, não neste site.
     </p>
@@ -525,7 +525,7 @@
         <div class="guia-txt">
           <strong>Cole o endereço que apareceu</strong>
           <small>Em <em>Instalação do Addon</em>, clique em <em>Instalar o Addon</em> e copie o endereço.</small>
-          <div class="pair" style="margin-top:8px">
+          <div class="pair mt-2">
             <input id="f-sub" type="text" autocomplete="off" spellcheck="false"
                    placeholder="https://stremio-community-subtitles.top/.../manifest.json">
             <button class="btn btn-out" data-verificar>Verificar</button>
@@ -551,9 +551,9 @@
     se ele responde. Nada aqui é suposição.
   </p>
 
-  <div class="list" id="revisao" style="margin-top:40px"></div>
+  <div class="list" id="revisao" class="mt-7"></div>
 
-  <div class="quiet" style="margin-top:20px">
+  <div class="quiet mt-5">
     <p class="note">
       <strong>Isso vai substituir a sua lista de addons.</strong>
       Os que o Stremio protege continuam onde estão: o Cinemeta e o de arquivos locais,
@@ -583,7 +583,7 @@
       <label for="s-mail">E-mail da conta Stremio</label>
       <input id="s-mail" type="email" autocomplete="username" placeholder="voce@email.com">
     </div>
-    <div class="field" style="margin-top:16px">
+    <div class="field mt-4">
       <label for="s-pass">Senha</label>
       <input id="s-pass" type="password" autocomplete="current-password" placeholder="a sua senha do Stremio">
       <p class="help">
@@ -591,16 +591,16 @@
       </p>
     </div>
 
-    <label class="check" style="margin-top:22px">
+    <label class="check mt-6">
       <input type="checkbox" id="s-backup" checked>
       <span><strong>Baixar uma cópia dos meus addons atuais antes de instalar.</strong>
         Um arquivo <code>.json</code> que serve para voltar atrás se você não gostar.</span>
     </label>
 
-    <div class="row" style="margin-top:24px">
+    <div class="row mt-6">
       <button class="btn btn-go" id="instalar">Instalar os addons</button>
     </div>
-    <p class="msg" data-tone="idle" id="saida-instalar" style="margin-top:14px"></p>
+    <p class="msg" data-tone="idle" id="saida-instalar" class="mt-4"></p>
   </div>
 
   <h2>Instalar um por um, sem senha nenhuma</h2>
@@ -609,7 +609,7 @@
     instalar aquele addon. Não passa por conta nem por site nenhum. O custo é que
     a ordem fica por sua conta, e os addons que você já tinha continuam onde estão.
   </p>
-  <div class="list" id="links-diretos" style="margin-top:18px"></div>
+  <div class="list" id="links-diretos" class="mt-5"></div>
 
   <h2>Baixar a lista num arquivo</h2>
   <p class="note">
@@ -617,14 +617,14 @@
     ele importa. Vem com os onze mais o Cinemeta e o de arquivos locais, que são
     os que o Stremio protege, para você não perder a reprodução de vídeo local.
   </p>
-  <div class="card" style="margin-top:18px">
+  <div class="card mt-5">
     <div class="row">
       <button class="btn btn-out btn-sm" id="baixar-colecao">
         <span data-ico="baixar"></span> Baixar a lista completa
       </button>
-      <span class="note" style="margin:0">arquivo <code>.json</code></span>
+      <span class="note m-0">arquivo <code>.json</code></span>
     </div>
-    <p class="msg" data-tone="idle" id="saida-colecao" style="margin-top:12px"></p>
+    <p class="msg" data-tone="idle" id="saida-colecao" class="mt-3"></p>
   </div>
 
   <div class="row next">
@@ -654,12 +654,12 @@
 
   <h2>Guarde isso em algum lugar</h2>
   <div class="card">
-    <p class="note" style="margin:0">
+    <p class="note m-0">
       As senhas que você criou no AIOMetadata e no AIOStreams são a única forma de
       editar essas configurações depois. Anote junto com os UUIDs.
       <strong>Não existe recuperação de senha nesses serviços.</strong>
     </p>
-    <div class="row" style="margin-top:20px">
+    <div class="row mt-5">
       <button class="btn btn-out btn-sm" id="baixar-uuids">
         <span data-ico="baixar"></span> Baixar meus UUIDs num arquivo
       </button>

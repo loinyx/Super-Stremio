@@ -68,7 +68,9 @@ let telaAtual = 0
 function debridsPreenchidos() {
   const saida = {}
   for (const d of DEBRIDS) {
-    const chave = (estado[`chave:${d.id}`]?.valor ?? "").trim()
+    const guardado = estado[`chave:${d.id}`]
+    if (!guardado?.ativo) continue
+    const chave = (guardado.valor ?? "").trim()
     if (chave) saida[d.id] = chave
   }
   return saida
@@ -146,50 +148,91 @@ function irPara(n) {
 /* ------------------------------------------------------- fatias e campos */
 
 function montarDebrids() {
-  $("#debrids").innerHTML = DEBRIDS.map(
-    (d) => `
-    <div class="card" data-campo="chave:${d.id}">
+  $("#debrids").innerHTML = DEBRIDS.map((d) => {
+    const selo = d.recomendado
+      ? '<span class="tag" data-tone="rec">recomendado</span>'
+      : '<span class="tag">alternativa</span>'
+    return `
+    <div class="card" data-campo="chave:${d.id}" data-ativo="0">
       <div class="slice-head">
         <h3>${escapar(d.nome)}</h3>
-        <span class="tag" data-tone="paid">assinatura</span>
+        ${selo}
+        <label class="liga" title="Usar ${escapar(d.nome)}">
+          <input type="checkbox" data-ligar>
+          <span aria-hidden="true"></span>
+          <em>Usar</em>
+        </label>
       </div>
-      <p class="slice-p">A chave fica em: ${escapar(d.ondeAchar)}</p>
-      <div class="slice-act" style="margin-top:14px">
-        <a class="btn btn-out btn-sm" href="${d.planos}" target="_blank" rel="noopener">
-          Ver planos ${svg("sair")}
-        </a>
-        <a class="btn btn-out btn-sm" href="${d.chave}" target="_blank" rel="noopener">
-          Pegar a chave ${svg("sair")}
-        </a>
-      </div>
-      <div class="field">
-        <div class="pair">
-          <input type="text" autocomplete="off" spellcheck="false" placeholder="cole a chave do ${escapar(d.nome)}">
-          <button class="btn btn-out" data-verificar>Verificar</button>
+      <div class="corpo-debrid"><div>
+        <p class="slice-p">A chave fica em: ${escapar(d.ondeAchar)}</p>
+        <div class="slice-act mt-4">
+          <a class="btn btn-out btn-sm" href="${d.planos}" target="_blank" rel="noopener">
+            Ver planos ${svg("sair")}
+          </a>
+          <a class="btn btn-out btn-sm" href="${d.chave}" target="_blank" rel="noopener">
+            Pegar a chave ${svg("sair")}
+          </a>
         </div>
-        <p class="msg" data-tone="idle" data-saida>Deixe em branco se você não usa este</p>
-      </div>
-    </div>`,
-  ).join("")
+        <div class="field">
+          <div class="pair">
+            <input type="text" autocomplete="off" spellcheck="false" placeholder="cole a chave do ${escapar(d.nome)}">
+            <button class="btn btn-out" data-verificar>Verificar</button>
+          </div>
+          <p class="msg" data-tone="idle" data-saida>Esperando a chave</p>
+        </div>
+      </div></div>
+    </div>`
+  }).join("")
+
+  for (const caixa of $$("#debrids [data-campo]")) {
+    $("[data-ligar]", caixa).addEventListener("change", (e) => {
+      const chave = caixa.dataset.campo
+      estado = {
+        ...estado,
+        [chave]: { valor: "", validado: false, ...estado[chave], ativo: e.target.checked },
+      }
+      guardar(estado)
+      pintarDebrid(caixa)
+      atualizarTorrentio()
+      pintarResumoDebrid()
+      sincronizarCopiaveis()
+    })
+  }
 }
 
-/** Libera o passo seguinte só quando existe pelo menos um debrid. */
+/** Reflete no cartão se aquele serviço está ligado. */
+function pintarDebrid(caixa) {
+  const ativo = Boolean(estado[caixa.dataset.campo]?.ativo)
+  caixa.setAttribute("data-ativo", ativo ? "1" : "0")
+  $("[data-ligar]", caixa).checked = ativo
+  $("input[type=text]", caixa).disabled = !ativo
+  $("[data-verificar]", caixa).disabled = !ativo
+}
+
+/** Libera o passo seguinte só quando existe pelo menos um debrid utilizável. */
 function pintarResumoDebrid() {
   const preenchidos = debridsPreenchidos()
   const nomes = DEBRIDS.filter((d) => preenchidos[d.id]).map((d) => d.nome)
+  const ligados = DEBRIDS.filter((d) => estado[`chave:${d.id}`]?.ativo)
   const seguir = $('.screen[data-screen="2"] [data-go="3"]')
   const saida = $("#saida-debrid")
 
-  if (nomes.length === 0) {
-    dizer(saida, "idle", "Preencha pelo menos um para seguir.")
-    seguir.disabled = true
-    seguir.title = "Sem debrid, metade dos addons instala e não devolve nada."
+  if (nomes.length > 0) {
+    dizer(saida, "ok", `O Torrentio e o AIOStreams vão usar ${nomes.join(" e ")}.`)
+    seguir.disabled = false
+    seguir.title = ""
     return
   }
 
-  dizer(saida, "ok", `O Torrentio e o AIOStreams vão usar ${nomes.join(" e ")}.`)
-  seguir.disabled = false
-  seguir.title = ""
+  seguir.disabled = true
+  seguir.title = "Sem debrid, metade dos addons instala e não devolve nada."
+  dizer(
+    saida,
+    "idle",
+    ligados.length === 0
+      ? "Ligue o serviço que você assina para seguir."
+      : `Falta colar a chave do ${ligados.map((d) => d.nome).join(" e ")}.`,
+  )
 }
 
 function montarFatias() {
@@ -230,7 +273,7 @@ function montarFatias() {
             <b>3</b>
             <div class="guia-txt">
               <strong>Cole o UUID que apareceu</strong>
-              <div class="pair" style="margin-top:8px">
+              <div class="pair mt-2">
                 <input type="text" autocomplete="off" spellcheck="false" placeholder="cole aqui">
                 <button class="btn btn-out" data-verificar>Verificar</button>
               </div>
@@ -317,7 +360,7 @@ function ligarAddons() {
     }
 
     // Avisa quem tenta colar sem ter ido criar a configuração daquela fatia.
-    const campo = $("input", caixa)
+    const campo = $("input[type=text]", caixa)
     if (campo && addon.exige === "uuid-aiometadata") {
       const avisarSePulou = () => {
         if (abriuConfigurador(estado, addon.id)) return
@@ -342,7 +385,7 @@ function ligarAddons() {
 function reidratar() {
   const restaurar = (caixa, chave) => {
     const salvo = estado[chave]
-    const campo = $("input", caixa)
+    const campo = $("input[type=text]", caixa)
     if (!campo || !salvo) return
 
     // Campo vazio nunca é erro. O estado existe assim que a pessoa clica em
@@ -378,11 +421,11 @@ function sincronizarCopiaveis() {
   alvo.innerHTML = preenchidos
     .map(
       (d) => `
-      <div class="quiet" data-copiavel="chave:${d.id}" style="margin-bottom:8px">
+      <div class="quiet" data-copiavel="chave:${d.id}" class="mb-2">
         <div class="row">
-          <span class="note" style="margin:0">Sua chave do ${escapar(d.nome)}, caso precise colar à mão:</span>
+          <span class="note m-0">Sua chave do ${escapar(d.nome)}, caso precise colar à mão:</span>
           <code data-valor></code>
-          <button class="btn btn-out btn-sm" style="margin-left:auto" data-copiar>
+          <button class="btn btn-out btn-sm push" data-copiar>
             ${svg("copiar")} Copiar
           </button>
         </div>
@@ -402,7 +445,7 @@ const mascarar = (v) => (v.length <= 12 ? v : `${v.slice(0, 8)}${"•".repeat(Ma
 
 async function verificarAddon(caixa) {
   const addon = ADDONS.find((a) => a.id === caixa.dataset.addon)
-  const campo = $("input", caixa)
+  const campo = $("input[type=text]", caixa)
   const saida = $("[data-saida]", caixa)
   const botao = $("[data-verificar]", caixa)
 
@@ -438,7 +481,7 @@ async function verificarAddon(caixa) {
 
 async function verificarChave(caixa) {
   const qual = caixa.dataset.campo
-  const campo = $("input", caixa)
+  const campo = $("input[type=text]", caixa)
   const saida = $("[data-saida]", caixa)
   const botao = $("[data-verificar]", caixa)
   const valor = campo.value.trim()
@@ -706,6 +749,7 @@ function iniciar() {
   pintarIcones()
   ligarAddons()
   reidratar()
+  for (const caixa of $$("#debrids [data-campo]")) pintarDebrid(caixa)
   sincronizarCopiaveis()
   pintarResumoDebrid()
 

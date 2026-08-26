@@ -52,6 +52,20 @@
   --e5: 20px;  --e6: 24px;  --e7: 32px;  --e8: 40px;
   --e9: 56px;  --e10: 80px;
 
+  /* Rampa de tipo: seis passos, e nada fora deles. Meio pixel aqui e ali
+     (12,5 / 14,5 / 15,5) é o que faz a tela parecer improvisada de perto. */
+  --t-hero: clamp(36px, 5.2vw, 56px);
+  --t-1: 20px;    /* seções e linha de abertura */
+  --t-2: 17px;    /* títulos de cartão e corpo grande */
+  --t-3: 15px;    /* corpo */
+  --t-4: 13.5px;  /* apoio, mensagens, legendas */
+  --t-5: 12px;    /* selos e numeração */
+
+  /* Controles têm altura fixa, não padding vertical. Campo e botão lado a lado
+     só alinham de verdade quando os dois medem o mesmo. */
+  --alt-controle: 44px;
+  --alt-controle-sm: 36px;
+
   /* ---- raio concêntrico: externo = interno + padding ---- */
   --r-controle: 10px;                 /* campo e botão pequeno */
   --r-cartao:   30px;                 /* 10 + 20 de padding */
@@ -105,7 +119,7 @@ body {
   background-attachment: fixed;
   color: var(--ink);
   font-family: var(--sans);
-  font-size: 17px;
+  font-size: var(--t-2);
   line-height: 1.6;
   letter-spacing: -0.011em;
   -webkit-font-smoothing: antialiased;
@@ -139,7 +153,7 @@ code, .mono { font-family: var(--mono); font-variant-numeric: tabular-nums; lett
   max-width: 62rem; margin: 0 auto; padding: 0 var(--e6);
   height: 64px; display: flex; align-items: center; gap: var(--e6);
 }
-.mark { font-size: 15px; font-weight: 700; letter-spacing: -.02em; white-space: nowrap; }
+.mark { font-size: var(--t-3); font-weight: 700; letter-spacing: -.02em; white-space: nowrap; }
 .mark span { color: var(--ink-mute); font-weight: 400; }
 
 /* Ticks: alvo de 40px de altura, traço de 3px centrado dentro dele. */
@@ -186,23 +200,23 @@ main { max-width: 62rem; margin: 0 auto; padding: 0 var(--e6) var(--e10); }
 }
 
 .count {
-  display: block; font-size: 14px; font-weight: 600; color: var(--accent);
+  display: block; font-size: var(--t-4); font-weight: 600; color: var(--accent);
   padding-top: var(--e9); margin-bottom: var(--e3);
 }
 
 h1 {
-  font-size: clamp(36px, 5.2vw, 56px); font-weight: 800;
+  font-size: var(--t-hero); font-weight: 800;
   letter-spacing: -.035em; line-height: 1.04; margin-bottom: var(--e5);
 }
-.lede { font-size: 20px; line-height: 1.5; color: var(--ink-dim); max-width: 30em; }
+.lede { font-size: var(--t-1); line-height: 1.5; color: var(--ink-dim); max-width: 30em; }
 
 h2 {
-  font-size: 20px; font-weight: 700; letter-spacing: -.022em;
+  font-size: var(--t-1); font-weight: 700; letter-spacing: -.022em;
   margin: var(--e9) 0 var(--e4);
 }
-h3 { font-size: 17px; font-weight: 700; letter-spacing: -.018em; }
+h3 { font-size: var(--t-2); font-weight: 700; letter-spacing: -.018em; }
 
-.note { font-size: 15.5px; line-height: 1.62; color: var(--ink-dim); max-width: 36em; }
+.note { font-size: var(--t-3); line-height: 1.62; color: var(--ink-dim); max-width: 36em; }
 .note + .note { margin-top: var(--e3); }
 .note strong { color: var(--ink); font-weight: 600; }
 
@@ -232,12 +246,12 @@ h3 { font-size: 17px; font-weight: 700; letter-spacing: -.018em; }
 .launch + .launch { box-shadow: 0 -1px 0 var(--veil-linha); }
 .launch-txt { flex: 1 1 17rem; min-width: 0; }
 .launch-txt h3 { display: flex; align-items: baseline; gap: var(--e2); flex-wrap: wrap; }
-.launch-txt p { font-size: 14.5px; color: var(--ink-dim); margin-top: var(--e1); }
+.launch-txt p { font-size: var(--t-3); color: var(--ink-dim); margin-top: var(--e1); }
 
 .tag {
-  font-size: 12px; font-weight: 600; color: var(--ink-dim);
+  font-size: var(--t-5); font-weight: 600; color: var(--ink-dim);
   background: var(--veil-forte); border-radius: var(--r-pilula);
-  padding: 2px 10px; letter-spacing: 0;
+  padding: var(--e1) var(--e3); letter-spacing: 0;
 }
 .tag[data-tone="free"] { color: var(--ok); background: var(--ok-veil); }
 .tag[data-tone="paid"] { color: var(--accent); background: var(--accent-veil); }
@@ -245,9 +259,9 @@ h3 { font-size: 17px; font-weight: 700; letter-spacing: -.018em; }
 /* -------------------------------------------------------------- botões -- */
 
 .btn {
-  font: inherit; font-size: 15px; font-weight: 600; letter-spacing: -.012em;
+  font: inherit; font-size: var(--t-3); font-weight: 600; letter-spacing: -.012em;
   border-radius: var(--r-pilula); border: 1px solid transparent; cursor: pointer;
-  padding: 11px var(--e5); min-height: 42px;
+  padding: 0 var(--e5); min-height: var(--alt-controle);
   display: inline-flex; align-items: center; justify-content: center; gap: var(--e2);
   white-space: nowrap; text-decoration: none;
   transition-property: background-color, border-color, color, box-shadow, transform, opacity;
@@ -262,10 +276,10 @@ h3 { font-size: 17px; font-weight: 700; letter-spacing: -.018em; }
 .btn-out { background: var(--veil-forte); border-color: var(--veil-borda); color: var(--ink); }
 .btn-out:hover { background: var(--veil); border-color: var(--accent-linha); color: var(--accent); }
 
-.btn-txt { background: transparent; color: var(--ink-dim); padding: 11px var(--e3); }
+.btn-txt { background: transparent; color: var(--ink-dim); padding: 0 var(--e3); }
 .btn-txt:hover { color: var(--ink); }
 
-.btn-sm { font-size: 14px; padding: 9px var(--e4); min-height: 38px; }
+.btn-sm { font-size: var(--t-4); padding: 0 var(--e4); min-height: var(--alt-controle-sm); }
 
 .btn:disabled { opacity: .4; cursor: not-allowed; box-shadow: none; }
 .btn:disabled:active { transform: none; }
@@ -282,15 +296,15 @@ h3 { font-size: 17px; font-weight: 700; letter-spacing: -.018em; }
 /* -------------------------------------------------------------- campos -- */
 
 .field { display: flex; flex-direction: column; gap: var(--e2); }
-.field > label { font-size: 14.5px; font-weight: 600; color: var(--ink); }
-.field .help { font-size: 13.5px; color: var(--ink-mute); line-height: 1.5; }
+.field > label { font-size: var(--t-3); font-weight: 600; color: var(--ink); }
+.field .help { font-size: var(--t-4); color: var(--ink-mute); line-height: 1.5; }
 .pair { display: flex; gap: var(--e2); align-items: stretch; }
 
 input[type="text"], input[type="email"], input[type="password"] {
-  flex: 1; min-width: 0; font-family: var(--mono); font-size: 14px;
+  flex: 1; min-width: 0; font-family: var(--mono); font-size: var(--t-4);
   background: var(--ground-deep); color: var(--ink);
   border: 1px solid var(--veil-borda); border-radius: var(--r-controle);
-  padding: 11px var(--e4); min-height: 42px;
+  padding: 0 var(--e4); min-height: var(--alt-controle);
   transition-property: border-color, background-color, box-shadow;
   transition-duration: .18s; transition-timing-function: var(--suave);
 }
@@ -302,7 +316,7 @@ input:disabled { color: var(--ink-mute); border-style: dashed; background: trans
 
 .msg {
   display: flex; align-items: flex-start; gap: var(--e2);
-  font-size: 13.5px; line-height: 1.5; color: var(--ink-mute);
+  font-size: var(--t-4); line-height: 1.5; color: var(--ink-mute);
 }
 .msg[data-tone="ok"]  { color: var(--ok); }
 .msg[data-tone="bad"] { color: var(--bad); }
@@ -326,11 +340,11 @@ input:disabled { color: var(--ink-mute); border-style: dashed; background: trans
 /* -------------------------------------------------------------- fatias -- */
 
 .slice-head { display: flex; align-items: baseline; gap: var(--e3); flex-wrap: wrap; margin-bottom: var(--e2); }
-.slice-p { font-size: 14.5px; color: var(--ink-dim); max-width: 40em; }
+.slice-p { font-size: var(--t-3); color: var(--ink-dim); max-width: 40em; }
 
 .shelves { display: flex; flex-wrap: wrap; gap: var(--e2); margin: var(--e4) 0 var(--e5); }
 .shelves span {
-  font-size: 12.5px; color: var(--ink-dim);
+  font-size: var(--t-5); color: var(--ink-dim);
   background: var(--veil-forte); border-radius: var(--r-pilula);
   padding: var(--e1) var(--e3);
   transition: color .18s var(--suave), background-color .18s var(--suave);
@@ -342,9 +356,9 @@ input:disabled { color: var(--ink-mute); border-style: dashed; background: trans
 /* -------------------------------------------------------------- passos -- */
 
 .howto { list-style: none; margin: var(--e5) 0 0; padding: 0; display: flex; flex-direction: column; gap: var(--e4); }
-.howto li { display: grid; grid-template-columns: 26px 1fr; gap: var(--e3); font-size: 15.5px; color: var(--ink-dim); }
+.howto li { display: grid; grid-template-columns: 26px 1fr; gap: var(--e3); font-size: var(--t-3); color: var(--ink-dim); }
 .howto b {
-  font-family: var(--mono); font-size: 12px; font-weight: 500;
+  font-family: var(--mono); font-size: var(--t-5); font-weight: 500;
   color: var(--accent); background: var(--accent-veil);
   border-radius: var(--r-pilula); height: 26px;
   display: grid; place-items: center;
@@ -365,30 +379,30 @@ input:disabled { color: var(--ink-mute); border-style: dashed; background: trans
 .list-row + .list-row { box-shadow: 0 -1px 0 var(--veil-linha); }
 .list-row:hover { background: var(--veil); }
 .list-row div { flex: 1; min-width: 0; }
-.list-row strong { display: block; font-size: 15.5px; font-weight: 600; }
-.list-row small { font-size: 13.5px; color: var(--ink-mute); }
+.list-row strong { display: block; font-size: var(--t-3); font-weight: 600; }
+.list-row small { font-size: var(--t-4); color: var(--ink-mute); }
 
 .pill {
-  font-size: 12.5px; font-weight: 600; border-radius: var(--r-pilula);
+  font-size: var(--t-5); font-weight: 600; border-radius: var(--r-pilula);
   padding: var(--e1) var(--e3); white-space: nowrap;
   background: var(--ok-veil); color: var(--ok);
 }
 .pill[data-tone="auto"] { background: var(--accent-veil); color: var(--accent); }
 .pill[data-tone="bad"]  { background: var(--bad-veil);   color: var(--bad); }
 
-.check { display: flex; gap: var(--e3); align-items: flex-start; font-size: 15px; color: var(--ink-dim); cursor: pointer; }
+.check { display: flex; gap: var(--e3); align-items: flex-start; font-size: var(--t-3); color: var(--ink-dim); cursor: pointer; }
 .check input { margin: 4px 0 0; width: 18px; height: 18px; accent-color: var(--accent); flex: none; }
 .check strong { color: var(--ink); font-weight: 600; }
 
-code[data-valor] { font-size: 13.5px; color: var(--ink); }
+code[data-valor] { font-size: var(--t-4); color: var(--ink); }
 
 /* -------------------------------------------------------------- estreito */
 
 @media (max-width: 46rem) {
-  body { font-size: 16px; }
+  body { font-size: var(--t-2); }
   main { padding-left: var(--e5); padding-right: var(--e5); }
   .top-in { padding-left: var(--e5); padding-right: var(--e5); }
-  .lede { font-size: 18px; }
+  .lede { font-size: var(--t-2); }
   .ticks { display: none; }
   .count { padding-top: var(--e8); }
   h2 { margin-top: var(--e8); }
@@ -422,7 +436,7 @@ code[data-valor] { font-size: 13.5px; color: var(--ink); }
 .ajuda summary {
   display: flex; align-items: center; gap: var(--e3);
   padding: var(--e4) var(--e5); min-height: 52px;
-  font-size: 15.5px; font-weight: 600; color: var(--accent);
+  font-size: var(--t-3); font-weight: 600; color: var(--accent);
   cursor: pointer; list-style: none;
   transition: background-color .18s var(--suave);
 }
@@ -453,7 +467,7 @@ code[data-valor] { font-size: 13.5px; color: var(--ink); }
 .ajuda-corpo .note + .note { margin-top: var(--e3); }
 
 .ajuda-titulo {
-  font-size: 14px; font-weight: 700; color: var(--ink);
+  font-size: var(--t-4); font-weight: 700; color: var(--ink);
   margin: var(--e7) 0 var(--e2);
 }
 
@@ -462,14 +476,14 @@ code[data-valor] { font-size: 13.5px; color: var(--ink); }
 /* Perguntas frequentes: o problema em destaque, a saída logo abaixo. */
 .faq { margin: var(--e3) 0 0; }
 .faq dt {
-  font-size: 14.5px; font-weight: 600; color: var(--ink);
+  font-size: var(--t-3); font-weight: 600; color: var(--ink);
   margin-top: var(--e4);
 }
 .faq dt:first-of-type { margin-top: 0; }
 .faq dd {
   margin: var(--e1) 0 0;
   padding-left: var(--e4);
-  font-size: 14.5px; line-height: 1.6; color: var(--ink-dim);
+  font-size: var(--t-3); line-height: 1.6; color: var(--ink-dim);
   max-width: 38em;
   box-shadow: inset 2px 0 0 var(--veil-borda);
 }
@@ -490,7 +504,7 @@ code[data-valor] { font-size: 13.5px; color: var(--ink); }
 .guia li:last-child { padding-bottom: 0; }
 
 .guia b {
-  font-family: var(--mono); font-size: 12px; font-weight: 500;
+  font-family: var(--mono); font-size: var(--t-5); font-weight: 500;
   color: var(--accent); background: var(--accent-veil);
   border-radius: var(--r-pilula); height: 26px; width: 26px;
   display: grid; place-items: center;
@@ -500,8 +514,8 @@ code[data-valor] { font-size: 13.5px; color: var(--ink); }
 .guia li[data-feito="1"] b .ico { stroke-width: 2.5; width: 13px; height: 13px; }
 
 .guia-txt { min-width: 0; }
-.guia-txt strong { display: block; font-size: 15px; font-weight: 600; }
-.guia-txt small { display: block; font-size: 13.5px; color: var(--ink-mute); margin-top: 2px; line-height: 1.5; }
+.guia-txt strong { display: block; font-size: var(--t-3); font-weight: 600; }
+.guia-txt small { display: block; font-size: var(--t-4); color: var(--ink-mute); margin-top: 2px; line-height: 1.5; }
 .guia li[data-feito="1"] .guia-txt strong { color: var(--ink-dim); }
 
 /* O passo do UUID ocupa a linha inteira, porque o campo precisa de largura. */
@@ -512,3 +526,70 @@ code[data-valor] { font-size: 13.5px; color: var(--ink); }
   .guia li { grid-template-columns: 26px 1fr; }
   .guia li > .btn { grid-column: 2; justify-self: start; }
 }
+
+/* ------------------------------------------------------ ligar e desligar -- */
+
+/* Interruptor de serviço. O rótulo inteiro é clicável, então o alvo passa
+   folgado dos 40px sem precisar de pseudo-elemento. */
+.liga {
+  display: flex; align-items: center; gap: var(--e2);
+  margin-left: auto; padding: var(--e2) 0; cursor: pointer;
+  min-height: 40px;
+}
+.liga input { position: absolute; opacity: 0; width: 0; height: 0; }
+.liga em { font-style: normal; font-size: var(--t-4); font-weight: 500; color: var(--ink-mute); }
+.liga input:checked ~ em { color: var(--accent); }
+
+.liga span {
+  width: 42px; height: 24px; flex: none;
+  border-radius: var(--r-pilula);
+  background: var(--veil-forte);
+  box-shadow: inset 0 0 0 1px var(--veil-borda);
+  position: relative;
+  transition: background-color .22s var(--suave), box-shadow .22s var(--suave);
+}
+.liga span::after {
+  content: ""; position: absolute; top: 3px; left: 3px;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--ink-mute);
+  transition: transform .26s var(--mola), background-color .22s var(--suave);
+}
+.liga input:checked + span {
+  background: var(--accent);
+  box-shadow: inset 0 0 0 1px transparent, var(--glow);
+}
+.liga input:checked + span::after { transform: translateX(18px); background: #fff; }
+.liga input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+.tag[data-tone="rec"] { color: var(--accent); background: var(--accent-veil); }
+
+/* Corpo do cartão colapsa quando o serviço está desligado, para a tela mostrar
+   só o que a pessoa escolheu usar. */
+.corpo-debrid {
+  display: grid; grid-template-rows: 1fr;
+  transition: grid-template-rows .32s var(--suave), opacity .22s var(--suave);
+}
+/* O overflow do colapso come o padding de baixo do cartão, então o respiro
+   tem que vir de dentro do próprio bloco que colapsa. */
+.corpo-debrid > div { min-height: 0; overflow: hidden; padding-top: var(--e1); }
+.corpo-debrid .msg { padding-bottom: var(--e1); }
+[data-ativo="0"] .corpo-debrid { grid-template-rows: 0fr; opacity: 0; }
+
+/* Desligado, o cartão vira só o cabeçalho, e o padding do topo já basta. */
+[data-ativo="0"] { padding-bottom: 0; }
+[data-ativo="0"] .slice-head { margin-bottom: 0; }
+
+/* ------------------------------------------------------------- utilitários */
+
+/* Espaçamento só sai da escala. Valor solto no HTML volta a ser proibido:
+   é o que produz 14, 18 e 22px convivendo e a tela parecendo torta. */
+.mt-2 { margin-top: var(--e2) }
+.mt-3 { margin-top: var(--e3) }
+.mt-4 { margin-top: var(--e4) }
+.mt-5 { margin-top: var(--e5) }
+.mt-6 { margin-top: var(--e6) }
+.mt-7 { margin-top: var(--e7) }
+.mb-2 { margin-bottom: var(--e2) }
+.m-0  { margin: 0 }
+.push { margin-left: auto }
+.larga { max-width: 44em }

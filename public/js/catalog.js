@@ -62,6 +62,7 @@ const TORRENTIO_FILTROS = [
  * @property {string} planos     onde assinar
  * @property {string} chave      onde pegar a chave depois de assinar
  * @property {string} ondeAchar  instrução curta de onde a chave fica
+ * @property {boolean} [recomendado] qual sugerir para quem ainda não tem nenhum
  */
 
 /** @type {Debrid[]} */
@@ -73,6 +74,7 @@ export const DEBRIDS = [
     planos: "https://torbox.app/",
     chave: "https://torbox.app/settings",
     ondeAchar: "Settings, seção API.",
+    recomendado: true,
   },
   {
     id: "realdebrid",
