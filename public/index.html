@@ -62,33 +62,47 @@
     </div>
   </div>
 
-  <h2>Nada disso passa por nós</h2>
+  <h2>Suas chaves ficam com você</h2>
   <div class="quiet">
-    <p class="note">
-      <strong>Em lugar nenhum nosso.</strong> Este site é feito só de arquivos, não tem
-      servidor por trás. Não existe onde guardar o que você digita.
+    <p class="note" style="max-width:44em">
+      O site é só arquivo estático, sem servidor nosso no meio. O que você digitar
+      fica no seu navegador.
     </p>
-    <p class="note">
-      A senha do Stremio sai do seu navegador direto para o <code>api.strem.io</code>.
-      As chaves que você preencher aqui ficam guardadas só no seu navegador e entram
-      nos arquivos de configuração na hora em que você clica para baixar. Somem quando
-      você limpar.
-    </p>
-    <p class="note">
-      A única exceção é a contagem de visitas, feita pela Vercel, que hospeda o site.
-      Ela conta acesso e página, e não enxerga nada do que você digita nos campos.
-    </p>
-    <p class="note">
-      <strong>Não precisa acreditar em nós.</strong> O código é aberto e não passa por
-      compilador nenhum, então o que está no ar é exatamente o que está no repositório.
-    </p>
-    <div class="row" style="margin-top:16px">
+    <div class="row" style="margin-top:14px">
       <a class="btn btn-out btn-sm" href="https://github.com/loinyx/Super-Stremio"
          target="_blank" rel="noopener">
-        Ver o código no GitHub <span data-ico="sair"></span>
+        Ver o código <span data-ico="sair"></span>
       </a>
     </div>
   </div>
+
+  <details class="ajuda">
+    <summary>
+      <span data-ico="ajuda"></span>
+      Quero saber exatamente o que sai daqui
+    </summary>
+    <div class="ajuda-corpo">
+      <p class="note">
+        <strong>A senha do Stremio</strong> sai do seu navegador direto para o
+        <code>api.strem.io</code>, e não é guardada em lugar nenhum, nem aqui.
+        Se preferir, dá para instalar sem senha nenhuma, por link ou por arquivo.
+      </p>
+      <p class="note">
+        <strong>As chaves de API</strong> ficam no armazenamento do seu navegador e
+        entram nos arquivos de configuração na hora em que você clica para baixar.
+        Somem quando você limpar, e tem um botão para apagar tudo no fim.
+      </p>
+      <p class="note">
+        <strong>A contagem de visitas</strong> é feita pela Vercel, que hospeda o site.
+        Ela registra acesso e página, e não enxerga o conteúdo dos campos. É a única
+        coisa que sai daqui sem você mandar.
+      </p>
+      <p class="note">
+        Nada disso precisa de confiança: o código é aberto e não passa por compilador,
+        então o que está no ar é exatamente o que está no repositório.
+      </p>
+    </div>
+  </details>
 
   <div class="row next">
     <button class="btn btn-go" data-go="1">Organizar o meu <span data-ico="seta"></span></button>
