@@ -593,3 +593,31 @@ code[data-valor] { font-size: var(--t-4); color: var(--ink); }
 .m-0  { margin: 0 }
 .push { margin-left: auto }
 .larga { max-width: 44em }
+
+/* --------------------------------------------------------------- escolha -- */
+
+.escolha { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--e2); margin-top: var(--e4); }
+
+.escolha label {
+  display: flex; flex-direction: column; gap: var(--e1);
+  padding: var(--e4); cursor: pointer;
+  background: var(--veil); border: 1px solid var(--veil-linha);
+  border-radius: var(--r-caixa);
+  transition: border-color .18s var(--suave), background-color .18s var(--suave);
+}
+.escolha label:hover { border-color: var(--accent-linha); }
+.escolha input { position: absolute; opacity: 0; width: 0; height: 0; }
+.escolha strong { font-size: var(--t-3); font-weight: 600; }
+.escolha small { font-size: var(--t-4); color: var(--ink-mute); line-height: 1.45; }
+
+.escolha label:has(input:checked) {
+  background: var(--accent-veil);
+  border-color: var(--accent-linha);
+  box-shadow: var(--glow);
+}
+.escolha label:has(input:checked) strong { color: var(--accent); }
+.escolha label:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+@media (max-width: 46rem) {
+  .escolha { grid-template-columns: 1fr; }
+}

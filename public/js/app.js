@@ -25,6 +25,18 @@ const ICONES = {
   ajuda: '<circle cx="8" cy="8" r="6.2"/><path d="M6.3 6.2a1.75 1.75 0 1 1 2.3 1.66c-.4.14-.6.5-.6.92v.3"/><path d="M8 12h.01"/>',
 }
 
+/** Onde a pessoa assiste. Os addons são os mesmos; só o fim do fluxo muda. */
+const APPS = [
+  { id: "stremio", nome: "Stremio", nota: "O de sempre. Instalo direto na sua conta." },
+  { id: "nuvio", nome: "Nuvio", nota: "Sem conta central: você adiciona os endereços no aplicativo." },
+  { id: "ambos", nome: "Os dois", nota: "Mesmos addons nos dois, e as coleções extras do Nuvio." },
+]
+
+/** @returns {string} o app escolhido, com o Stremio como padrão */
+const appEscolhido = () => estado["app"]?.valor || "stremio"
+const usaNuvio = () => ["nuvio", "ambos"].includes(appEscolhido())
+const usaStremio = () => ["stremio", "ambos"].includes(appEscolhido())
+
 const PASSOS = ["Início", "MDBList", "TorBox", "Catálogos", "AIOStreams", "Legendas", "Revisão", "Instalar", "Pronto"]
 
 /** Copy de cada fatia do AIOMetadata, indexada pelo id do catálogo. */
@@ -146,6 +158,30 @@ function irPara(n) {
 }
 
 /* ------------------------------------------------------- fatias e campos */
+
+function montarEscolhaApp() {
+  const atual = appEscolhido()
+  $("#escolha-app").innerHTML = APPS.map(
+    (a) => `
+    <label>
+      <input type="radio" name="app" value="${a.id}"${a.id === atual ? " checked" : ""}>
+      <strong>${escapar(a.nome)}</strong>
+      <small>${escapar(a.nota)}</small>
+    </label>`,
+  ).join("")
+
+  $("#escolha-app").addEventListener("change", (e) => {
+    estado = { ...estado, app: { valor: e.target.value, validado: true } }
+    guardar(estado)
+    pintarPorApp()
+  })
+}
+
+/** Mostra e esconde o que só faz sentido para cada aplicativo. */
+function pintarPorApp() {
+  for (const el of $$("[data-so-stremio]")) el.hidden = !usaStremio()
+  for (const el of $$("[data-so-nuvio]")) el.hidden = !usaNuvio()
+}
 
 function montarDebrids() {
   $("#debrids").innerHTML = DEBRIDS.map((d) => {
@@ -744,6 +780,7 @@ function iniciar() {
   if ("scrollRestoration" in history) history.scrollRestoration = "manual"
 
   montarTicks()
+  montarEscolhaApp()
   montarDebrids()
   montarFatias()
   pintarIcones()
@@ -752,6 +789,7 @@ function iniciar() {
   for (const caixa of $$("#debrids [data-campo]")) pintarDebrid(caixa)
   sincronizarCopiaveis()
   pintarResumoDebrid()
+  pintarPorApp()
 
   document.addEventListener("click", (e) => {
     const alvo = e.target instanceof Element ? e.target : null
@@ -796,6 +834,20 @@ function iniciar() {
 
   $("#instalar").addEventListener("click", instalar)
   $("#baixar-colecao").addEventListener("click", baixarColecao)
+  $("#baixar-colecoes-nuvio").addEventListener("click", async () => {
+    const saida = $("#saida-colecoes")
+    try {
+      dizer(saida, "wait", "Baixando...")
+      const r = await fetch("templates/nuvio-colecoes.json")
+      if (!r.ok) throw new Error(String(r.status))
+      const texto = await r.text()
+      baixar("nuvio-colecoes.json", texto)
+      const quantas = JSON.parse(texto).length
+      dizer(saida, "ok", `Baixado, com ${quantas} coleções. Importe em Coleções, dentro do Nuvio.`)
+    } catch {
+      dizer(saida, "bad", "Não deu para baixar o arquivo. Recarregue a página e tente de novo.")
+    }
+  })
   $("#baixar-uuids").addEventListener("click", baixarUuids)
   $("#recomecar").addEventListener("click", () => {
     estado = limpar()

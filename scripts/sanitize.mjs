@@ -17,6 +17,7 @@ import {
   SEGREDOS_AIOMETADATA,
   SEGREDOS_AIOSTREAMS,
   PERMITIDOS,
+  RUIDO_NUVIO,
 } from "./lib/sanitize.mjs"
 import { coletarSegredos, procurarVazamentos } from "./lib/secret-scan.mjs"
 
@@ -67,6 +68,20 @@ function main() {
     })
   }
 
+  // As coleções do Nuvio não têm credencial nenhuma, mas passam pela mesma
+  // varredura: garantia que vale por construção é melhor que garantia por
+  // inspeção manual de uma vez só.
+  const nuvio = arquivos.find((f) => f === "nuvio-colecoes.json")
+  if (nuvio) {
+    const origem = ler(nuvio)
+    escrever("nuvio-colecoes.json", origem)
+    produzidos.push({
+      nome: "nuvio-colecoes.json",
+      rotulo: `Coleções do Nuvio, ${origem.length} coleções`,
+      catalogos: origem.reduce((n, c) => n + (c.folders?.length ?? 0), 0),
+    })
+  }
+
   const vazamentos = varrer(produzidos.map((p) => p.nome), segredos)
 
   for (const p of produzidos) {
@@ -93,7 +108,8 @@ function varrer(nomes, segredos) {
   const todos = []
   for (const nome of nomes) {
     const texto = readFileSync(join(saida, nome), "utf8")
-    for (const v of procurarVazamentos(texto, { segredos, permitidos: PERMITIDOS })) {
+    const ruido = nome === "nuvio-colecoes.json" ? RUIDO_NUVIO : []
+    for (const v of procurarVazamentos(texto, { segredos, permitidos: PERMITIDOS, ruido })) {
       todos.push({ arquivo: nome, ...v })
     }
   }

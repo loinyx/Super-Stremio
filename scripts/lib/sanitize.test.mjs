@@ -8,6 +8,7 @@ import {
   SEGREDOS_AIOMETADATA,
   SEGREDOS_AIOSTREAMS,
   PERMITIDOS,
+  RUIDO_NUVIO,
 } from "./sanitize.mjs"
 import { coletarSegredos, procurarVazamentos } from "./secret-scan.mjs"
 
@@ -123,4 +124,64 @@ test("a varredura pega credencial em campo que o sanitizador não conhece", () =
 test("o token público do RatingPosterDB não vira falso positivo", () => {
   const vazamentos = procurarVazamentos('{"rpdb":"t0-free-rpdb"}', { permitidos: PERMITIDOS })
   assert.deepEqual(vazamentos, [])
+})
+
+/* -------------------------------------------- ruído por contexto no Nuvio */
+
+// Construída pelo formato, não escrita à mão: o padrão do Google exige
+// exatamente 35 caracteres depois de "AIza", e chave falsa curta demais faz o
+// teste passar por não casar, escondendo o que ele deveria provar.
+const CHAVE_FALSA = "AIza" + "Sy_CHAVE_FALSA_DE_TESTE".padEnd(35, "0")
+
+const colecaoNuvio = () =>
+  JSON.stringify([
+    {
+      id: "a7576199-c7bd-4f2e-9c31-3f9d0e1c55ab",
+      title: "Descobrir",
+      folders: [
+        {
+          id: "1f10af82-da2e-446d-8cac-0658bf587667",
+          title: "Mubi",
+          focusGifUrl: "https://64.media.tumblr.com/0871e87c17045759735ef64c26703c71b585bfb0.gifv",
+          sources: [{ provider: "tmdb", genre: "All", addonId: null }],
+        },
+      ],
+    },
+  ])
+
+test("hexadecimal de caminho de imagem não vira falso positivo", () => {
+  const vazamentos = procurarVazamentos(colecaoNuvio(), { permitidos: PERMITIDOS, ruido: RUIDO_NUVIO })
+  assert.deepEqual(vazamentos, [])
+})
+
+test("sem a regra de ruído, o mesmo arquivo acusaria", () => {
+  const vazamentos = procurarVazamentos(colecaoNuvio(), { permitidos: PERMITIDOS })
+  assert.ok(vazamentos.length > 0, "a varredura crua tem que reclamar")
+})
+
+test("a regra de ruído não abre buraco: chave em outro campo ainda é pega", () => {
+  // Monta o objeto e serializa, em vez de mexer no texto: replace sobre JSON
+  // depende de espaçamento que o stringify não produz, e o teste passaria por
+  // não ter encontrado nada para trocar.
+  const com = JSON.parse(colecaoNuvio())
+  com[0].apiKey = CHAVE_FALSA
+
+  const vazamentos = procurarVazamentos(JSON.stringify(com), { permitidos: PERMITIDOS, ruido: RUIDO_NUVIO })
+  assert.ok(
+    vazamentos.some((v) => v.tipo === "chave do Google"),
+    "a chave está fora dos contextos de ruído e tinha que aparecer",
+  )
+})
+
+test("chave escondida dentro de uma URL também é pega, porque o valor é vigiado", () => {
+  const com = JSON.parse(colecaoNuvio())
+  com[0].folders[0].focusGifUrl += `?k=${CHAVE_FALSA}`
+
+  const segredos = new Set([CHAVE_FALSA])
+  const vazamentos = procurarVazamentos(JSON.stringify(com), {
+    segredos,
+    permitidos: PERMITIDOS,
+    ruido: RUIDO_NUVIO,
+  })
+  assert.ok(vazamentos.some((v) => v.tipo === "segredo da origem"))
 })

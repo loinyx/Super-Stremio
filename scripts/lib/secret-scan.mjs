@@ -55,10 +55,16 @@ export function coletarSegredos(raiz, caminhos) {
  * @param {object} opcoes
  * @param {Set<string>} [opcoes.segredos] valores que vieram da origem e não podem reaparecer
  * @param {Set<string>} [opcoes.permitidos] valores que passam mesmo batendo num padrão
+ * @param {RegExp[]} [opcoes.ruido] trechos apagados antes da busca, por contexto
  * @returns {{tipo: string, valor: string}[]} lista vazia quando está limpo
  */
-export function procurarVazamentos(texto, { segredos = new Set(), permitidos = new Set() } = {}) {
+export function procurarVazamentos(texto, { segredos = new Set(), permitidos = new Set(), ruido = [] } = {}) {
   const vazamentos = []
+
+  // Apagar por contexto, e não por valor, preserva a garantia: uma chave posta
+  // em qualquer outro lugar do arquivo continua sendo encontrada.
+  let alvo = texto
+  for (const re of ruido) alvo = alvo.replace(re, (m) => " ".repeat(m.length))
 
   for (const segredo of segredos) {
     if (permitidos.has(segredo)) continue
@@ -68,7 +74,7 @@ export function procurarVazamentos(texto, { segredos = new Set(), permitidos = n
   }
 
   for (const { nome, re } of PADROES) {
-    for (const achado of texto.matchAll(re)) {
+    for (const achado of alvo.matchAll(re)) {
       const valor = achado[0]
       if (permitidos.has(valor)) continue
       if (vazamentos.some((v) => v.valor === valor)) continue

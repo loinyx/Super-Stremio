@@ -31,6 +31,12 @@
     legendas que aparecem sozinhas. Quinze minutos, com as suas contas.
   </p>
 
+  <h2>Onde você assiste?</h2>
+  <p class="note">
+    Os addons são os mesmos nos dois. O que muda é só a forma de instalar no fim.
+  </p>
+  <div class="escolha" id="escolha-app" role="radiogroup" aria-label="Aplicativo"></div>
+
   <h2>Três contas, e o resto já vem pronto</h2>
   <div class="card">
     <div class="launch">
@@ -577,8 +583,8 @@
     que sobrou de antes. Os outros dois não pedem senha nenhuma.
   </p>
 
-  <h2>Entrar na conta e deixar o site instalar</h2>
-  <div class="card">
+  <h2 data-so-stremio>Entrar na conta e deixar o site instalar</h2>
+  <div class="card" data-so-stremio>
     <div class="field">
       <label for="s-mail">E-mail da conta Stremio</label>
       <input id="s-mail" type="email" autocomplete="username" placeholder="voce@email.com">
@@ -601,6 +607,29 @@
       <button class="btn btn-go" id="instalar">Instalar os addons</button>
     </div>
     <p class="msg" data-tone="idle" id="saida-instalar" class="mt-4"></p>
+  </div>
+
+  <div data-so-nuvio>
+    <h2>No Nuvio</h2>
+    <p class="note">
+      O Nuvio não tem conta central como o Stremio, então não dá para empurrar a lista
+      de fora. Você adiciona os endereços dentro do aplicativo, e é rápido: são os
+      mesmos onze da lista aqui embaixo, cada um com botão de copiar.
+    </p>
+    <p class="note">
+      As coleções são um extra que só existe lá: 16 coleções e 601 pastas de navegação,
+      montadas sobre TMDB e Trakt. Não dependem de addon nenhum, então valem mesmo se
+      você pular o resto.
+    </p>
+    <div class="card mt-4">
+      <div class="row">
+        <button class="btn btn-out btn-sm" id="baixar-colecoes-nuvio">
+          <span data-ico="baixar"></span> Baixar as coleções do Nuvio
+        </button>
+        <span class="note m-0">importe em Coleções, dentro do aplicativo</span>
+      </div>
+      <p class="msg" data-tone="idle" id="saida-colecoes"></p>
+    </div>
   </div>
 
   <h2>Instalar um por um, sem senha nenhuma</h2>

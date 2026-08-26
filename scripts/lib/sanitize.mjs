@@ -90,3 +90,17 @@ export function servicosLigados(origem) {
 function estruturaClonada(valor) {
   return JSON.parse(JSON.stringify(valor))
 }
+
+/**
+ * Trechos do arquivo de coleções do Nuvio que casam com padrão de credencial
+ * sem serem uma.
+ *
+ * Os hexadecimais longos ali são pedaço de caminho de GIF do Tumblr e de imagem
+ * do GitHub, e os UUIDs são identificadores de pasta que o próprio aplicativo
+ * gera. Apagar esses contextos antes da busca é diferente de liberar o arquivo:
+ * uma chave escrita em qualquer outro campo continua sendo encontrada.
+ */
+export const RUIDO_NUVIO = [
+  /"https?:\/\/[^"]+"/g,
+  /"id"\s*:\s*"[^"]*"/g,
+]
