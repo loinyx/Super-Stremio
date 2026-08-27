@@ -8,6 +8,11 @@ import { PassoAplicativo } from "./passos/aplicativo"
 import { PassoMdblist } from "./passos/mdblist"
 import { PassoDebrid } from "./passos/debrid"
 import { PassoListas } from "./passos/listas"
+import { PassoFontes } from "./passos/fontes"
+import { PassoLegendas } from "./passos/legendas"
+import { PassoRevisao } from "./passos/revisao"
+import { PassoInstalar } from "./passos/instalar"
+import { PassoPronto } from "./passos/pronto"
 
 const TOTAL = 8
 
@@ -20,7 +25,7 @@ const TOTAL = 8
 function Palco({ aoSair }: { aoSair: () => void }) {
   const [passo, setPasso] = useState(0)
 
-  const avancar = () => setPasso((n) => Math.min(n + 1, TOTAL - 1))
+  const avancar = () => setPasso((n) => Math.min(n + 1, TOTAL))
   const voltar = () => setPasso((n) => Math.max(n - 1, 0))
 
   return (
@@ -28,7 +33,7 @@ function Palco({ aoSair }: { aoSair: () => void }) {
       <Glow atenuado />
 
       <header className="relative mx-auto flex max-w-4xl items-center justify-between gap-6 px-6 py-6">
-        <Progresso atual={passo} total={TOTAL} />
+        {passo < TOTAL && <Progresso atual={passo} total={TOTAL} />}
         <Button variant="ghost" size="sm" onClick={aoSair} className="text-muted-foreground">
           Salvar e sair
         </Button>
@@ -40,18 +45,13 @@ function Palco({ aoSair }: { aoSair: () => void }) {
           {passo === 1 && <PassoMdblist key="mdb" aoAvancar={avancar} aoVoltar={voltar} />}
           {passo === 2 && <PassoDebrid key="deb" aoAvancar={avancar} aoVoltar={voltar} />}
           {passo === 3 && <PassoListas key="lst" aoAvancar={avancar} aoVoltar={voltar} />}
-          {passo > 3 && (
-            <div key="wip" className="mx-auto max-w-2xl text-center">
-              <h1 className="text-3xl font-extrabold tracking-tight">Os próximos passos vêm a seguir</h1>
-              <p className="mt-4 text-muted-foreground">
-                As cinco listas, as fontes, as legendas, a revisão e a instalação ainda estão sendo
-                construídos nesta direção.
-              </p>
-              <Button variant="secondary" onClick={voltar} className="mt-8">
-                Voltar
-              </Button>
-            </div>
+          {passo === 4 && <PassoFontes key="fon" aoAvancar={avancar} aoVoltar={voltar} />}
+          {passo === 5 && <PassoLegendas key="leg" aoAvancar={avancar} aoVoltar={voltar} />}
+          {passo === 6 && <PassoRevisao key="rev" aoAvancar={avancar} aoVoltar={voltar} />}
+          {passo === 7 && (
+            <PassoInstalar key="ins" aoVoltar={voltar} aoConcluir={() => setPasso(8)} />
           )}
+          {passo === 8 && <PassoPronto key="pro" aoSair={aoSair} />}
         </AnimatePresence>
       </main>
     </div>
