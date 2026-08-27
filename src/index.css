@@ -12,60 +12,63 @@
 :root {
   --radius: 1.125rem;
 
-  --background: oklch(0.985 0.003 275);
-  --foreground: oklch(0.21 0.02 275);
+  --background: oklch(0.985 0.004 272);
+  --foreground: oklch(0.19 0.03 272);
   --card: oklch(1 0 0);
   --card-foreground: var(--foreground);
   --popover: oklch(1 0 0);
   --popover-foreground: var(--foreground);
 
-  --primary: oklch(0.55 0.22 285);
-  --primary-foreground: oklch(0.99 0.005 285);
+  --primary: oklch(0.53 0.24 293);
+  --primary-foreground: oklch(0.99 0.004 293);
 
-  --secondary: oklch(0.955 0.008 275);
-  --secondary-foreground: oklch(0.3 0.02 275);
-  --muted: oklch(0.955 0.008 275);
-  --muted-foreground: oklch(0.52 0.02 275);
-  --accent: oklch(0.94 0.02 285);
-  --accent-foreground: oklch(0.35 0.08 285);
+  --secondary: oklch(0.955 0.011 272);
+  --secondary-foreground: oklch(0.28 0.03 272);
+  --muted: oklch(0.955 0.011 272);
+  --muted-foreground: oklch(0.5 0.028 272);
+  --accent: oklch(0.55 0.17 258);
+  --accent-foreground: oklch(0.99 0.004 258);
 
-  --destructive: oklch(0.58 0.21 25);
+  --destructive: oklch(0.57 0.21 25);
   --destructive-foreground: oklch(0.99 0 0);
-  --success: oklch(0.62 0.16 150);
+  --success: oklch(0.6 0.15 152);
   --success-foreground: oklch(0.99 0 0);
 
-  --border: oklch(0.91 0.008 275);
-  --input: oklch(0.91 0.008 275);
+  --border: oklch(0.905 0.012 272);
+  --input: oklch(0.905 0.012 272);
   --ring: var(--primary);
 }
 
 .dark {
-  /* Azul-noite, não cinza. O fundo carrega o mesmo matiz do roxo da marca, e
-     por isso as superfícies parecem da mesma família em vez de neutras. */
-  --background: oklch(0.152 0.036 288);
-  --foreground: oklch(0.97 0.008 288);
-  --card: oklch(0.196 0.036 288);
+  /* Duas cores e um cinza. O roxo decide, o azul acompanha, e o fundo é um
+     cinza bem escuro puxado para o azul: croma baixo o bastante para não
+     competir com as duas cores, alto o bastante para não parecer preto morto.
+     Todo neutro fica em 272, entre o roxo (293) e o azul (258), e por isso as
+     três famílias parecem da mesma casa. */
+  --background: oklch(0.128 0.024 272);
+  --foreground: oklch(0.975 0.01 272);
+  --card: oklch(0.171 0.03 272);
   --card-foreground: var(--foreground);
-  --popover: oklch(0.196 0.036 288);
+  --popover: oklch(0.171 0.03 272);
   --popover-foreground: var(--foreground);
 
-  --primary: oklch(0.66 0.2 288);
-  --primary-foreground: oklch(0.15 0.03 288);
+  --primary: oklch(0.64 0.235 293);
+  --primary-foreground: oklch(0.14 0.03 293);
 
-  --secondary: oklch(0.243 0.034 288);
-  --secondary-foreground: oklch(0.97 0.008 288);
-  --muted: oklch(0.243 0.034 288);
-  --muted-foreground: oklch(0.705 0.022 288);
-  --accent: oklch(0.3 0.06 290);
-  --accent-foreground: oklch(0.92 0.04 290);
+  --secondary: oklch(0.216 0.034 272);
+  --secondary-foreground: oklch(0.975 0.01 272);
+  --muted: oklch(0.216 0.034 272);
+  --muted-foreground: oklch(0.715 0.03 272);
+  --accent: oklch(0.63 0.18 258);
+  --accent-foreground: oklch(0.14 0.03 258);
 
-  --destructive: oklch(0.65 0.2 25);
-  --destructive-foreground: oklch(0.15 0.03 288);
-  --success: oklch(0.7 0.16 155);
-  --success-foreground: oklch(0.15 0.03 288);
+  --destructive: oklch(0.64 0.2 25);
+  --destructive-foreground: oklch(0.14 0.03 272);
+  --success: oklch(0.7 0.155 155);
+  --success-foreground: oklch(0.14 0.03 272);
 
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 12%);
+  --border: oklch(1 0 0 / 11%);
+  --input: oklch(1 0 0 / 13%);
   --ring: var(--primary);
 }
 

@@ -57,12 +57,27 @@ export function Landing({ aoComecar }: { aoComecar: () => void }) {
 
   return (
     <div className="relative">
-      <section className="relative overflow-hidden">
+      {/* Um fundo só para a página inteira, e o herói ganha luz em vez de outra
+          cor. Dividir o fundo em duas cores criava uma faixa visível na borda
+          da camada, e a emenda aparecia mesmo com as duas cores iguais. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-[900px]
+                   [background:radial-gradient(58%_46%_at_50%_0%,color-mix(in_oklab,var(--primary)_26%,transparent),transparent_72%),radial-gradient(42%_34%_at_18%_8%,color-mix(in_oklab,var(--accent)_18%,transparent),transparent_70%),radial-gradient(38%_30%_at_84%_14%,color-mix(in_oklab,var(--primary)_14%,transparent),transparent_70%)]"
+      />
+
+      <section className="relative">
+        {/* `mask-repeat` nasce em `repeat`, então sem fixar isto o degradê se
+            repete em faixas pela página inteira. */}
         <div
-          className="absolute inset-x-0 top-0 h-[400px] [perspective:1200px]
-                     [mask-image:linear-gradient(to_right,transparent,#000_18%,#000_82%,transparent)]"
+          className="absolute inset-x-0 top-0 h-[400px] overflow-hidden [perspective:1200px]
+                     [mask-image:linear-gradient(to_right,transparent,#000_18%,#000_82%,transparent)]
+                     [mask-repeat:no-repeat] [mask-size:100%_100%]"
         >
-          <div className="h-full [mask-image:linear-gradient(to_bottom,#000_45%,transparent)]">
+          <div
+            className="h-full [mask-image:linear-gradient(to_bottom,#000_45%,transparent)]
+                       [mask-repeat:no-repeat] [mask-size:100%_100%]"
+          >
             <PosterArc className="translate-y-[190px]" largura={128} />
           </div>
         </div>
@@ -106,7 +121,7 @@ export function Landing({ aoComecar }: { aoComecar: () => void }) {
           </h2>
         </BlurFade>
 
-        <div className="mt-12 flex flex-col gap-5">
+        <div className="mt-14 flex flex-col gap-6">
           {PILARES.map((p, i) => (
             <BlurFade key={p.id} delay={0.08} inView>
               <MagicCard
@@ -115,11 +130,13 @@ export function Landing({ aoComecar }: { aoComecar: () => void }) {
                 gradientTo="var(--accent)"
                 gradientOpacity={0.12}
               >
-                <article className="grid items-center gap-8 p-8 md:grid-cols-2 md:gap-12 md:p-10">
+                <article className="grid items-center gap-10 p-7 sm:p-9 md:grid-cols-2 md:gap-16 md:p-12">
                   <div className={i % 2 === 1 ? "md:order-2" : undefined}>
                     <p className="font-mono text-xs text-primary">0{i + 1}</p>
-                    <h3 className="mt-3 text-balance text-2xl font-bold tracking-tight">{p.titulo}</h3>
-                    <p className="mt-4 text-pretty leading-relaxed text-muted-foreground">{p.texto}</p>
+                    <h3 className="mt-4 text-balance text-2xl font-bold leading-snug tracking-tight">
+                      {p.titulo}
+                    </h3>
+                    <p className="mt-5 text-pretty leading-[1.7] text-muted-foreground">{p.texto}</p>
                   </div>
                   {/* A prova não vai dentro de um embrulho: as que precisam de
                       superfície trazem a delas, e as outras já são a superfície.
@@ -132,7 +149,7 @@ export function Landing({ aoComecar }: { aoComecar: () => void }) {
         </div>
 
         <BlurFade delay={0.1} inView>
-          <div className="relative mt-8 overflow-hidden rounded-2xl bg-card p-10 text-center ring-1 ring-border">
+          <div className="relative mt-10 overflow-hidden rounded-2xl bg-card p-10 text-center ring-1 ring-border sm:p-14">
             <BorderBeam size={220} duration={10} />
             <h2 className="text-balance text-2xl font-bold tracking-tight sm:text-3xl">
               Fica tudo na sua conta

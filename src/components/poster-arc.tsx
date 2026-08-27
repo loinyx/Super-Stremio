@@ -34,6 +34,11 @@ export function PosterArc({ className, largura = 132, volta = 90 }: Props) {
     // pôsteres ficam encostados. Um pouco mais afasta e deixa respirar.
     const raio = (largura / 2) / Math.tan(Math.PI / n) * 1.08
 
+    // Guarda o que já foi escrito. Reescrever a mesma string de filtro sessenta
+    // vezes por segundo obriga o navegador a rasterizar o desfoque de novo, e é
+    // isso que fazia a página piscar enquanto rolava.
+    const ultimo = cartas.map(() => ({ opacidade: "", filtro: "", z: "" }))
+
     const posicionar = (giro: number) => {
       for (let i = 0; i < n; i++) {
         let a = (i * passo + giro) % 360
@@ -42,13 +47,21 @@ export function PosterArc({ className, largura = 132, volta = 90 }: Props) {
 
         const distancia = Math.abs(a) / 90
         const carta = cartas[i]
+
+        // Transform é composto na GPU e pode mudar todo quadro sem custo.
         carta.style.transform = `rotateY(${a}deg) translateZ(${raio}px)`
-        // Quem passa dos noventa graus está de lado ou de costas e some. O
-        // resto escurece e desfoca conforme se afasta, que é o que dá
-        // profundidade sem precisar de sombra falsa.
-        carta.style.opacity = distancia >= 1 ? "0" : String((1 - distancia ** 2) * 0.92)
-        carta.style.filter = `brightness(${1 - distancia * 0.5}) blur(${distancia ** 3 * 4}px)`
-        carta.style.zIndex = String(Math.round(100 - Math.abs(a)))
+
+        // Opacidade, desfoque e empilhamento só mudam quando mudam de verdade,
+        // arredondados para o olho não notar o degrau.
+        const opacidade = distancia >= 1 ? "0" : ((1 - distancia ** 2) * 0.92).toFixed(2)
+        const filtro =
+          `brightness(${(1 - distancia * 0.5).toFixed(2)}) blur(${(Math.round(distancia ** 3 * 8) / 2).toFixed(1)}px)`
+        const z = String(Math.round(100 - Math.abs(a)))
+
+        const antes = ultimo[i]
+        if (antes.opacidade !== opacidade) carta.style.opacity = (antes.opacidade = opacidade)
+        if (antes.filtro !== filtro) carta.style.filter = (antes.filtro = filtro)
+        if (antes.z !== z) carta.style.zIndex = (antes.z = z)
       }
     }
 
@@ -59,13 +72,37 @@ export function PosterArc({ className, largura = 132, volta = 90 }: Props) {
 
     let quadro = 0
     let inicio = 0
+    let decorrido = 0
     const girar = (t: number) => {
       if (!inicio) inicio = t
-      posicionar(-(((t - inicio) / (volta * 1000)) * 360))
+      decorrido = t - inicio
+      posicionar(-((decorrido / (volta * 1000)) * 360))
       quadro = requestAnimationFrame(girar)
     }
-    quadro = requestAnimationFrame(girar)
-    return () => cancelAnimationFrame(quadro)
+
+    // Fora da tela o anel não anima. Sem isto ele segue repintando dezesseis
+    // imagens desfocadas enquanto a pessoa lê o resto da página.
+    const olho = new IntersectionObserver(
+      ([entrada]) => {
+        if (entrada.isIntersecting && !quadro) {
+          inicio = 0
+          quadro = requestAnimationFrame((t) => {
+            inicio = t - decorrido
+            girar(t)
+          })
+        } else if (!entrada.isIntersecting && quadro) {
+          cancelAnimationFrame(quadro)
+          quadro = 0
+        }
+      },
+      { rootMargin: "120px" },
+    )
+    if (anel.current?.parentElement) olho.observe(anel.current.parentElement)
+
+    return () => {
+      olho.disconnect()
+      if (quadro) cancelAnimationFrame(quadro)
+    }
   }, [largura, volta])
 
   return (
@@ -77,7 +114,7 @@ export function PosterArc({ className, largura = 132, volta = 90 }: Props) {
         {POSTERES.map((filme) => (
           <div
             key={filme.id}
-            className="absolute left-1/2 top-1/2 overflow-hidden rounded-xl bg-muted shadow-[0_24px_60px_-12px_rgba(0,0,0,.7)] ring-1 ring-white/10 will-change-transform"
+            className="absolute left-1/2 top-1/2 overflow-hidden rounded-xl bg-muted shadow-[0_24px_60px_-12px_rgba(0,0,0,.7)] ring-1 ring-white/10 [will-change:transform,opacity,filter]"
             style={{
               width: largura,
               height: Math.round(largura * 1.5),

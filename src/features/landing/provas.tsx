@@ -47,7 +47,7 @@ export function ProvaCatalogos() {
   const corte = CORTES[i]
 
   return (
-    <div className="flex min-h-[188px] flex-col items-center justify-center gap-4 rounded-xl bg-secondary/40 p-5 ring-1 ring-border">
+    <div className="flex min-h-[208px] flex-col items-center justify-center gap-5 rounded-xl bg-secondary/40 p-6 ring-1 ring-border">
       <div className="flex flex-wrap justify-center gap-2">
         <span className="flex items-center gap-2 rounded-full bg-muted px-4 py-2 text-sm text-muted-foreground">
           Filmes <CaretDown weight="bold" className="size-3 opacity-60" />
@@ -125,7 +125,7 @@ export function ProvaFicha() {
   const f = FICHAS[i]
 
   return (
-    <div className="relative min-h-[210px] overflow-hidden rounded-xl">
+    <div className="relative min-h-[208px] overflow-hidden rounded-xl">
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
           key={f.id}
@@ -154,7 +154,7 @@ export function ProvaFicha() {
           animate={{ opacity: 1, filter: "blur(0px)" }}
           exit={{ opacity: 0, filter: "blur(6px)" }}
           transition={{ duration: 0.4, ease: [0.2, 0, 0, 1] }}
-          className="relative space-y-3 p-5"
+          className="relative space-y-3.5 p-6"
         >
           <img
             src={`https://images.metahub.space/logo/medium/${f.id}/img`}
@@ -186,14 +186,14 @@ export function ProvaFicha() {
 export function ProvaLegendas() {
   const idiomas = ["Desligada", "English", "Português (Brasil)"]
   return (
-    <div className="space-y-1.5 rounded-xl bg-secondary/40 p-4 ring-1 ring-border">
+    <div className="flex min-h-[208px] flex-col justify-center gap-2 rounded-xl bg-secondary/40 p-6 ring-1 ring-border">
       {idiomas.map((i) => {
         const ativo = i === "Português (Brasil)"
         return (
           <div
             key={i}
             className={
-              "flex items-center justify-between rounded-lg px-3 py-2 text-sm " +
+              "flex items-center justify-between rounded-lg px-4 py-3 text-sm " +
               (ativo ? "bg-card text-foreground ring-1 ring-border" : "text-muted-foreground")
             }
           >
@@ -234,9 +234,9 @@ const FONTES = [
 
 export function ProvaStreams() {
   return (
-    <div className="space-y-2">
+    <div className="flex min-h-[208px] flex-col justify-center gap-2.5">
       {FONTES.map((f, i) => (
-        <div key={i} className="flex gap-4 rounded-xl bg-card p-3.5 ring-1 ring-border">
+        <div key={i} className="flex gap-5 rounded-xl bg-card p-4 ring-1 ring-border">
           <div className="flex w-16 shrink-0 flex-col items-center justify-center gap-1">
             <span className="text-lg leading-none">{f.marca}</span>
             <span className="font-mono text-[11px] font-semibold text-primary">{f.qualidade}</span>
@@ -247,7 +247,7 @@ export function ProvaStreams() {
           </div>
         </div>
       ))}
-      <p className="pt-1 text-[11px] text-muted-foreground">
+      <p className="pt-2 text-[11px] leading-relaxed text-muted-foreground">
         Sem isso, essa mesma linha apareceria como
         <span className="ml-1 font-mono">Spider.Man.NWH.2021.2160p.WEB-DL.DDP5.1.x265</span>
       </p>
@@ -263,9 +263,9 @@ export function ProvaAddons() {
     { papel: "Legendas", itens: ["opensubtitles PRO", "Community Subtitles"] },
   ]
   return (
-    <div className="space-y-3">
+    <div className="flex min-h-[208px] flex-col justify-center gap-4 rounded-xl bg-secondary/40 p-6 ring-1 ring-border">
       {grupos.map((g) => (
-        <div key={g.papel} className="flex flex-wrap items-center gap-2">
+        <div key={g.papel} className="flex flex-wrap items-center gap-2.5">
           <span className="w-20 shrink-0 font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
             {g.papel}
           </span>
