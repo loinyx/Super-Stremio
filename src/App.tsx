@@ -21,13 +21,14 @@ export function App() {
         </BlurFade>
         <BlurFade delay={0.25} inView>
           <h1 className="mt-5 text-balance text-5xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl">
-            Um Stremio que abre em português
+            Abra o Stremio e tudo já está no lugar
           </h1>
         </BlurFade>
         <BlurFade delay={0.38} inView>
           <p className="mx-auto mt-6 max-w-xl text-balance text-lg leading-relaxed text-muted-foreground">
-            Onze addons, cento e cinquenta catálogos e legenda que aparece. Você
-            monta tudo com as suas contas, em quinze minutos.
+            Catálogos separados por streaming, gênero e década, que se atualizam
+            sozinhos. Legenda em português sem procurar. E o que vem do seu
+            debrid chega numa lista só, na ordem certa.
           </p>
         </BlurFade>
       </div>
