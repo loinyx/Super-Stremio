@@ -1,6 +1,7 @@
 import { ArrowRight } from "@phosphor-icons/react"
 import { PosterArc } from "@/components/poster-arc"
 import { Glow } from "./glow"
+import { cn } from "@/lib/utils"
 import { BlurFade } from "@/components/ui/blur-fade"
 import { BorderBeam } from "@/components/ui/border-beam"
 import { Button } from "@/components/ui/button"
@@ -33,6 +34,7 @@ const PILARES = [
       "tamanho. As melhores ficam em cima, e você escolhe uma em vez de garimpar entre " +
       "sessenta.",
     prova: <ProvaStreams />,
+    forma: "empilhado",
   },
   {
     id: "ficha",
@@ -97,7 +99,6 @@ export function Landing({ aoComecar }: { aoComecar: () => void }) {
               Começar agora
               <ArrowRight weight="bold" className="ml-1 transition-transform group-hover:translate-x-0.5" />
             </Button>
-            <p className="mt-4 text-sm text-muted-foreground">Leva uns quinze minutos, e é de graça</p>
           </BlurFade>
 
         </div>
@@ -106,8 +107,7 @@ export function Landing({ aoComecar }: { aoComecar: () => void }) {
       <section id="o-que-tem" className="mx-auto max-w-5xl scroll-mt-16 px-6 pb-28">
         <BlurFade delay={0.05} inView>
           <div className="text-center">
-            <p className="font-mono text-xs tracking-[0.2em] text-primary">depois de instalar</p>
-            <h2 className="mx-auto mt-4 max-w-xl text-balance text-3xl font-bold tracking-tight sm:text-4xl">
+            <h2 className="mx-auto max-w-xl text-balance text-3xl font-bold tracking-tight sm:text-4xl">
               O que muda no dia a dia
             </h2>
           </div>
@@ -122,10 +122,19 @@ export function Landing({ aoComecar }: { aoComecar: () => void }) {
                 gradientTo="var(--accent)"
                 gradientOpacity={0.12}
               >
-                <article className="grid items-center gap-10 p-7 sm:p-9 md:grid-cols-2 md:gap-16 md:p-12">
-                  <div className={i % 2 === 1 ? "md:order-2" : undefined}>
-                    <p className="font-mono text-xs text-primary">0{i + 1}</p>
-                    <h3 className="mt-4 text-balance text-2xl font-bold leading-snug tracking-tight">
+                <article
+                  className={cn(
+                    "grid items-center gap-10 p-7 sm:p-9 md:gap-16 md:p-12",
+                    p.forma === "empilhado" ? "md:grid-cols-1 md:justify-items-center" : "md:grid-cols-2",
+                  )}
+                >
+                  <div
+                    className={cn(
+                      p.forma === "empilhado" && "max-w-xl text-center",
+                      p.forma !== "empilhado" && i % 2 === 1 && "md:order-2",
+                    )}
+                  >
+                    <h3 className="text-balance text-2xl font-bold leading-snug tracking-tight">
                       {p.titulo}
                     </h3>
                     <p className="mt-5 text-pretty leading-[1.7] text-muted-foreground">{p.texto}</p>
@@ -133,7 +142,15 @@ export function Landing({ aoComecar }: { aoComecar: () => void }) {
                   {/* A prova não vai dentro de um embrulho: as que precisam de
                       superfície trazem a delas, e as outras já são a superfície.
                       Embrulhar todas dava cartão dentro de cartão. */}
-                  <div className={i % 2 === 1 ? "md:order-1" : undefined}>{p.prova}</div>
+                  <div
+                    className={cn(
+                      "w-full",
+                      p.forma === "empilhado" && "max-w-xl",
+                      p.forma !== "empilhado" && i % 2 === 1 && "md:order-1",
+                    )}
+                  >
+                    {p.prova}
+                  </div>
                 </article>
               </MagicCard>
             </BlurFade>
