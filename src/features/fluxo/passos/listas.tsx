@@ -203,9 +203,9 @@ function Fileira({ lista, aberta, aoAbrir, chaveMdblist, salvo, aoAnotar, aoCump
               <div className="mt-7 border-t border-border pt-6">
                 <label
                   htmlFor={`uuid-${lista.id}`}
-                  className="font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground"
+                  className="text-sm font-semibold text-muted-foreground"
                 >
-                  e volta pra cá
+                  E volta pra cá
                 </label>
                 <div className="mt-3 flex flex-col gap-2.5 sm:flex-row">
                   <input

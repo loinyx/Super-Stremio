@@ -66,8 +66,8 @@ export function IrEVoltar({ la, jaTenho, ca, valor, aoMudar, aoConferir, aferido
   return (
     <div className="flex flex-col gap-3">
       <section className="rounded-2xl bg-card p-7 ring-1 ring-border sm:p-8">
-        <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
-          lá no site deles
+        <p className="text-sm font-semibold text-muted-foreground">
+          Lá no site deles
         </p>
         <h2 className="mt-4 text-xl font-bold tracking-tight">{la.titulo}</h2>
         <p className="mt-3 max-w-lg leading-relaxed text-muted-foreground">{la.texto}</p>
@@ -104,11 +104,11 @@ export function IrEVoltar({ la, jaTenho, ca, valor, aoMudar, aoConferir, aferido
             >
               <p
                 className={cn(
-                  "font-mono text-[11px] uppercase tracking-[0.16em]",
+                  "text-sm font-semibold",
                   voltou && aferido.estado === "vazio" ? "text-success" : "text-muted-foreground",
                 )}
               >
-                {voltou && aferido.estado === "vazio" ? "bem-vindo de volta" : "e volta pra cá"}
+                {voltou && aferido.estado === "vazio" ? "Bem-vindo de volta" : "E volta pra cá"}
               </p>
               <h2 className="mt-4 text-xl font-bold tracking-tight">{ca.titulo}</h2>
               <p className="mt-3 max-w-lg leading-relaxed text-muted-foreground">{ca.texto}</p>
