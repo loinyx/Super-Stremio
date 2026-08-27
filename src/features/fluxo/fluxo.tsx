@@ -3,6 +3,7 @@ import { AnimatePresence } from "motion/react"
 import { Button } from "@/components/ui/button"
 import { Glow } from "@/features/landing/glow"
 import { Progresso } from "./progresso"
+import { TrocaTema } from "@/components/troca-tema"
 import { ProvedorDoFluxo } from "./estado"
 import { PassoAplicativo } from "./passos/aplicativo"
 import { PassoMdblist } from "./passos/mdblist"
@@ -34,9 +35,12 @@ function Palco({ aoSair }: { aoSair: () => void }) {
 
       <header className="relative mx-auto flex max-w-4xl items-center justify-between gap-6 px-6 py-6">
         {passo < TOTAL && <Progresso atual={passo} total={TOTAL} />}
-        <Button variant="ghost" size="sm" onClick={aoSair} className="text-muted-foreground">
-          Salvar e sair
-        </Button>
+        <div className="flex items-center gap-1">
+          <TrocaTema />
+          <Button variant="ghost" size="sm" onClick={aoSair} className="text-muted-foreground">
+            Salvar e sair
+          </Button>
+        </div>
       </header>
 
       <main className="relative mx-auto max-w-4xl px-6 pb-32 pt-10">

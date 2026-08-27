@@ -153,6 +153,11 @@
   .glow-blob { animation: none !important }
 }
 
+/* A luz foi calibrada sobre um fundo quase preto, onde ela acrescenta cor. Sobre
+   um fundo claro a mesma mancha vira um lavado pastel pesado, então ela recua. */
+:root:not(.dark) .glow-blob { opacity: 0.38; filter: blur(150px) }
+:root:not(.dark) .poster-carta { box-shadow: 0 18px 40px -18px rgb(0 0 0 / 0.28) }
+
 @layer base {
   * { @apply border-border outline-ring/50 }
   body {

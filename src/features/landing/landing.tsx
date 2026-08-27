@@ -1,6 +1,8 @@
 import { ArrowRight } from "@phosphor-icons/react"
 import { PosterArc } from "@/components/poster-arc"
 import { Glow } from "./glow"
+import { TrocaTema } from "@/components/troca-tema"
+import { Importar } from "@/features/fluxo/importar"
 import { cn } from "@/lib/utils"
 import { BlurFade } from "@/components/ui/blur-fade"
 import { BorderBeam } from "@/components/ui/border-beam"
@@ -63,6 +65,10 @@ export function Landing({ aoComecar }: { aoComecar: () => void }) {
           da camada, e a emenda aparecia mesmo com as duas cores iguais. */}
       <Glow />
 
+      <div className="absolute right-4 top-4 z-10">
+        <TrocaTema />
+      </div>
+
       <section className="relative">
         {/* `mask-repeat` nasce em `repeat`, então sem fixar isto o degradê se
             repete em faixas pela página inteira. */}
@@ -100,7 +106,11 @@ export function Landing({ aoComecar }: { aoComecar: () => void }) {
               <ArrowRight weight="bold" className="ml-1 transition-transform group-hover:translate-x-0.5" />
             </Button>
           </BlurFade>
-
+          <BlurFade delay={0.62} inView>
+            <div className="mt-6">
+              <Importar aoImportar={aoComecar} rotulo="Já tenho um arquivo salvo" />
+            </div>
+          </BlurFade>
         </div>
       </section>
 

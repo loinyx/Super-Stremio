@@ -114,7 +114,7 @@ export function PosterArc({ className, largura = 132, volta = 90 }: Props) {
         {POSTERES.map((filme) => (
           <div
             key={filme.id}
-            className="absolute left-1/2 top-1/2 overflow-hidden rounded-xl bg-muted shadow-[0_24px_60px_-12px_rgba(0,0,0,.7)] ring-1 ring-white/10 [will-change:transform,opacity,filter]"
+            className="poster-carta absolute left-1/2 top-1/2 overflow-hidden rounded-xl bg-muted shadow-[0_24px_60px_-12px_rgba(0,0,0,.7)] ring-1 ring-white/10 [will-change:transform,opacity,filter]"
             style={{
               width: largura,
               height: Math.round(largura * 1.5),
