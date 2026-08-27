@@ -121,9 +121,10 @@ export function Landing({ aoComecar }: { aoComecar: () => void }) {
                     <h3 className="mt-3 text-balance text-2xl font-bold tracking-tight">{p.titulo}</h3>
                     <p className="mt-4 text-pretty leading-relaxed text-muted-foreground">{p.texto}</p>
                   </div>
-                  <div className={i % 2 === 1 ? "md:order-1" : undefined}>
-                    <div className="rounded-xl bg-secondary/40 p-5 ring-1 ring-border">{p.prova}</div>
-                  </div>
+                  {/* A prova não vai dentro de um embrulho: as que precisam de
+                      superfície trazem a delas, e as outras já são a superfície.
+                      Embrulhar todas dava cartão dentro de cartão. */}
+                  <div className={i % 2 === 1 ? "md:order-1" : undefined}>{p.prova}</div>
                 </article>
               </MagicCard>
             </BlurFade>

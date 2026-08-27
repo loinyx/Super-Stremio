@@ -47,8 +47,8 @@ export function ProvaCatalogos() {
   const corte = CORTES[i]
 
   return (
-    <div className="space-y-4">
-      <div className="flex flex-wrap gap-2">
+    <div className="flex min-h-[188px] flex-col items-center justify-center gap-4 rounded-xl bg-secondary/40 p-5 ring-1 ring-border">
+      <div className="flex flex-wrap justify-center gap-2">
         <span className="flex items-center gap-2 rounded-full bg-muted px-4 py-2 text-sm text-muted-foreground">
           Filmes <CaretDown weight="bold" className="size-3 opacity-60" />
         </span>
@@ -67,7 +67,7 @@ export function ProvaCatalogos() {
         </AnimatePresence>
       </div>
 
-      <div className="flex min-h-[68px] flex-wrap content-start gap-2">
+      <div className="flex min-h-[68px] flex-wrap content-start justify-center gap-2">
         <AnimatePresence mode="popLayout" initial={false}>
           {corte.itens.map((item, n) => (
             <motion.span
@@ -186,7 +186,7 @@ export function ProvaFicha() {
 export function ProvaLegendas() {
   const idiomas = ["Desligada", "English", "Português (Brasil)"]
   return (
-    <div className="space-y-1.5">
+    <div className="space-y-1.5 rounded-xl bg-secondary/40 p-4 ring-1 ring-border">
       {idiomas.map((i) => {
         const ativo = i === "Português (Brasil)"
         return (
