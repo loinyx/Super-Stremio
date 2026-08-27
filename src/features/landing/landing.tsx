@@ -12,39 +12,33 @@ const PILARES = [
     id: "catalogos",
     titulo: "Você abre e já sabe onde procurar",
     texto:
-      "Domingo à noite, sem ideia do que ver. Em vez de digitar um nome na busca, você desce " +
-      "a tela: o que entrou na Netflix essa semana, os melhores de 2019, coreanos, terror " +
-      "japonês, cinema brasileiro. São 150 recortes desses, e eles se refazem sozinhos, " +
-      "porque saem do IMDb.",
+      "Domingo à noite, sem saber o que ver. Você desce a tela e escolhe: Netflix dessa " +
+      "semana, melhores de 2019, coreanos, cinema brasileiro. São 150 recortes, e o IMDb " +
+      "atualiza todos sozinho.",
     prova: <ProvaCatalogos />,
   },
   {
     id: "legendas",
     titulo: "A legenda já está certa quando o filme começa",
     texto:
-      "Você não vai abrir três opções para testar qual está no tempo. O idioma já vem em " +
-      "português, a sincronia se corrige sozinha, e quando não existe legenda em PT-BR uma " +
-      "das fontes traduz na hora. Episódio que estreou ontem costuma ter legenda aqui antes " +
-      "de qualquer outro lugar.",
+      "Português já escolhido e sincronia corrigida sozinha. Quando não existe legenda em " +
+      "PT-BR, uma das fontes traduz na hora.",
     prova: <ProvaLegendas />,
   },
   {
     id: "debrid",
     titulo: "Uma lista de streams, não sessenta",
     texto:
-      "Apertar play devia dar uma escolha, não sessenta linhas com o mesmo filme repetido, " +
-      "sem ordem, misturando 4K com gravação feita dentro do cinema. O que o seu debrid " +
-      "encontra chega junto e ordenado: dublado primeiro, 4K antes de 1080p, e cam nem " +
-      "aparece.",
+      "Apertar play devia dar uma escolha, não sessenta linhas do mesmo filme. O que o seu " +
+      "debrid encontra chega ordenado: dublado primeiro, 4K antes de 1080p, cam nem aparece.",
     prova: <ProvaStreams />,
   },
   {
     id: "addons",
     titulo: "Os onze addons já vêm conversando entre si",
     texto:
-      "Instalar addon é a parte fácil. Difícil é fazer onze funcionarem juntos sem repetir " +
-      "resultado nem brigar por prioridade, e essa parte já está decidida: o que cada um " +
-      "busca, em que ordem aparece, e o que é descartado antes de chegar em você.",
+      "Instalar addon é fácil. Difícil é fazer onze conviverem sem repetir resultado. Quem " +
+      "busca o quê e em que ordem já está decidido.",
     prova: <ProvaAddons />,
   },
 ]
@@ -76,8 +70,8 @@ export function Landing({ aoComecar }: { aoComecar: () => void }) {
           </BlurFade>
           <BlurFade delay={0.38} inView>
             <p className="mx-auto mt-7 max-w-[34rem] text-pretty text-lg leading-[1.6] text-muted-foreground">
-              Catálogo separado por serviço, gênero e década, legenda em português
-              já escolhida, e o seu debrid devolvendo uma lista em vez de sessenta linhas.
+              Catálogo por serviço, gênero e década. Legenda em português.
+              E o seu debrid numa lista só.
             </p>
           </BlurFade>
           <BlurFade delay={0.5} inView>
@@ -135,9 +129,8 @@ export function Landing({ aoComecar }: { aoComecar: () => void }) {
               Roda na sua conta, não na minha
             </h2>
             <p className="mx-auto mt-4 max-w-lg text-pretty leading-relaxed text-muted-foreground">
-              Cada configuração fica guardada no servidor do serviço que a criou, presa a uma
-              conta. Não dá para te emprestar as minhas, então o site monta as suas: você
-              cola as suas chaves e ele devolve tudo pronto para importar.
+              Cada configuração fica presa à conta de quem a criou, então não dá para te
+              emprestar as minhas. Você cola as suas chaves e leva tudo pronto.
             </p>
             <Button size="lg" onClick={aoComecar} className="group mt-8 h-12 px-7 text-base">
               Começar
