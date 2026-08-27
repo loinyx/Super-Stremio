@@ -1,16 +1,13 @@
 /**
  * A luz atrás do herói.
  *
- * São quatro manchas borradas que derivam devagar, em vez de um gradiente fixo.
- * Cada uma anima só `transform`: o borrão é rasterizado uma vez e depois apenas
- * se move, então a página não repinta. Animar o gradiente de fundo repintaria a
- * tela inteira a cada quadro, que foi o que já derrubou esta página antes.
+ * Degradê radial, e não círculo com `filter: blur()`. Os dois parecem iguais na
+ * tela, mas o desfoque precisa ser rasterizado, e rasterizar 165px de raio em
+ * quatro elementos de 868px pesa muito, principalmente no Safari. Degradê é
+ * pintado direto.
  *
- * As cores aqui não são as da paleta. Elas são escuras e de croma alto, e não
- * claras: sobre um fundo quase preto, mancha clara lava o fundo e vira leitosa,
- * enquanto mancha escura e saturada acrescenta cor sem tirar a profundidade. Os
- * matizes abrem para os dois lados do roxo, no azul e no rosa, para o olho ver
- * mais de uma cor.
+ * A deriva anima só translação. Escalar uma camada obriga o navegador a
+ * redesenhá-la, e era isso que travava a página inteira ao clicar.
  */
 const MANCHAS = [
   {
@@ -43,8 +40,8 @@ export function Glow({ atenuado = false }: { atenuado?: boolean } = {}) {
       {MANCHAS.map((m, i) => (
         <div
           key={i}
-          style={{ background: m.cor }}
-          className={`glow-blob absolute rounded-full blur-[165px] will-change-transform ${m.classe}`}
+          style={{ background: `radial-gradient(circle at center, ${m.cor} 0%, transparent 68%)` }}
+          className={`glow-blob absolute will-change-transform ${m.classe}`}
         />
       ))}
     </div>

@@ -112,16 +112,16 @@
   --animate-deriva-c: deriva-c 19s ease-in-out infinite alternate;
 
   @keyframes deriva-a {
-    from { transform: translate3d(-7%, -5%, 0) scale(1) }
-    to   { transform: translate3d(7%, 4%, 0) scale(1.18) }
+    from { transform: translate3d(-9%, -6%, 0) }
+    to   { transform: translate3d(9%, 5%, 0) }
   }
   @keyframes deriva-b {
-    from { transform: translate3d(5%, 3%, 0) scale(1.12) }
-    to   { transform: translate3d(-8%, -6%, 0) scale(0.94) }
+    from { transform: translate3d(7%, 4%, 0) }
+    to   { transform: translate3d(-10%, -7%, 0) }
   }
   @keyframes deriva-c {
-    from { transform: translate3d(4%, -3%, 0) scale(0.96) }
-    to   { transform: translate3d(-5%, 5%, 0) scale(1.2) }
+    from { transform: translate3d(6%, -4%, 0) }
+    to   { transform: translate3d(-7%, 6%, 0) }
   }
 
   --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
@@ -155,7 +155,7 @@
 
 /* A luz foi calibrada sobre um fundo quase preto, onde ela acrescenta cor. Sobre
    um fundo claro a mesma mancha vira um lavado pastel pesado, então ela recua. */
-:root:not(.dark) .glow-blob { opacity: 0.38; filter: blur(150px) }
+:root:not(.dark) .glow-blob { opacity: 0.42 }
 :root:not(.dark) .poster-carta { box-shadow: 0 18px 40px -18px rgb(0 0 0 / 0.28) }
 
 @layer base {

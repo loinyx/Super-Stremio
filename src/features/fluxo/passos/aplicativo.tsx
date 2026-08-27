@@ -73,10 +73,11 @@ export function PassoAplicativo({ aoAvancar }: { aoAvancar: () => void }) {
               aria-pressed={ativo}
               onClick={() => anotar("app", a.id, { ok: true })}
               className={cn(
-                "rounded-2xl p-6 text-left ring-1 transition-colors",
+                "rounded-2xl p-6 text-left ring-1",
+                "transition-[background-color,box-shadow,transform] duration-150 active:scale-[0.99]",
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                 a.id === "ambos" && "sm:col-span-2",
-                ativo ? "bg-primary/10 ring-primary/45" : "bg-card ring-border hover:ring-primary/30",
+                ativo ? "bg-primary/[0.18] ring-primary/60" : "bg-card ring-border hover:ring-primary/30",
               )}
             >
               <div className="flex items-center gap-3">
