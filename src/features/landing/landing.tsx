@@ -4,41 +4,49 @@ import { BlurFade } from "@/components/ui/blur-fade"
 import { BorderBeam } from "@/components/ui/border-beam"
 import { Button } from "@/components/ui/button"
 import { MagicCard } from "@/components/ui/magic-card"
-import { ProvaAddons, ProvaCatalogos, ProvaLegendas, ProvaStreams } from "./provas"
+import { ProvaAddons, ProvaCatalogos, ProvaFicha, ProvaLegendas, ProvaStreams } from "./provas"
 
 /** O que o site entrega, na ordem em que a pessoa sente cada coisa. */
 const PILARES = [
   {
     id: "catalogos",
-    titulo: "Você abre e já sabe onde procurar",
+    titulo: "Você abre e já sabe o que ver",
     texto:
-      "Domingo à noite, sem saber o que ver. Você desce a tela e escolhe: Netflix dessa " +
-      "semana, melhores de 2019, coreanos, cinema brasileiro. São 150 recortes, e o IMDb " +
-      "atualiza todos sozinho.",
+      "Domingo à noite, sem ideia do que assistir. Você desce a tela e escolhe: o que entrou " +
+      "na Netflix essa semana, os melhores dos anos 90, coreanos, cinema brasileiro.",
     prova: <ProvaCatalogos />,
   },
   {
     id: "legendas",
-    titulo: "A legenda já está certa quando o filme começa",
+    titulo: "A legenda já está lá, em português",
     texto:
-      "Português já escolhido e sincronia corrigida sozinha. Quando não existe legenda em " +
-      "PT-BR, uma das fontes traduz na hora.",
+      "Nada de procurar legenda nem ficar ajustando o atraso até a fala bater com o texto. " +
+      "Ela vem pronta e no tempo certo.",
     prova: <ProvaLegendas />,
   },
   {
     id: "debrid",
-    titulo: "Uma lista de streams, não sessenta",
+    titulo: "A lista de opções chega pronta",
     texto:
-      "Apertar play devia dar uma escolha, não sessenta linhas do mesmo filme. O que o seu " +
-      "debrid encontra chega ordenado: dublado primeiro, 4K antes de 1080p, cam nem aparece.",
+      "Cada linha vem escrita para gente ler: qualidade em destaque, se é dublado e o " +
+      "tamanho. As melhores ficam em cima, e você escolhe uma em vez de garimpar entre " +
+      "sessenta.",
     prova: <ProvaStreams />,
   },
   {
-    id: "addons",
-    titulo: "Os onze addons já vêm conversando entre si",
+    id: "ficha",
+    titulo: "Tudo em português, com a arte certa",
     texto:
-      "Instalar addon é fácil. Difícil é fazer onze conviverem sem repetir resultado. Quem " +
-      "busca o quê e em que ordem já está decidido.",
+      "Nome, sinopse e elenco traduzidos, e a arte do título no lugar do nome escrito em " +
+      "letra sem graça. Vale para série também.",
+    prova: <ProvaFicha />,
+  },
+  {
+    id: "addons",
+    titulo: "Você não precisa configurar nada",
+    texto:
+      "São onze complementos, instalados e ajustados de uma vez. Você não precisa saber o " +
+      "que cada um faz.",
     prova: <ProvaAddons />,
   },
 ]
@@ -70,8 +78,8 @@ export function Landing({ aoComecar }: { aoComecar: () => void }) {
           </BlurFade>
           <BlurFade delay={0.38} inView>
             <p className="mx-auto mt-7 max-w-[34rem] text-pretty text-lg leading-[1.6] text-muted-foreground">
-              Catálogo por serviço, gênero e década. Legenda em português.
-              E o seu debrid numa lista só.
+              Tudo organizado, legenda em português e o play funcionando
+              de primeira.
             </p>
           </BlurFade>
           <BlurFade delay={0.5} inView>
@@ -126,11 +134,11 @@ export function Landing({ aoComecar }: { aoComecar: () => void }) {
           <div className="relative mt-8 overflow-hidden rounded-2xl bg-card p-10 text-center ring-1 ring-border">
             <BorderBeam size={220} duration={10} />
             <h2 className="text-balance text-2xl font-bold tracking-tight sm:text-3xl">
-              Roda na sua conta, não na minha
+              Fica tudo na sua conta
             </h2>
             <p className="mx-auto mt-4 max-w-lg text-pretty leading-relaxed text-muted-foreground">
-              Cada configuração fica presa à conta de quem a criou, então não dá para te
-              emprestar as minhas. Você cola as suas chaves e leva tudo pronto.
+              Configuração de addon não é um arquivo que se passa adiante: ela mora na conta
+              de quem criou. O site monta a sua do zero, com as suas chaves, em quinze minutos.
             </p>
             <Button size="lg" onClick={aoComecar} className="group mt-8 h-12 px-7 text-base">
               Começar
