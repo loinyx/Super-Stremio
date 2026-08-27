@@ -37,7 +37,7 @@ function Palco({ aoSair }: { aoSair: () => void }) {
         {passo < TOTAL && <Progresso atual={passo} total={TOTAL} />}
         <div className="flex items-center gap-1">
           <TrocaTema />
-          <Button variant="ghost" size="sm" onClick={aoSair} className="text-muted-foreground">
+          <Button variant="ghost" onClick={aoSair} className="h-10 text-muted-foreground">
             Salvar e sair
           </Button>
         </div>

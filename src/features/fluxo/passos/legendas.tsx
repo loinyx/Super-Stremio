@@ -31,7 +31,7 @@ export function PassoLegendas({ aoAvancar, aoVoltar }: { aoAvancar: () => void; 
     const r = await validar(COMUNIDADE, valor.trim())
     setConferindo(false)
     setMsg(r.mensagem)
-    anotar(COMUNIDADE.id, valor.trim(), { ok: r.ok, mensagem: r.mensagem, url: r.url })
+    anotar(COMUNIDADE.id, valor.trim(), { ok: r.ok, mensagem: r.mensagem, url: r.url , manifest: r.manifest })
   }
 
   return (

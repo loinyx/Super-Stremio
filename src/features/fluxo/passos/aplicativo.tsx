@@ -2,8 +2,7 @@ import { CheckCircle } from "@phosphor-icons/react"
 import { Passo } from "../passo"
 import { useFluxo } from "../estado"
 import { cn } from "@/lib/utils"
-
-const LOGO_NUVIO = "https://raw.githubusercontent.com/NuvioMedia/NuvioWeb/main/public/icon.png"
+import { MarcaStremio } from "@/components/marca-stremio"
 
 const APPS = [
   {
@@ -18,6 +17,41 @@ const APPS = [
   },
   { id: "ambos", nome: "Os dois", nota: "Instala a mesma lista nos dois aparelhos." },
 ]
+
+/** A marca de cada aplicativo, do jeito que cada uma existe. */
+function Marca({ id }: { id: string }) {
+  if (id === "nuvio") {
+    return (
+      <img
+        src="/marcas/nuvio.png"
+        alt=""
+        width={32}
+        height={32}
+        loading="lazy"
+        decoding="async"
+        className="size-8 rounded-lg"
+      />
+    )
+  }
+  if (id === "stremio") {
+    return (
+      <span
+        aria-hidden="true"
+        className="grid size-8 shrink-0 place-items-center rounded-lg bg-[#6c5ce7] text-white"
+      >
+        <MarcaStremio className="size-5" />
+      </span>
+    )
+  }
+  return (
+    <span
+      aria-hidden="true"
+      className="grid size-8 shrink-0 place-items-center rounded-lg bg-secondary text-sm font-bold text-muted-foreground"
+    >
+      +
+    </span>
+  )
+}
 
 export function PassoAplicativo({ aoAvancar }: { aoAvancar: () => void }) {
   const { estado, anotar } = useFluxo()
@@ -46,23 +80,7 @@ export function PassoAplicativo({ aoAvancar }: { aoAvancar: () => void }) {
               )}
             >
               <div className="flex items-center gap-3">
-                {a.id === "nuvio" ? (
-                  <img
-                    src={LOGO_NUVIO}
-                    alt=""
-                    width={28}
-                    height={28}
-                    loading="lazy"
-                    className="size-7 rounded-md"
-                  />
-                ) : (
-                  <span
-                    aria-hidden="true"
-                    className="grid size-7 place-items-center rounded-md bg-secondary text-xs font-bold"
-                  >
-                    {a.id === "ambos" ? "+" : "S"}
-                  </span>
-                )}
+                <Marca id={a.id} />
                 <strong className="flex-1 text-base font-bold">{a.nome}</strong>
                 {ativo && <CheckCircle weight="fill" aria-hidden="true" className="size-5 text-primary" />}
               </div>

@@ -8,6 +8,7 @@ type Estado = Record<string, {
   validado: boolean
   url?: string
   mensagem?: string
+  manifest?: object
   ativo?: boolean
   abriu?: boolean
   ajustou?: boolean
@@ -17,7 +18,11 @@ type Estado = Record<string, {
 type Contexto = {
   estado: Estado
   /** Guarda o que a pessoa colou, junto do veredito da verificação. */
-  anotar: (chave: string, valor: string, r: { ok: boolean; mensagem?: string; url?: string }) => void
+  anotar: (
+    chave: string,
+    valor: string,
+    r: { ok: boolean; mensagem?: string; url?: string; manifest?: object },
+  ) => void
   /** Marca um passo do cartão como cumprido, sem mexer no valor. */
   cumprir: (chave: string, passo: "abriu" | "ajustou" | "baixou") => void
   /** Liga ou desliga um serviço, como os debrids. */

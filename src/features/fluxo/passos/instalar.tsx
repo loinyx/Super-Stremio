@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { ADDONS, linkInstalar, montarUrl } from "@/lib/catalog.js"
 import { entrar, lerColecao, gravarColecao, mesclar, backupJson, ErroStremio } from "@/lib/stremio.js"
-import { descritor } from "@/lib/validation.js"
+import { descritor, validar } from "@/lib/validation.js"
 
 type Fase = { tipo: "parado" } | { tipo: "indo"; passo: string } | { tipo: "feito" } | { tipo: "erro"; texto: string }
 
@@ -30,12 +30,30 @@ export function PassoInstalar({ aoVoltar, aoConcluir }: { aoVoltar: () => void; 
       .filter(([, v]) => v),
   )
 
-  /** Os addons prontos, na ordem do catálogo. */
-  const pacote = ADDONS.map((a) => {
-    const url = a.exige === "nada" || a.exige === "debrid" ? montarUrl(a, "", debrids) : estado[a.id]?.url
-    if (!url) return null
-    return descritor({ ok: true, url, manifest: { id: a.id, name: a.nome } }, a)
-  }).filter(Boolean)
+  /**
+   * Monta a coleção na ordem do catálogo.
+   *
+   * O manifesto de verdade é obrigatório: o Stremio guarda o que recebe, e um
+   * manifesto inventado instala um addon que aparece na lista e não devolve
+   * nada. Quem já foi verificado tem o seu guardado; os automáticos, que nunca
+   * passaram por um campo, são perguntados aqui.
+   */
+  const montarPacote = async () => {
+    const pacote = []
+    for (const a of ADDONS) {
+      const salvo = estado[a.id]
+      const url = a.exige === "nada" || a.exige === "debrid" ? montarUrl(a, "", debrids) : salvo?.url
+      if (!url) continue
+
+      if (salvo?.manifest) {
+        pacote.push(descritor({ ok: true, url, manifest: salvo.manifest }, a))
+        continue
+      }
+      const r = await validar(a, salvo?.valor ?? "", { debrids })
+      if (r.ok) pacote.push(descritor(r, a))
+    }
+    return pacote
+  }
 
   const instalar = async () => {
     if (!email || !senha) {
@@ -43,6 +61,9 @@ export function PassoInstalar({ aoVoltar, aoConcluir }: { aoVoltar: () => void; 
       return
     }
     try {
+      setFase({ tipo: "indo", passo: "Conferindo os complementos…" })
+      const pacote = await montarPacote()
+
       setFase({ tipo: "indo", passo: "Entrando na conta…" })
       const chave = await entrar(email, senha)
 
@@ -59,7 +80,7 @@ export function PassoInstalar({ aoVoltar, aoConcluir }: { aoVoltar: () => void; 
       }
 
       setFase({ tipo: "indo", passo: "Gravando a lista nova…" })
-      await gravarColecao(chave, mesclar(atual, pacote as never[]))
+      await gravarColecao(chave, mesclar(atual, pacote))
       setFase({ tipo: "feito" })
       aoConcluir()
     } catch (e) {
@@ -171,7 +192,7 @@ export function PassoInstalar({ aoVoltar, aoConcluir }: { aoVoltar: () => void; 
                 >
                   <span className="flex-1 text-sm font-medium">{a.nome}</span>
                   {url ? (
-                    <Button asChild size="sm" variant="secondary">
+                    <Button asChild variant="secondary" className="h-10">
                       <a href={linkInstalar(url)}>Instalar</a>
                     </Button>
                   ) : (

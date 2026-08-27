@@ -160,6 +160,19 @@
 
 @layer base {
   * { @apply border-border outline-ring/50 }
+
+  /* O preflight do Tailwind v4 deixou de dar cursor de mão a botões, então tudo
+     que é clicável nascia com a seta padrão. Isso é o site inteiro parecendo
+     morto ao passar o mouse. */
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  label:has(> input[type="checkbox"]),
+  label:has(> input[type="radio"]),
+  summary,
+  a[href] {
+    cursor: pointer;
+  }
+  button:disabled, [aria-disabled="true"] { cursor: not-allowed }
   body {
     @apply bg-background text-foreground font-sans antialiased;
     text-rendering: optimizeLegibility;

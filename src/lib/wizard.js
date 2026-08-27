@@ -20,6 +20,7 @@ const CHAVE = "super-stremio:v1"
  * @property {boolean} [abriu]    abriu o configurador ou criou a conta
  * @property {boolean} [ajustou]  fez o ajuste externo daquele passo
  * @property {boolean} [baixou]   baixou o arquivo daquele passo
+ * @property {object} [manifest]  manifesto que o addon devolveu na verificação
  */
 
 /** @typedef {Record<string, Preenchido>} Estado */
@@ -98,6 +99,10 @@ export function registrar(estado, id, valor, resultado) {
       validado: resultado.ok,
       url: resultado.url,
       mensagem: resultado.mensagem,
+      // O manifesto vem junto porque a instalação precisa dele inteiro: o
+      // Stremio guarda o que a gente manda, e um manifesto mínimo instala um
+      // addon que não devolve nada.
+      manifest: resultado.manifest ?? estado[id]?.manifest,
     },
   }
 }

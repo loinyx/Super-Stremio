@@ -50,7 +50,7 @@ export function PassoFontes({ aoAvancar, aoVoltar }: { aoAvancar: () => void; ao
     const r = await validar(AIO, valor.trim())
     setConferindo(false)
     setMsg(r.mensagem)
-    anotar(AIO.id, valor.trim(), { ok: r.ok, mensagem: r.mensagem, url: r.url })
+    anotar(AIO.id, valor.trim(), { ok: r.ok, mensagem: r.mensagem, url: r.url , manifest: r.manifest })
   }
 
   return (

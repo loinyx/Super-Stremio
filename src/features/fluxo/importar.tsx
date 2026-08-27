@@ -47,7 +47,7 @@ export function Importar({ aoImportar, rotulo = "Tenho um arquivo salvo" }: {
           e.target.value = ""
         }}
       />
-      <Button variant="ghost" onClick={() => entrada.current?.click()} className="text-muted-foreground">
+      <Button variant="ghost" onClick={() => entrada.current?.click()} className="h-10 text-muted-foreground">
         <UploadSimple weight="bold" aria-hidden="true" />
         {rotulo}
       </Button>

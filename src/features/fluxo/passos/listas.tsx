@@ -111,7 +111,11 @@ type FileiraProps = {
   aoAbrir: () => void
   chaveMdblist?: string
   salvo?: { valor: string; validado: boolean; abriu?: boolean; baixou?: boolean; mensagem?: string }
-  aoAnotar: (chave: string, valor: string, r: { ok: boolean; mensagem?: string; url?: string }) => void
+  aoAnotar: (
+    chave: string,
+    valor: string,
+    r: { ok: boolean; mensagem?: string; url?: string; manifest?: object },
+  ) => void
   aoCumprir: (chave: string, passo: "abriu" | "ajustou" | "baixou") => void
   aoConcluir: () => void
 }
@@ -140,7 +144,7 @@ function Fileira({ lista, aberta, aoAbrir, chaveMdblist, salvo, aoAnotar, aoCump
     const r = await validar(lista, valor.trim())
     setConferindo(false)
     setMsg(r.mensagem)
-    aoAnotar(lista.id, valor.trim(), { ok: r.ok, mensagem: r.mensagem, url: r.url })
+    aoAnotar(lista.id, valor.trim(), { ok: r.ok, mensagem: r.mensagem, url: r.url , manifest: r.manifest })
     if (r.ok) aoConcluir()
   }
 

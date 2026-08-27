@@ -15,7 +15,7 @@ export function TrocaTema() {
       size="icon"
       aria-label={escuro ? "Usar o tema claro" : "Usar o tema escuro"}
       onClick={() => setTema(escuro ? "claro" : "escuro")}
-      className="text-muted-foreground"
+      className="size-10 text-muted-foreground"
     >
       {escuro ? (
         <Sun weight="fill" aria-hidden="true" className="size-5" />
