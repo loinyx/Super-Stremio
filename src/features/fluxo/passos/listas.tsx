@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { AnimatePresence, motion } from "motion/react"
-import { ArrowSquareOut, CheckCircle, DownloadSimple } from "@phosphor-icons/react"
+import { ArrowSquareOut, CheckCircle, DownloadSimple, WarningCircle } from "@phosphor-icons/react"
 import { Passo } from "../passo"
 import { useFluxo } from "../estado"
 import { Button } from "@/components/ui/button"
@@ -37,7 +37,7 @@ export function PassoListas({ aoAvancar, aoVoltar }: { aoAvancar: () => void; ao
   return (
     <Passo
       titulo="As cinco fileiras da sua tela inicial"
-      lede="É a mesma tarefa cinco vezes, uma por fileira: baixar um arquivo, importar no site do complemento e trazer o código de volta. Uns oito minutos ao todo."
+      lede="É a mesma tarefa cinco vezes, uma por fileira: baixar um arquivo, importar no site do complemento e trazer o código de volta. Cada fileira precisa de uma aba nova. Uns oito minutos ao todo."
       aoAvancar={aoAvancar}
       aoVoltar={aoVoltar}
       travado={prontas === LISTAS.length ? undefined : `Faltam ${LISTAS.length - prontas} de ${LISTAS.length}.`}
@@ -166,30 +166,28 @@ function Fileira({ lista, aberta, aoAbrir, chaveMdblist, salvo, aoAnotar, aoCump
             transition={{ duration: 0.32, ease: [0.2, 0, 0, 1] }}
             className="overflow-hidden"
           >
-            <div className="space-y-5 border-t border-border p-5 pt-6">
-              <div>
-                <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
-                  primeiro, aqui
-                </p>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  O arquivo já sai com a sua chave dentro. Você não digita nada lá.
-                </p>
-                <Button variant="secondary" onClick={baixar} className="mt-3">
-                  <DownloadSimple weight="bold" aria-hidden="true" />
-                  Baixar o arquivo desta fileira
-                </Button>
-              </div>
+            <div className="border-t border-border p-6">
+              {/* Duas coisas, não seis. O que fazer fora, e o que trazer de volta. */}
+              <p className="text-sm leading-relaxed text-muted-foreground">
+                Baixe o arquivo, que já sai com a sua chave dentro, e importe no configurador em
+                <em> Configuration</em>, <em>Import Configuration</em>. Salve, crie uma senha, e o
+                código aparece.
+              </p>
 
-              <div>
-                <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
-                  lá no site deles
-                </p>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  Abra numa aba nova. Em <em>Configuration</em>, use <em>Import Configuration</em>,
-                  escolha o arquivo, clique em <em>Save</em> e crie uma senha. Cada fileira precisa
-                  da aba dela, ou uma salva por cima da outra.
-                </p>
-                <Button asChild variant="secondary" className="mt-3">
+              <p className="mt-4 flex items-start gap-2.5 text-sm leading-relaxed text-foreground">
+                <WarningCircle weight="fill" aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-accent" />
+                <span>
+                  Uma aba nova para cada fileira, sem exceção. Reaproveitar a aba anterior salva
+                  por cima dela, e sobra uma fileira em vez de cinco.
+                </span>
+              </p>
+
+              <div className="mt-5 flex flex-col gap-2.5 sm:flex-row">
+                <Button variant="secondary" onClick={baixar} className="h-11">
+                  <DownloadSimple weight="bold" aria-hidden="true" />
+                  Baixar o arquivo
+                </Button>
+                <Button asChild variant="secondary" className="h-11">
                   <a
                     href={lista.configurador}
                     target="_blank"
@@ -202,21 +200,21 @@ function Fileira({ lista, aberta, aoAbrir, chaveMdblist, salvo, aoAnotar, aoCump
                 </Button>
               </div>
 
-              <div>
-                <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
+              <div className="mt-7 border-t border-border pt-6">
+                <label
+                  htmlFor={`uuid-${lista.id}`}
+                  className="font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground"
+                >
                   e volta pra cá
-                </p>
-                <label htmlFor={`uuid-${lista.id}`} className="mt-2 block text-sm font-medium">
-                  Código desta fileira
                 </label>
-                <div className="mt-2 flex flex-col gap-2 sm:flex-row">
+                <div className="mt-3 flex flex-col gap-2.5 sm:flex-row">
                   <input
                     id={`uuid-${lista.id}`}
                     type="text"
                     value={valor}
                     onChange={(e) => setValor(e.target.value)}
                     onKeyDown={(e) => e.key === "Enter" && conferir()}
-                    placeholder="cole o código que apareceu…"
+                    placeholder="cole o código desta fileira…"
                     autoComplete="off"
                     spellCheck={false}
                     className={cn(
@@ -232,7 +230,7 @@ function Fileira({ lista, aberta, aoAbrir, chaveMdblist, salvo, aoAnotar, aoCump
                 </div>
                 <p
                   aria-live="polite"
-                  className={cn("mt-2 text-sm", pronta ? "text-success" : "text-muted-foreground")}
+                  className={cn("mt-3 text-sm", pronta ? "text-success" : "text-muted-foreground")}
                 >
                   {msg ?? "Cada fileira tem o seu, e nenhum se repete."}
                 </p>
