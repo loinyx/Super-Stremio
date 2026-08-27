@@ -240,7 +240,13 @@ function Fileira({ lista, aberta, aoAbrir, chaveMdblist, salvo, aoAnotar, aoCump
                       <li>Clique em <Termo>Import Configuration</Termo> e escolha o arquivo baixado</li>
                       <li>Clique em <Termo>Save Configuration</Termo></li>
                       <li>Crie uma senha e anote, porque não tem como recuperar</li>
-                      <li>Copie o código que aparecer na tela</li>
+                      <li>
+                        Copie o <strong className="font-semibold text-foreground">identificador</strong> que
+                        aparece depois de salvar. São 36 caracteres com hífens, assim:
+                        <span className="mt-1 block font-mono text-[12px] text-muted-foreground">
+                          a4f1c2e8-3b7d-4e21-9f60-8c5d2b7a1e34
+                        </span>
+                      </li>
                     </ol>
                   </div>
                 </li>
@@ -249,7 +255,7 @@ function Fileira({ lista, aberta, aoAbrir, chaveMdblist, salvo, aoAnotar, aoCump
                   <Numero n={4} />
                   <div>
                     <label htmlFor={`uuid-${lista.id}`} className="text-sm font-semibold">
-                      Cole o código aqui
+                      Cole o identificador desta fileira
                     </label>
                     <div className="mt-3 flex flex-col gap-2.5 sm:flex-row">
                       <input
@@ -258,7 +264,7 @@ function Fileira({ lista, aberta, aoAbrir, chaveMdblist, salvo, aoAnotar, aoCump
                         value={valor}
                         onChange={(e) => setValor(e.target.value)}
                         onKeyDown={(e) => e.key === "Enter" && conferir()}
-                        placeholder="cole o código desta fileira…"
+                        placeholder="a4f1c2e8-3b7d-4e21-9f60-8c5d2b7a1e34…"
                         autoComplete="off"
                         spellCheck={false}
                         className={cn(
@@ -276,7 +282,7 @@ function Fileira({ lista, aberta, aoAbrir, chaveMdblist, salvo, aoAnotar, aoCump
                       aria-live="polite"
                       className={cn("mt-3 text-sm", pronta ? "text-success" : "text-muted-foreground")}
                     >
-                      {msg ?? "Cada fileira tem o seu código, e nenhum se repete."}
+                      {msg ?? "Cada fileira tem o seu identificador, e nenhum se repete."}
                     </p>
                   </div>
                 </li>
