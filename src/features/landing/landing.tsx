@@ -104,10 +104,12 @@ export function Landing({ aoComecar }: { aoComecar: () => void }) {
 
       <section id="o-que-tem" className="mx-auto max-w-5xl scroll-mt-16 px-6 pb-28">
         <BlurFade delay={0.05} inView>
-          <p className="font-mono text-xs tracking-[0.2em] text-primary">depois de instalar</p>
-          <h2 className="mt-4 max-w-xl text-balance text-3xl font-bold tracking-tight sm:text-4xl">
-            O que muda no dia a dia
-          </h2>
+          <div className="text-center">
+            <p className="font-mono text-xs tracking-[0.2em] text-primary">depois de instalar</p>
+            <h2 className="mx-auto mt-4 max-w-xl text-balance text-3xl font-bold tracking-tight sm:text-4xl">
+              O que muda no dia a dia
+            </h2>
+          </div>
         </BlurFade>
 
         <div className="mt-14 flex flex-col gap-6">
