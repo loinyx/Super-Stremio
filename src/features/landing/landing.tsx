@@ -44,10 +44,11 @@ const PILARES = [
   },
   {
     id: "addons",
-    titulo: "Você não precisa configurar nada",
+    titulo: "Dá trabalho uma vez só",
     texto:
-      "São onze complementos, instalados e ajustados de uma vez. Você não precisa saber o " +
-      "que cada um faz.",
+      "São alguns cadastros e chaves para colar, uns quinze minutos. O que sai disso são " +
+      "onze complementos que já foram escolhidos e ajustados para funcionar juntos, e " +
+      "descobrir isso sozinho leva dias de tentativa e erro.",
     prova: <ProvaAddons />,
   },
 ]
