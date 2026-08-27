@@ -20,6 +20,7 @@
  */
 
 /** Nome de exibição de cada serviço, para o aviso do download. */
+/** @type {Record<string, string>} */
 const NOMES = { torbox: "TorBox", realdebrid: "Real-Debrid" }
 
 /**
@@ -29,10 +30,11 @@ const NOMES = { torbox: "TorBox", realdebrid: "Real-Debrid" }
  * configuração sem ter preenchido tudo continua valendo, só dá mais trabalho
  * depois.
  *
- * @param {object} template conteúdo do arquivo em /templates
+ * @param {any} template conteúdo do arquivo em /templates, cuja forma é
+ *   decidida pelo servidor de cada addon e não por nós
  * @param {import("./catalog.js").Addon} addon
- * @param {Chaves} chaves
- * @returns {{arquivo: object, aplicadas: string[]}}
+ * @param {Record<string, string | undefined>} chaves
+ * @returns {{arquivo: any, aplicadas: string[]}}
  */
 export function injetarChaves(template, addon, chaves = {}) {
   const arquivo = structuredClone(template)

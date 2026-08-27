@@ -16,6 +16,11 @@ const CHAVE = "super-stremio:v1"
  * @property {boolean} validado
  * @property {string} [url]      URL montada, quando validado
  * @property {string} [mensagem]
+ * @property {boolean} [ativo]    serviço de debrid ligado
+ * @property {boolean} [abriu]    abriu o configurador ou criou a conta
+ * @property {boolean} [ajustou]  fez o ajuste externo daquele passo
+ * @property {boolean} [baixou]   baixou o arquivo daquele passo
+ * @property {object} [manifest]  manifesto que o addon devolveu na verificação
  */
 
 /** @typedef {Record<string, Preenchido>} Estado */
@@ -94,6 +99,10 @@ export function registrar(estado, id, valor, resultado) {
       validado: resultado.ok,
       url: resultado.url,
       mensagem: resultado.mensagem,
+      // O manifesto vem junto porque a instalação precisa dele inteiro: o
+      // Stremio guarda o que a gente manda, e um manifesto mínimo instala um
+      // addon que não devolve nada.
+      manifest: resultado.manifest ?? estado[id]?.manifest,
     },
   }
 }
@@ -110,7 +119,20 @@ export function registrar(estado, id, valor, resultado) {
  * @returns {Estado}
  */
 export function marcarAbertura(estado, id) {
-  return { ...estado, [id]: { valor: "", validado: false, ...estado[id], abriu: true } }
+  return marcarPasso(estado, id, "abriu")
+}
+
+/**
+ * Marca um passo qualquer do cartão como feito, pelo nome que ele carrega.
+ *
+ * @param {Estado} estado
+ * @param {string} id
+ * @param {"abriu" | "ajustou" | "baixou"} passo
+ * @returns {Estado}
+ */
+export function marcarPasso(estado, id, passo) {
+  const anterior = estado[id] ?? { valor: "", validado: false }
+  return { ...estado, [id]: { ...anterior, [passo]: true } }
 }
 
 /** @param {Estado} estado @param {string} id @returns {boolean} */

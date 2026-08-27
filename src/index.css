@@ -1,0 +1,182 @@
+@import "tailwindcss";
+
+/* O `dark` do Tailwind v4 vira classe, e não media query, porque o tema é
+   escolha de quem usa e precisa poder ser trocado no botão. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* =========================================================================
+   Tokens. Nomes no padrão shadcn, que é o que os componentes do Magic UI
+   esperam encontrar. Os valores é que são nossos.
+   ========================================================================= */
+
+:root {
+  --radius: 1.125rem;
+
+  --background: oklch(0.985 0.004 272);
+  --foreground: oklch(0.19 0.03 272);
+  --card: oklch(1 0 0);
+  --card-foreground: var(--foreground);
+  --popover: oklch(1 0 0);
+  --popover-foreground: var(--foreground);
+
+  --primary: oklch(0.53 0.24 293);
+  --primary-foreground: oklch(0.99 0.004 293);
+
+  --secondary: oklch(0.955 0.011 272);
+  --secondary-foreground: oklch(0.28 0.03 272);
+  --muted: oklch(0.955 0.011 272);
+  --muted-foreground: oklch(0.5 0.028 272);
+  --accent: oklch(0.55 0.17 258);
+  --accent-foreground: oklch(0.99 0.004 258);
+
+  --destructive: oklch(0.57 0.21 25);
+  --destructive-foreground: oklch(0.99 0 0);
+  --success: oklch(0.6 0.15 152);
+  --success-foreground: oklch(0.99 0 0);
+
+  --border: oklch(0.905 0.012 272);
+  --input: oklch(0.905 0.012 272);
+  --ring: var(--primary);
+}
+
+.dark {
+  /* Duas cores e um cinza. O roxo decide, o azul acompanha, e o fundo é um
+     cinza bem escuro puxado para o azul: croma baixo o bastante para não
+     competir com as duas cores, alto o bastante para não parecer preto morto.
+     Todo neutro fica em 272, entre o roxo (293) e o azul (258), e por isso as
+     três famílias parecem da mesma casa. */
+  --background: oklch(0.128 0.024 272);
+  --foreground: oklch(0.975 0.01 272);
+  --card: oklch(0.171 0.03 272);
+  --card-foreground: var(--foreground);
+  --popover: oklch(0.171 0.03 272);
+  --popover-foreground: var(--foreground);
+
+  --primary: oklch(0.64 0.235 293);
+  --primary-foreground: oklch(0.14 0.03 293);
+
+  --secondary: oklch(0.216 0.034 272);
+  --secondary-foreground: oklch(0.975 0.01 272);
+  --muted: oklch(0.216 0.034 272);
+  --muted-foreground: oklch(0.715 0.03 272);
+  --accent: oklch(0.63 0.18 258);
+  --accent-foreground: oklch(0.14 0.03 258);
+
+  --destructive: oklch(0.64 0.2 25);
+  --destructive-foreground: oklch(0.14 0.03 272);
+  --success: oklch(0.7 0.155 155);
+  --success-foreground: oklch(0.14 0.03 272);
+
+  --border: oklch(1 0 0 / 11%);
+  --input: oklch(1 0 0 / 13%);
+  --ring: var(--primary);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Uma escala só, derivada do raio base. Trocar o base arredonda o site
+     inteiro sem ninguém precisar caçar classe por classe. */
+  --radius-sm: calc(var(--radius) - 6px);
+  --radius-md: calc(var(--radius) - 4px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 10px);
+  --radius-3xl: calc(var(--radius) + 18px);
+
+  /* Deriva do glow. Só transform e escala, que a GPU compõe sem repintar: o
+     borrão é rasterizado uma vez e depois só se move. Animar o gradiente em si
+     repintaria a tela inteira a cada quadro. */
+  --animate-deriva-a: deriva-a 24s ease-in-out infinite alternate;
+  --animate-deriva-b: deriva-b 31s ease-in-out infinite alternate;
+  --animate-deriva-c: deriva-c 19s ease-in-out infinite alternate;
+
+  @keyframes deriva-a {
+    from { transform: translate3d(-7%, -5%, 0) scale(1) }
+    to   { transform: translate3d(7%, 4%, 0) scale(1.18) }
+  }
+  @keyframes deriva-b {
+    from { transform: translate3d(5%, 3%, 0) scale(1.12) }
+    to   { transform: translate3d(-8%, -6%, 0) scale(0.94) }
+  }
+  @keyframes deriva-c {
+    from { transform: translate3d(4%, -3%, 0) scale(0.96) }
+    to   { transform: translate3d(-5%, 5%, 0) scale(1.2) }
+  }
+
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --animate-shimmer-slide: shimmer-slide var(--speed) ease-in-out infinite alternate;
+  --animate-spin-around: spin-around calc(var(--speed) * 2) infinite linear;
+  @keyframes shimmer-slide {
+  to {
+    transform: translate(calc(100cqw - 100%), 0);
+    }
+  }
+  @keyframes spin-around {
+  0% {
+    transform: translateZ(0) rotate(0);
+    }
+  15%, 35% {
+    transform: translateZ(0) rotate(90deg);
+    }
+  65%, 85% {
+    transform: translateZ(0) rotate(270deg);
+    }
+  100% {
+    transform: translateZ(0) rotate(360deg);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glow-blob { animation: none !important }
+}
+
+/* A luz foi calibrada sobre um fundo quase preto, onde ela acrescenta cor. Sobre
+   um fundo claro a mesma mancha vira um lavado pastel pesado, então ela recua. */
+:root:not(.dark) .glow-blob { opacity: 0.38; filter: blur(150px) }
+:root:not(.dark) .poster-carta { box-shadow: 0 18px 40px -18px rgb(0 0 0 / 0.28) }
+
+@layer base {
+  * { @apply border-border outline-ring/50 }
+
+  /* O preflight do Tailwind v4 deixou de dar cursor de mão a botões, então tudo
+     que é clicável nascia com a seta padrão. Isso é o site inteiro parecendo
+     morto ao passar o mouse. */
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  label:has(> input[type="checkbox"]),
+  label:has(> input[type="radio"]),
+  summary,
+  a[href] {
+    cursor: pointer;
+  }
+  button:disabled, [aria-disabled="true"] { cursor: not-allowed }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  h1, h2, h3 { text-wrap: balance }
+  p { text-wrap: pretty }
+}

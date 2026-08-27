@@ -1,5 +1,5 @@
-node_modules/
-dist/
-privado/
-__pycache__/
 .vercel
+__pycache__/
+dist/
+node_modules/
+privado/
