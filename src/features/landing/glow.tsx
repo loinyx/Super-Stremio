@@ -31,13 +31,14 @@ const MANCHAS = [
   },
 ]
 
-export function Glow() {
+/** @param atenuado no fluxo a luz é pano de fundo de uma tarefa, e não o herói. */
+export function Glow({ atenuado = false }: { atenuado?: boolean } = {}) {
   return (
     <div
       aria-hidden
-      className="pointer-events-none absolute inset-x-0 top-0 h-[900px] overflow-hidden
+      className={`pointer-events-none absolute inset-x-0 top-0 h-[900px] overflow-hidden ${atenuado ? "opacity-45" : ""}
                  [mask-image:radial-gradient(72%_62%_at_50%_18%,#000,transparent)]
-                 [mask-repeat:no-repeat] [mask-size:100%_100%]"
+                 [mask-repeat:no-repeat] [mask-size:100%_100%]`}
     >
       {MANCHAS.map((m, i) => (
         <div
