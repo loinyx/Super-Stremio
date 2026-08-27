@@ -7,6 +7,7 @@ import { ProvedorDoFluxo } from "./estado"
 import { PassoAplicativo } from "./passos/aplicativo"
 import { PassoMdblist } from "./passos/mdblist"
 import { PassoDebrid } from "./passos/debrid"
+import { PassoListas } from "./passos/listas"
 
 const TOTAL = 8
 
@@ -38,7 +39,8 @@ function Palco({ aoSair }: { aoSair: () => void }) {
           {passo === 0 && <PassoAplicativo key="app" aoAvancar={avancar} />}
           {passo === 1 && <PassoMdblist key="mdb" aoAvancar={avancar} aoVoltar={voltar} />}
           {passo === 2 && <PassoDebrid key="deb" aoAvancar={avancar} aoVoltar={voltar} />}
-          {passo > 2 && (
+          {passo === 3 && <PassoListas key="lst" aoAvancar={avancar} aoVoltar={voltar} />}
+          {passo > 3 && (
             <div key="wip" className="mx-auto max-w-2xl text-center">
               <h1 className="text-3xl font-extrabold tracking-tight">Os próximos passos vêm a seguir</h1>
               <p className="mt-4 text-muted-foreground">
