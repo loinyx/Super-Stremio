@@ -1,5 +1,6 @@
-import { ArrowDown, ArrowRight } from "@phosphor-icons/react"
+import { ArrowRight } from "@phosphor-icons/react"
 import { PosterArc } from "@/components/poster-arc"
+import { Glow } from "./glow"
 import { BlurFade } from "@/components/ui/blur-fade"
 import { BorderBeam } from "@/components/ui/border-beam"
 import { Button } from "@/components/ui/button"
@@ -52,19 +53,12 @@ const PILARES = [
 ]
 
 export function Landing({ aoComecar }: { aoComecar: () => void }) {
-  const paraOnboarding = () =>
-    document.getElementById("o-que-tem")?.scrollIntoView({ behavior: "smooth", block: "start" })
-
   return (
     <div className="relative">
       {/* Um fundo só para a página inteira, e o herói ganha luz em vez de outra
           cor. Dividir o fundo em duas cores criava uma faixa visível na borda
           da camada, e a emenda aparecia mesmo com as duas cores iguais. */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 h-[900px]
-                   [background:radial-gradient(58%_46%_at_50%_0%,color-mix(in_oklab,var(--primary)_26%,transparent),transparent_72%),radial-gradient(42%_34%_at_18%_8%,color-mix(in_oklab,var(--accent)_18%,transparent),transparent_70%),radial-gradient(38%_30%_at_84%_14%,color-mix(in_oklab,var(--primary)_14%,transparent),transparent_70%)]"
-      />
+      <Glow />
 
       <section className="relative">
         {/* `mask-repeat` nasce em `repeat`, então sem fixar isto o degradê se
@@ -84,7 +78,7 @@ export function Landing({ aoComecar }: { aoComecar: () => void }) {
 
         <div className="relative mx-auto flex max-w-3xl flex-col items-center px-6 pb-24 pt-[300px] text-center">
           <BlurFade delay={0.15} inView>
-            <p className="font-mono text-xs tracking-[0.2em] text-primary">super stremio</p>
+            <p className="font-mono text-xs tracking-[0.2em] text-foreground/70">super stremio</p>
           </BlurFade>
           <BlurFade delay={0.25} inView>
             <h1 className="mt-5 text-balance text-5xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl">
@@ -98,18 +92,13 @@ export function Landing({ aoComecar }: { aoComecar: () => void }) {
             </p>
           </BlurFade>
           <BlurFade delay={0.5} inView>
-            <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-              <Button size="lg" onClick={aoComecar} className="group h-12 px-7 text-base">
-                Começar agora
-                <ArrowRight weight="bold" className="ml-1 transition-transform group-hover:translate-x-0.5" />
-              </Button>
-              <Button size="lg" variant="ghost" onClick={paraOnboarding} className="group h-12 px-6 text-base">
-                Saber mais
-                <ArrowDown weight="bold" className="ml-1 transition-transform group-hover:translate-y-0.5" />
-              </Button>
-            </div>
+            <Button size="lg" onClick={aoComecar} className="group mt-10 h-12 px-8 text-base">
+              Começar agora
+              <ArrowRight weight="bold" className="ml-1 transition-transform group-hover:translate-x-0.5" />
+            </Button>
             <p className="mt-4 text-sm text-muted-foreground">Leva uns quinze minutos, e é de graça</p>
           </BlurFade>
+
         </div>
       </section>
 

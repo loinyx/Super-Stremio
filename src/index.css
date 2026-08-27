@@ -104,6 +104,26 @@
   --radius-2xl: calc(var(--radius) + 10px);
   --radius-3xl: calc(var(--radius) + 18px);
 
+  /* Deriva do glow. Só transform e escala, que a GPU compõe sem repintar: o
+     borrão é rasterizado uma vez e depois só se move. Animar o gradiente em si
+     repintaria a tela inteira a cada quadro. */
+  --animate-deriva-a: deriva-a 24s ease-in-out infinite alternate;
+  --animate-deriva-b: deriva-b 31s ease-in-out infinite alternate;
+  --animate-deriva-c: deriva-c 19s ease-in-out infinite alternate;
+
+  @keyframes deriva-a {
+    from { transform: translate3d(-7%, -5%, 0) scale(1) }
+    to   { transform: translate3d(7%, 4%, 0) scale(1.18) }
+  }
+  @keyframes deriva-b {
+    from { transform: translate3d(5%, 3%, 0) scale(1.12) }
+    to   { transform: translate3d(-8%, -6%, 0) scale(0.94) }
+  }
+  @keyframes deriva-c {
+    from { transform: translate3d(4%, -3%, 0) scale(0.96) }
+    to   { transform: translate3d(-5%, 5%, 0) scale(1.2) }
+  }
+
   --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
   --animate-shimmer-slide: shimmer-slide var(--speed) ease-in-out infinite alternate;
@@ -127,6 +147,10 @@
     transform: translateZ(0) rotate(360deg);
     }
   }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glow-blob { animation: none !important }
 }
 
 @layer base {
