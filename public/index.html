@@ -36,19 +36,11 @@
   <h2>O que você vai precisar</h2>
   <div class="cartoes" id="pre-requisitos"></div>
 
-  <details class="ajuda">
-    <summary><span data-ico="question"></span> Por que preciso de contas minhas?</summary>
-    <div class="ajuda-corpo">
-      <p class="nota">
-        As configurações prontas ficam guardadas nos servidores de cada serviço, atreladas
-        a quem as criou. Não dá para emprestar as minhas sem emprestar as minhas contas junto.
-      </p>
-      <p class="nota">
-        O que este site faz é entregar a configuração pronta e a sua chave já dentro dela,
-        para você importar num clique em vez de montar tudo à mão.
-      </p>
-    </div>
-  </details>
+  <button class="saiba" type="button" data-abrir-ajuda="contas">
+    <span data-ico="question" data-cls="ic-p"></span>
+    <span>Por que preciso de contas minhas?</span>
+    <span data-ico="arrow-right" data-cls="ic-seta"></span>
+  </button>
 
   <div class="acoes">
     <button class="bt bt-p" data-go="1">Começar <span data-ico="arrow-right"></span></button>
@@ -61,8 +53,27 @@
   <span class="mini">Passo 1 de 8</span>
   <h1>Onde você assiste?</h1>
   <p class="lede">
-    Os addons são os mesmos. O que muda é o que cada aplicativo faz com eles.
+    Os addons são os mesmos nos dois. O que muda é o que cada aplicativo faz com eles.
   </p>
+
+  <div class="cartao">
+    <ol class="guia">
+      <li data-passo="escolher">
+        <b>1</b>
+        <div class="guia-tx">
+          <strong>Escolha onde você assiste</strong>
+          <small>Os textos dos próximos passos se ajustam à sua escolha.</small>
+        </div>
+      </li>
+      <li data-passo="baixar" data-larga>
+        <b>2</b>
+        <div class="guia-tx">
+          <strong>Se ainda não tiver o aplicativo, baixe</strong>
+          <small>O botão de baixar está dentro do cartão que você escolher. Instale antes do último passo, que é onde tudo entra.</small>
+        </div>
+      </li>
+    </ol>
+  </div>
 
   <div class="duo" id="escolha-app" role="radiogroup" aria-label="Aplicativo"></div>
 
@@ -86,42 +97,47 @@
     Grátis, dois minutos. É de onde vêm 86 das 150 prateleiras.
   </p>
 
-  <div class="cartao">
-    <div class="linha">
-      <a class="bt bt-s bt-sm" href="https://mdblist.com/" target="_blank" rel="noopener">
-        Criar conta <span data-ico="arrow-square-out"></span>
-      </a>
-      <a class="bt bt-s bt-sm" href="https://mdblist.com/preferences/" target="_blank" rel="noopener">
-        Pegar a chave <span data-ico="arrow-square-out"></span>
-      </a>
-    </div>
-    <div class="campo" data-campo="chave:mdblist">
-      <div class="par">
-        <input id="f-mdb" type="text" placeholder="cole a chave aqui" autocomplete="off" spellcheck="false">
-        <button class="bt bt-s" data-verificar>Verificar</button>
-      </div>
-      <p class="msg" data-tone="idle" data-saida>Fica em Preferences, no menu do seu perfil</p>
-    </div>
+  <div class="cartao" data-campo="chave:mdblist">
+    <ol class="guia">
+      <li data-passo="abrir">
+        <b>1</b>
+        <div class="guia-tx">
+          <strong>Crie a conta no MDBList</strong>
+          <small>Grátis, pede só um e-mail. Se você já tem conta, pula para o 2.</small>
+        </div>
+        <a class="bt bt-s bt-sm" data-marca="abriu" href="https://mdblist.com/" target="_blank" rel="noopener">
+          Criar conta <span data-ico="arrow-square-out"></span>
+        </a>
+      </li>
+      <li data-passo="ajustar">
+        <b>2</b>
+        <div class="guia-tx">
+          <strong>Copie a sua chave</strong>
+          <small>Ela fica em <em>Preferences</em>, no menu do seu perfil, embaixo de <em>API Key</em>.</small>
+        </div>
+        <a class="bt bt-s bt-sm" data-marca="ajustou" href="https://mdblist.com/preferences/" target="_blank" rel="noopener">
+          Pegar a chave <span data-ico="arrow-square-out"></span>
+        </a>
+      </li>
+      <li data-passo="valor" data-larga>
+        <b>3</b>
+        <div class="guia-tx">
+          <strong>Cole a chave aqui</strong>
+          <div class="par">
+            <input id="f-mdb" type="text" placeholder="cole a chave aqui" autocomplete="off" spellcheck="false">
+            <button class="bt bt-s" data-verificar>Verificar</button>
+          </div>
+          <p class="msg" data-tone="idle" data-saida>Eu pergunto ao MDBList se ela funciona antes de seguir</p>
+        </div>
+      </li>
+    </ol>
   </div>
 
-  <details class="ajuda">
-    <summary><span data-ico="question"></span> O que é o MDBList e por que importa tanto?</summary>
-    <div class="ajuda-corpo">
-      <p class="nota">
-        É quem monta listas como Netflix Top 10, em alta essa semana, melhores dos anos 90.
-        Das 150 prateleiras deste setup, <strong>86 saem de lá</strong>: as por gênero, as por
-        década, e as de cada serviço de streaming.
-      </p>
-      <p class="nota">
-        O servidor que hospeda os catálogos traz TMDB e TVDB embutidos, mas não traz MDBList.
-        Sem a sua chave, mais da metade das prateleiras carrega vazia.
-      </p>
-      <p class="nota">
-        Ela fica só no seu navegador, e entra sozinha nos arquivos que você vai baixar
-        nos próximos passos. Você não vai digitar ela de novo.
-      </p>
-    </div>
-  </details>
+  <button class="saiba" type="button" data-abrir-ajuda="mdblist">
+    <span data-ico="question" data-cls="ic-p"></span>
+    <span>O que é o MDBList e por que importa tanto?</span>
+    <span data-ico="arrow-right" data-cls="ic-seta"></span>
+  </button>
 
   <div class="acoes">
     <button class="bt bt-p" data-go="3">Continuar <span data-ico="arrow-right"></span></button>
@@ -141,24 +157,11 @@
 
   <p class="msg" data-tone="idle" id="saida-debrid">Ligue o serviço que você assina para seguir.</p>
 
-  <details class="ajuda">
-    <summary><span data-ico="question"></span> O que um debrid faz, e por que é obrigatório?</summary>
-    <div class="ajuda-corpo">
-      <p class="nota">
-        Sem ele, o aplicativo baixa o torrent na sua casa enquanto você assiste: espera o arquivo
-        encher para começar, trava quando tem pouca gente compartilhando, e o seu IP fica visível
-        para todo mundo no mesmo torrent.
-      </p>
-      <p class="nota">
-        O debrid já tem o arquivo pronto nos servidores dele e devolve um link normal de vídeo.
-        <strong>Começa na hora, em 4K, e sai do seu nome.</strong>
-      </p>
-      <p class="nota">
-        É obrigatório porque o servidor público do AIOStreams desliga streams diretos por
-        conta própria. Sem debrid funcionando, a lista de streams vem vazia.
-      </p>
-    </div>
-  </details>
+  <button class="saiba" type="button" data-abrir-ajuda="debrid">
+    <span data-ico="question" data-cls="ic-p"></span>
+    <span>O que um debrid faz, e por que é obrigatório?</span>
+    <span data-ico="arrow-right" data-cls="ic-seta"></span>
+  </button>
 
   <div class="acoes">
     <button class="bt bt-p" data-go="4">Continuar <span data-ico="arrow-right"></span></button>
@@ -199,43 +202,11 @@
 
   <div class="cartoes" id="fatias"></div>
 
-  <details class="ajuda">
-    <summary><span data-ico="question"></span> Nunca mexi nisso. Me explica com calma</summary>
-    <div class="ajuda-corpo">
-      <p class="nota">
-        <strong>O que é.</strong> O aplicativo vem com uma estante pronta, pequena e em inglês.
-        Este addon deixa você montar a sua: quais prateleiras existem, o nome de cada uma,
-        e de onde vêm os filmes.
-      </p>
-      <p class="nota">
-        <strong>Por que cinco.</strong> Cada configuração vira uma linha separada na tela
-        inicial. Cinco temas, cinco configurações. É repetitivo, e é o único jeito.
-      </p>
-      <p class="nota">
-        <strong>Você não digita chave nenhuma lá.</strong> O arquivo que o botão baixa já sai
-        com a sua chave do MDBList dentro.
-      </p>
-
-      <h4>O passo a passo, em cada fatia</h4>
-      <ol class="howto">
-        <li><b>1</b><span>Baixe o catálogo. O arquivo vai para os seus downloads.</span></li>
-        <li><b>2</b><span>Abra o configurador. Ele abre já na configuração, sem tela de boas-vindas.</span></li>
-        <li><b>3</b><span>Na aba <em>Configuration</em>, seção <em>Import &amp; Export</em>, clique em <em>Import Configuration</em> e escolha o arquivo.</span></li>
-        <li><b>4</b><span>Clique em <em>Save Configuration</em>, crie uma senha e <strong>anote</strong>.</span></li>
-        <li><b>5</b><span>Copie o <em>UUID</em> que aparecer e cole aqui.</span></li>
-      </ol>
-
-      <h4>Se der errado</h4>
-      <dl class="faq">
-        <dt>Colei o UUID e ficou vermelho</dt>
-        <dd>Quase sempre é o código pela metade. Ele tem 36 caracteres em cinco grupos separados por hífen.</dd>
-        <dt>As prateleiras aparecem vazias</dt>
-        <dd>A chave do MDBList não entrou. Baixe o arquivo de novo, depois de preencher a chave no passo 2, e importe outra vez.</dd>
-        <dt>Só apareceu uma linha em vez de cinco</dt>
-        <dd>Você repetiu o mesmo UUID. Cada fatia precisa da configuração dela, criada separadamente.</dd>
-      </dl>
-    </div>
-  </details>
+  <button class="saiba" type="button" data-abrir-ajuda="catalogos">
+    <span data-ico="question" data-cls="ic-p"></span>
+    <span>Nunca mexi nisso. Me explica com calma</span>
+    <span data-ico="arrow-right" data-cls="ic-seta"></span>
+  </button>
 
   <div class="acoes">
     <button class="bt bt-p" data-go="5">Continuar <span data-ico="arrow-right"></span></button>
@@ -287,38 +258,11 @@
     </ol>
   </div>
 
-  <details class="ajuda">
-    <summary><span data-ico="question"></span> Por que não basta instalar vários addons de stream?</summary>
-    <div class="ajuda-corpo">
-      <p class="nota">
-        Com seis addons de torrent instalados, apertar play abre sessenta linhas com o mesmo
-        filme repetido, sem ordem, misturando 4K com gravação feita dentro do cinema.
-      </p>
-      <p class="nota">
-        Este junta tudo numa lista só e ordena: dublado primeiro, 4K antes de 1080p,
-        descartando gravação de cinema. <strong>Você aperta play e assiste.</strong>
-      </p>
-      <p class="nota">
-        <strong>Fique no modo Simple.</strong> O arquivo já traz todos os ajustes decididos, e o
-        Advanced abre filtros que, mexidos sem querer, zeram a sua lista.
-      </p>
-
-      <h4>Se der errado</h4>
-      <dl class="faq">
-        <dt>Não aparece stream nenhum</dt>
-        <dd>
-          Se você entrou no <em>Advanced</em>, confira <em>Filters</em>, campo
-          <em>Required Languages</em>: ele precisa ficar vazio. Idioma ali descarta todo stream
-          que não venha marcado com aquele idioma, e a maioria não vem marcada com nenhum.
-          Quem põe o português na frente é o <em>Preferred</em>, que já vem preenchido.
-        </dd>
-        <dt>Aparece menos do que eu esperava</dt>
-        <dd>O servidor público desliga alguns buscadores por conta própria, entre eles o Torrentio. É regra deles. O Torrentio continua funcionando à parte, instalado por este site.</dd>
-        <dt>Perdi a senha</dt>
-        <dd>Não tem recuperação. Crie outra configuração, importe o mesmo arquivo e volte com o endereço novo.</dd>
-      </dl>
-    </div>
-  </details>
+  <button class="saiba" type="button" data-abrir-ajuda="streams">
+    <span data-ico="question" data-cls="ic-p"></span>
+    <span>Por que não basta instalar vários addons de stream?</span>
+    <span data-ico="arrow-right" data-cls="ic-seta"></span>
+  </button>
 
   <div class="acoes">
     <button class="bt bt-p" data-go="6">Continuar <span data-ico="arrow-right"></span></button>
@@ -408,27 +352,11 @@
     </ol>
   </div>
 
-  <details class="ajuda">
-    <summary><span data-ico="question"></span> O que cada provedor pede em Connect?</summary>
-    <div class="ajuda-corpo">
-      <p class="nota">
-        São contas de sites de legenda, e o Community Subtitles busca em todos de uma vez
-        depois de conectados. Conectar é opcional, e cada um a mais é mais legenda encontrada.
-      </p>
-      <dl class="faq">
-        <dt>OpenSubtitles.com</dt>
-        <dd>Usuário e senha da conta de lá. É o maior acervo, e o que mais vale conectar.</dd>
-        <dt>SubDL</dt>
-        <dd>Uma API key, que aparece no painel da conta depois do cadastro.</dd>
-        <dt>SubSource</dt>
-        <dd>Também uma API key. Bom para série, costuma ter a legenda do episódio cedo.</dd>
-      </dl>
-      <p class="nota">
-        As senhas ficam guardadas na conta que você criou lá, não aqui. Este site nunca
-        vê nem pede nenhuma delas.
-      </p>
-    </div>
-  </details>
+  <button class="saiba" type="button" data-abrir-ajuda="legendas">
+    <span data-ico="question" data-cls="ic-p"></span>
+    <span>O que cada provedor pede em Connect?</span>
+    <span data-ico="arrow-right" data-cls="ic-seta"></span>
+  </button>
 
   <div class="acoes">
     <button class="bt bt-p" data-go="7">Continuar <span data-ico="arrow-right"></span></button>
@@ -567,18 +495,11 @@
     </button>
   </div>
 
-  <details class="ajuda">
-    <summary><span data-ico="question"></span> O que esperar na primeira vez</summary>
-    <div class="ajuda-corpo">
-      <p class="nota">
-        A tela inicial demora alguns segundos a mais para montar, porque são muitas prateleiras
-        buscando dados pela primeira vez. Da segunda em diante fica instantâneo.
-      </p>
-      <p class="nota">
-        Prateleira vazia quase sempre é a chave do MDBList faltando numa das cinco configurações.
-      </p>
-    </div>
-  </details>
+  <button class="saiba" type="button" data-abrir-ajuda="primeira-vez">
+    <span data-ico="question" data-cls="ic-p"></span>
+    <span>O que esperar na primeira vez</span>
+    <span data-ico="arrow-right" data-cls="ic-seta"></span>
+  </button>
 
   <div class="acoes">
     <button class="bt bt-t" id="recomecar">Apagar o que ficou guardado</button>
@@ -587,6 +508,151 @@
 
 </main>
 </div>
+
+
+<!-- gaveta ================================================================= -->
+<div class="gaveta-fundo" id="gaveta-fundo" hidden></div>
+<aside class="gaveta" id="gaveta" role="dialog" aria-modal="true" aria-labelledby="gaveta-titulo" hidden>
+  <header class="gaveta-cab">
+    <h2 id="gaveta-titulo"></h2>
+    <button class="bt-x" type="button" id="gaveta-fechar" aria-label="Fechar">
+      <span data-ico="x" data-cls="ic-p"></span>
+    </button>
+  </header>
+  <div class="gaveta-corpo" id="gaveta-corpo"></div>
+</aside>
+
+<!-- textos das gavetas ===================================================== -->
+<template data-ajuda="contas" data-titulo="Por que preciso de contas minhas?">
+      <p class="nota">
+        As configurações prontas ficam guardadas nos servidores de cada serviço, atreladas
+        a quem as criou. Não dá para emprestar as minhas sem emprestar as minhas contas junto.
+      </p>
+      <p class="nota">
+        O que este site faz é entregar a configuração pronta e a sua chave já dentro dela,
+        para você importar num clique em vez de montar tudo à mão.
+      </p>
+</template>
+<template data-ajuda="mdblist" data-titulo="O que é o MDBList e por que importa tanto?">
+      <p class="nota">
+        É quem monta listas como Netflix Top 10, em alta essa semana, melhores dos anos 90.
+        Das 150 prateleiras deste setup, <strong>86 saem de lá</strong>: as por gênero, as por
+        década, e as de cada serviço de streaming.
+      </p>
+      <p class="nota">
+        O servidor que hospeda os catálogos traz TMDB e TVDB embutidos, mas não traz MDBList.
+        Sem a sua chave, mais da metade das prateleiras carrega vazia.
+      </p>
+      <p class="nota">
+        Ela fica só no seu navegador, e entra sozinha nos arquivos que você vai baixar
+        nos próximos passos. Você não vai digitar ela de novo.
+      </p>
+</template>
+<template data-ajuda="debrid" data-titulo="O que um debrid faz, e por que é obrigatório?">
+      <p class="nota">
+        Sem ele, o aplicativo baixa o torrent na sua casa enquanto você assiste: espera o arquivo
+        encher para começar, trava quando tem pouca gente compartilhando, e o seu IP fica visível
+        para todo mundo no mesmo torrent.
+      </p>
+      <p class="nota">
+        O debrid já tem o arquivo pronto nos servidores dele e devolve um link normal de vídeo.
+        <strong>Começa na hora, em 4K, e sai do seu nome.</strong>
+      </p>
+      <p class="nota">
+        É obrigatório porque o servidor público do AIOStreams desliga streams diretos por
+        conta própria. Sem debrid funcionando, a lista de streams vem vazia.
+      </p>
+</template>
+<template data-ajuda="catalogos" data-titulo="Nunca mexi nisso. Me explica com calma">
+      <p class="nota">
+        <strong>O que é.</strong> O aplicativo vem com uma estante pronta, pequena e em inglês.
+        Este addon deixa você montar a sua: quais prateleiras existem, o nome de cada uma,
+        e de onde vêm os filmes.
+      </p>
+      <p class="nota">
+        <strong>Por que cinco.</strong> Cada configuração vira uma linha separada na tela
+        inicial. Cinco temas, cinco configurações. É repetitivo, e é o único jeito.
+      </p>
+      <p class="nota">
+        <strong>Você não digita chave nenhuma lá.</strong> O arquivo que o botão baixa já sai
+        com a sua chave do MDBList dentro.
+      </p>
+
+      <h4>O passo a passo, em cada fatia</h4>
+      <ol class="howto">
+        <li><b>1</b><span>Baixe o catálogo. O arquivo vai para os seus downloads.</span></li>
+        <li><b>2</b><span>Abra o configurador. Ele abre já na configuração, sem tela de boas-vindas.</span></li>
+        <li><b>3</b><span>Na aba <em>Configuration</em>, seção <em>Import &amp; Export</em>, clique em <em>Import Configuration</em> e escolha o arquivo.</span></li>
+        <li><b>4</b><span>Clique em <em>Save Configuration</em>, crie uma senha e <strong>anote</strong>.</span></li>
+        <li><b>5</b><span>Copie o <em>UUID</em> que aparecer e cole aqui.</span></li>
+      </ol>
+
+      <h4>Se der errado</h4>
+      <dl class="faq">
+        <dt>Colei o UUID e ficou vermelho</dt>
+        <dd>Quase sempre é o código pela metade. Ele tem 36 caracteres em cinco grupos separados por hífen.</dd>
+        <dt>As prateleiras aparecem vazias</dt>
+        <dd>A chave do MDBList não entrou. Baixe o arquivo de novo, depois de preencher a chave no passo 2, e importe outra vez.</dd>
+        <dt>Só apareceu uma linha em vez de cinco</dt>
+        <dd>Você repetiu o mesmo UUID. Cada fatia precisa da configuração dela, criada separadamente.</dd>
+      </dl>
+</template>
+<template data-ajuda="streams" data-titulo="Por que não basta instalar vários addons de stream?">
+      <p class="nota">
+        Com seis addons de torrent instalados, apertar play abre sessenta linhas com o mesmo
+        filme repetido, sem ordem, misturando 4K com gravação feita dentro do cinema.
+      </p>
+      <p class="nota">
+        Este junta tudo numa lista só e ordena: dublado primeiro, 4K antes de 1080p,
+        descartando gravação de cinema. <strong>Você aperta play e assiste.</strong>
+      </p>
+      <p class="nota">
+        <strong>Fique no modo Simple.</strong> O arquivo já traz todos os ajustes decididos, e o
+        Advanced abre filtros que, mexidos sem querer, zeram a sua lista.
+      </p>
+
+      <h4>Se der errado</h4>
+      <dl class="faq">
+        <dt>Não aparece stream nenhum</dt>
+        <dd>
+          Se você entrou no <em>Advanced</em>, confira <em>Filters</em>, campo
+          <em>Required Languages</em>: ele precisa ficar vazio. Idioma ali descarta todo stream
+          que não venha marcado com aquele idioma, e a maioria não vem marcada com nenhum.
+          Quem põe o português na frente é o <em>Preferred</em>, que já vem preenchido.
+        </dd>
+        <dt>Aparece menos do que eu esperava</dt>
+        <dd>O servidor público desliga alguns buscadores por conta própria, entre eles o Torrentio. É regra deles. O Torrentio continua funcionando à parte, instalado por este site.</dd>
+        <dt>Perdi a senha</dt>
+        <dd>Não tem recuperação. Crie outra configuração, importe o mesmo arquivo e volte com o endereço novo.</dd>
+      </dl>
+</template>
+<template data-ajuda="legendas" data-titulo="O que cada provedor pede em Connect?">
+      <p class="nota">
+        São contas de sites de legenda, e o Community Subtitles busca em todos de uma vez
+        depois de conectados. Conectar é opcional, e cada um a mais é mais legenda encontrada.
+      </p>
+      <dl class="faq">
+        <dt>OpenSubtitles.com</dt>
+        <dd>Usuário e senha da conta de lá. É o maior acervo, e o que mais vale conectar.</dd>
+        <dt>SubDL</dt>
+        <dd>Uma API key, que aparece no painel da conta depois do cadastro.</dd>
+        <dt>SubSource</dt>
+        <dd>Também uma API key. Bom para série, costuma ter a legenda do episódio cedo.</dd>
+      </dl>
+      <p class="nota">
+        As senhas ficam guardadas na conta que você criou lá, não aqui. Este site nunca
+        vê nem pede nenhuma delas.
+      </p>
+</template>
+<template data-ajuda="primeira-vez" data-titulo="O que esperar na primeira vez">
+      <p class="nota">
+        A tela inicial demora alguns segundos a mais para montar, porque são muitas prateleiras
+        buscando dados pela primeira vez. Da segunda em diante fica instantâneo.
+      </p>
+      <p class="nota">
+        Prateleira vazia quase sempre é a chave do MDBList faltando numa das cinco configurações.
+      </p>
+</template>
 
 <script src="js/vercel.js"></script>
 <script type="module" src="js/app.js"></script>

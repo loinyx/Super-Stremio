@@ -406,29 +406,66 @@ input:disabled { color: var(--tx-fraco); border-style: dashed; background: trans
 
 /* -------------------------------------------------------------------- ajuda */
 
-.ajuda { background: var(--veu); border: 1px solid var(--linha); border-radius: var(--r-caixa); overflow: hidden }
-.ajuda[open] { background: var(--ac-veu); border-color: var(--ac-linha) }
-.ajuda summary {
-  display: flex; align-items: center; gap: var(--e2);
-  padding: var(--e3) var(--e4); min-height: 48px;
-  font-size: var(--t-4); font-weight: 600; color: var(--ac); cursor: pointer; list-style: none;
+/* O aprofundamento saiu do acordeão. Acordeão empurra a página inteira para
+   baixo e faz o passo parecer maior do que é; a gaveta abre ao lado, o passo
+   fica do mesmo tamanho, e o texto longo mora sempre no mesmo lugar. */
+
+.saiba {
+  font: inherit; font-size: var(--t-4); font-weight: 600; text-align: left;
+  display: flex; align-items: center; gap: var(--e3); width: 100%;
+  min-height: 48px; padding: var(--e3) var(--e4); cursor: pointer;
+  color: var(--ac); background: var(--ac-veu);
+  border: 1px solid var(--ac-linha); border-radius: var(--r-caixa);
+  transition: background-color .18s var(--ease), border-color .18s var(--ease);
 }
-.ajuda summary::-webkit-details-marker { display: none }
-.ajuda summary::after {
-  content: ""; margin-left: auto; width: 7px; height: 7px;
-  border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
-  transform: rotate(45deg) translate(-2px,-2px); transition: transform .26s var(--mola);
+.saiba:hover { background: rgba(123,91,245,.24) }
+.saiba > span:nth-child(2) { flex: 1; min-width: 0 }
+.ic-seta { width: 15px; height: 15px; fill: currentColor; opacity: .7; transition: transform .18s var(--ease) }
+.saiba:hover .ic-seta { transform: translateX(3px) }
+
+.gaveta-fundo {
+  position: fixed; inset: 0; z-index: 40; background: rgba(6,5,10,.6);
+  animation: surgir .2s var(--ease) both;
 }
-.ajuda[open] summary::after { transform: rotate(225deg) translate(-2px,-2px) }
-.ajuda-corpo { padding: 0 var(--e4) var(--e4); animation: abrir .3s var(--ease) both }
-@keyframes abrir { from { opacity: 0; transform: translate3d(0,-5px,0) } }
-.ajuda-corpo .nota + .nota { margin-top: var(--e3) }
-.ajuda h4 { font-size: var(--t-4); font-weight: 700; margin: var(--e6) 0 var(--e2) }
-.faq { margin: var(--e3) 0 0 }
-.faq dt { font-size: var(--t-4); font-weight: 600; margin-top: var(--e4) }
-.faq dt:first-of-type { margin-top: 0 }
-.faq dd { margin: var(--e1) 0 0 var(--e3); padding-left: var(--e3); font-size: var(--t-4);
-  color: var(--tx-dim); box-shadow: inset 2px 0 0 var(--linha) }
+@keyframes surgir { from { opacity: 0 } }
+
+.gaveta {
+  position: fixed; top: 0; right: 0; bottom: 0; z-index: 41; width: min(30rem, 100vw);
+  display: flex; flex-direction: column;
+  background: var(--pg); border-left: 1px solid var(--linha);
+  box-shadow: -24px 0 60px rgba(0,0,0,.45);
+  animation: entrar-lado .28s var(--mola) both;
+}
+@keyframes entrar-lado { from { transform: translate3d(100%,0,0) } }
+
+.gaveta-cab {
+  display: flex; align-items: flex-start; gap: var(--e4);
+  padding: var(--e6) var(--e6) var(--e4);
+  border-bottom: 1px solid var(--linha);
+}
+.gaveta-cab h2 { flex: 1; font-size: var(--t-1); font-weight: 700; line-height: 1.3 }
+
+.bt-x {
+  flex: none; width: var(--alt); height: var(--alt); border-radius: var(--r-controle);
+  display: grid; place-items: center; cursor: pointer;
+  color: var(--tx-dim); background: var(--veu); border: 1px solid var(--linha);
+  transition: color .18s var(--ease), background-color .18s var(--ease);
+}
+.bt-x:hover { color: var(--tx); background: var(--veu-forte) }
+
+.gaveta-corpo { flex: 1; overflow-y: auto; overscroll-behavior: contain; padding: var(--e6) }
+.gaveta-corpo > * + * { margin-top: var(--e4) }
+.gaveta-corpo h4 { font-size: var(--t-3); font-weight: 700 }
+.gaveta-corpo > h4 { margin-top: var(--e7) }
+.gaveta-corpo .nota { max-width: none }
+
+.faq dt { font-size: var(--t-4); font-weight: 600 }
+.faq dt + dd { margin-top: var(--e2) }
+.faq dd + dt { margin-top: var(--e4) }
+.faq dd {
+  margin: 0 0 0 var(--e3); padding-left: var(--e3); font-size: var(--t-4);
+  color: var(--tx-dim); box-shadow: inset 2px 0 0 var(--linha);
+}
 
 /* ---------------------------------------------------------------- estreito */
 
@@ -448,6 +485,7 @@ input:disabled { color: var(--tx-fraco); border-style: dashed; background: trans
   .par .bt { width: 100% }
   .guia li { grid-template-columns: var(--disco) 1fr }
   .guia li > .bt { grid-column: 2; justify-self: start }
+  .gaveta { width: 100vw; border-left: 0 }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -197,6 +197,7 @@ function irPara(n) {
   if (n === 5) sincronizarCopiaveis()
   if (n === 7) montarRevisao()
   if (n === 8) montarLinksDiretos()
+  if (!$("#gaveta").hidden) fecharGaveta()
   window.scrollTo({ top: 0, behavior: "instant" })
 }
 
@@ -286,21 +287,39 @@ function montarDebrids() {
         </label>
       </div>
       <div class="corpo"><div>
-        <div class="linha">
-          <a class="bt bt-s bt-sm" href="${d.planos}" target="_blank" rel="noopener">
-            Ver planos ${svg("arrow-square-out")}
-          </a>
-          <a class="bt bt-s bt-sm" href="${d.chave}" target="_blank" rel="noopener">
-            Pegar a chave ${svg("arrow-square-out")}
-          </a>
-        </div>
-        <div class="campo mt-3">
-          <div class="par">
-            <input type="text" autocomplete="off" spellcheck="false" placeholder="cole a chave do ${escapar(d.nome)}">
-            <button class="bt bt-s" data-verificar>Verificar</button>
-          </div>
-          <p class="msg" data-tone="idle" data-saida>${escapar(d.ondeAchar)}</p>
-        </div>
+        <ol class="guia">
+          <li data-passo="abrir">
+            <b>1</b>
+            <div class="guia-tx">
+              <strong>Assine um plano</strong>
+              <small>Se você já assina, pula para o 2.</small>
+            </div>
+            <a class="bt bt-s bt-sm" data-marca="abriu" href="${d.planos}" target="_blank" rel="noopener">
+              Ver planos ${svg("arrow-square-out")}
+            </a>
+          </li>
+          <li data-passo="ajustar">
+            <b>2</b>
+            <div class="guia-tx">
+              <strong>Copie a sua chave</strong>
+              <small>${escapar(d.ondeAchar)}</small>
+            </div>
+            <a class="bt bt-s bt-sm" data-marca="ajustou" href="${d.chave}" target="_blank" rel="noopener">
+              Pegar a chave ${svg("arrow-square-out")}
+            </a>
+          </li>
+          <li data-passo="valor" data-larga>
+            <b>3</b>
+            <div class="guia-tx">
+              <strong>Cole a chave aqui</strong>
+              <div class="par">
+                <input type="text" autocomplete="off" spellcheck="false" placeholder="cole a chave do ${escapar(d.nome)}">
+                <button class="bt bt-s" data-verificar>Verificar</button>
+              </div>
+              <p class="msg" data-tone="idle" data-saida>Ela entra sozinha no Torrentio e no AIOStreams</p>
+            </div>
+          </li>
+        </ol>
       </div></div>
     </div>`,
   ).join("")
@@ -415,7 +434,7 @@ function montarFatias() {
  * @param {Element} caixa
  */
 function pintarGuia(caixa) {
-  const salvo = estado[caixa.dataset.addon] ?? {}
+  const salvo = estado[caixa.dataset.addon ?? caixa.dataset.campo] ?? {}
   const feito = { baixar: salvo.baixou, abrir: salvo.abriu, ajustar: salvo.ajustou, valor: salvo.validado }
 
   $$("[data-passo]", caixa).forEach((li, i) => {
@@ -502,6 +521,29 @@ function ligarAddons() {
 }
 
 /** Restaura o que estava guardado nos campos. */
+/**
+ * Liga os cartões de chave (MDBList, debrids) ao mesmo passo a passo dos
+ * cartões de addon. A diferença entre os dois é só de onde sai a chave do
+ * estado, e `pintarGuia` já resolve isso.
+ */
+function ligarCampos() {
+  for (const caixa of $$("[data-campo]")) {
+    if (!$(".guia", caixa)) continue
+    const chave = caixa.dataset.campo
+
+    for (const marcador of $$("[data-marca]", caixa)) {
+      marcador.addEventListener("click", () => {
+        const qual = marcador.getAttribute("data-marca")
+        estado = { ...estado, [chave]: { valor: "", validado: false, ...estado[chave], [qual]: true } }
+        guardar(estado)
+        pintarGuia(caixa)
+      })
+    }
+
+    pintarGuia(caixa)
+  }
+}
+
 function reidratar() {
   const restaurar = (caixa, chave) => {
     const salvo = estado[chave]
@@ -521,7 +563,10 @@ function reidratar() {
   }
 
   for (const caixa of $$("[data-addon]")) restaurar(caixa, caixa.dataset.addon)
-  for (const caixa of $$("[data-campo]")) restaurar(caixa, caixa.dataset.campo)
+  for (const caixa of $$("[data-campo]")) {
+    restaurar(caixa, caixa.dataset.campo)
+    if ($(".guia", caixa)) pintarGuia(caixa)
+  }
 }
 
 function sincronizarCopiaveis() {
@@ -561,6 +606,41 @@ function sincronizarCopiaveis() {
 }
 
 const mascarar = (v) => (v.length <= 12 ? v : `${v.slice(0, 8)}${"•".repeat(Math.min(12, v.length - 8))}`)
+
+/* ------------------------------------------------------------------ gaveta */
+
+/**
+ * Gaveta lateral com a explicação longa de um passo.
+ *
+ * O texto mora num `<template>` no HTML, e não aqui, porque copy é conteúdo e
+ * não código: quem for reescrever um texto mexe no HTML e pronto.
+ */
+let voltarFoco = null
+
+function abrirGaveta(nome) {
+  const modelo = $(`template[data-ajuda="${nome}"]`)
+  if (!modelo) return
+
+  voltarFoco = document.activeElement
+  $("#gaveta-titulo").textContent = modelo.dataset.titulo ?? ""
+  const corpo = $("#gaveta-corpo")
+  corpo.replaceChildren(modelo.content.cloneNode(true))
+  corpo.scrollTop = 0
+  pintarIcones(corpo)
+
+  $("#gaveta-fundo").hidden = false
+  $("#gaveta").hidden = false
+  document.body.style.overflow = "hidden"
+  $("#gaveta-fechar").focus()
+}
+
+function fecharGaveta() {
+  $("#gaveta").hidden = true
+  $("#gaveta-fundo").hidden = true
+  document.body.style.overflow = ""
+  if (voltarFoco instanceof HTMLElement) voltarFoco.focus()
+  voltarFoco = null
+}
 
 /* -------------------------------------------------------------- verificação */
 
@@ -631,6 +711,7 @@ async function verificarChave(caixa) {
   }
 
   sincronizarCopiaveis()
+  if ($(".guia", caixa)) pintarGuia(caixa)
 }
 
 /** Remonta a URL do Torrentio com todos os debrids preenchidos. */
@@ -871,6 +952,7 @@ function iniciar() {
   montarFatias()
   pintarIcones()
   ligarAddons()
+  ligarCampos()
   reidratar()
   for (const caixa of $$("#debrids [data-campo]")) pintarDebrid(caixa)
   sincronizarCopiaveis()
@@ -895,6 +977,17 @@ function iniciar() {
       return
     }
 
+    const ajuda = alvo.closest("[data-abrir-ajuda]")
+    if (ajuda) {
+      abrirGaveta(ajuda.getAttribute("data-abrir-ajuda"))
+      return
+    }
+
+    if (alvo.closest("#gaveta-fechar") || alvo.closest("#gaveta-fundo")) {
+      fecharGaveta()
+      return
+    }
+
     const copiar = alvo.closest("[data-copiar]")
     if (copiar) {
       const caixa = copiar.closest("[data-copiavel]")
@@ -909,6 +1002,10 @@ function iniciar() {
   })
 
   document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !$("#gaveta").hidden) {
+      fecharGaveta()
+      return
+    }
     if (e.key !== "Enter") return
     const campo = e.target
     if (!(campo instanceof HTMLInputElement)) return
