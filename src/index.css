@@ -40,27 +40,29 @@
 }
 
 .dark {
-  --background: oklch(0.16 0.018 285);
-  --foreground: oklch(0.97 0.005 285);
-  --card: oklch(0.2 0.02 285);
+  /* Azul-noite, não cinza. O fundo carrega o mesmo matiz do roxo da marca, e
+     por isso as superfícies parecem da mesma família em vez de neutras. */
+  --background: oklch(0.152 0.036 288);
+  --foreground: oklch(0.97 0.008 288);
+  --card: oklch(0.196 0.036 288);
   --card-foreground: var(--foreground);
-  --popover: oklch(0.2 0.02 285);
+  --popover: oklch(0.196 0.036 288);
   --popover-foreground: var(--foreground);
 
   --primary: oklch(0.66 0.2 288);
-  --primary-foreground: oklch(0.16 0.02 285);
+  --primary-foreground: oklch(0.15 0.03 288);
 
-  --secondary: oklch(0.26 0.02 285);
-  --secondary-foreground: oklch(0.97 0.005 285);
-  --muted: oklch(0.26 0.02 285);
-  --muted-foreground: oklch(0.7 0.015 285);
-  --accent: oklch(0.3 0.05 288);
-  --accent-foreground: oklch(0.92 0.03 288);
+  --secondary: oklch(0.243 0.034 288);
+  --secondary-foreground: oklch(0.97 0.008 288);
+  --muted: oklch(0.243 0.034 288);
+  --muted-foreground: oklch(0.705 0.022 288);
+  --accent: oklch(0.3 0.06 290);
+  --accent-foreground: oklch(0.92 0.04 290);
 
   --destructive: oklch(0.65 0.2 25);
-  --destructive-foreground: oklch(0.16 0.02 285);
+  --destructive-foreground: oklch(0.15 0.03 288);
   --success: oklch(0.7 0.16 155);
-  --success-foreground: oklch(0.16 0.02 285);
+  --success-foreground: oklch(0.15 0.03 288);
 
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 12%);
