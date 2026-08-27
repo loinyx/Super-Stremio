@@ -126,7 +126,7 @@ export async function validar(addon, valor = "", { buscar = fetch, limiteMs = 12
 
 /**
  * @param {import("./catalog.js").Addon} addon
- * @param {object} manifest
+ * @param {import("./stremio.js").Manifesto} manifest
  * @param {number} quantos
  * @returns {string}
  */

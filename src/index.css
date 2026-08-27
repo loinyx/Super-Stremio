@@ -1,0 +1,131 @@
+@import "tailwindcss";
+
+/* O `dark` do Tailwind v4 vira classe, e não media query, porque o tema é
+   escolha de quem usa e precisa poder ser trocado no botão. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* =========================================================================
+   Tokens. Nomes no padrão shadcn, que é o que os componentes do Magic UI
+   esperam encontrar. Os valores é que são nossos.
+   ========================================================================= */
+
+:root {
+  --radius: 0.875rem;
+
+  --background: oklch(0.985 0.003 275);
+  --foreground: oklch(0.21 0.02 275);
+  --card: oklch(1 0 0);
+  --card-foreground: var(--foreground);
+  --popover: oklch(1 0 0);
+  --popover-foreground: var(--foreground);
+
+  --primary: oklch(0.55 0.22 285);
+  --primary-foreground: oklch(0.99 0.005 285);
+
+  --secondary: oklch(0.955 0.008 275);
+  --secondary-foreground: oklch(0.3 0.02 275);
+  --muted: oklch(0.955 0.008 275);
+  --muted-foreground: oklch(0.52 0.02 275);
+  --accent: oklch(0.94 0.02 285);
+  --accent-foreground: oklch(0.35 0.08 285);
+
+  --destructive: oklch(0.58 0.21 25);
+  --destructive-foreground: oklch(0.99 0 0);
+  --success: oklch(0.62 0.16 150);
+  --success-foreground: oklch(0.99 0 0);
+
+  --border: oklch(0.91 0.008 275);
+  --input: oklch(0.91 0.008 275);
+  --ring: var(--primary);
+}
+
+.dark {
+  --background: oklch(0.16 0.018 285);
+  --foreground: oklch(0.97 0.005 285);
+  --card: oklch(0.2 0.02 285);
+  --card-foreground: var(--foreground);
+  --popover: oklch(0.2 0.02 285);
+  --popover-foreground: var(--foreground);
+
+  --primary: oklch(0.66 0.2 288);
+  --primary-foreground: oklch(0.16 0.02 285);
+
+  --secondary: oklch(0.26 0.02 285);
+  --secondary-foreground: oklch(0.97 0.005 285);
+  --muted: oklch(0.26 0.02 285);
+  --muted-foreground: oklch(0.7 0.015 285);
+  --accent: oklch(0.3 0.05 288);
+  --accent-foreground: oklch(0.92 0.03 288);
+
+  --destructive: oklch(0.65 0.2 25);
+  --destructive-foreground: oklch(0.16 0.02 285);
+  --success: oklch(0.7 0.16 155);
+  --success-foreground: oklch(0.16 0.02 285);
+
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 12%);
+  --ring: var(--primary);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --animate-shimmer-slide: shimmer-slide var(--speed) ease-in-out infinite alternate;
+  --animate-spin-around: spin-around calc(var(--speed) * 2) infinite linear;
+  @keyframes shimmer-slide {
+  to {
+    transform: translate(calc(100cqw - 100%), 0);
+    }
+  }
+  @keyframes spin-around {
+  0% {
+    transform: translateZ(0) rotate(0);
+    }
+  15%, 35% {
+    transform: translateZ(0) rotate(90deg);
+    }
+  65%, 85% {
+    transform: translateZ(0) rotate(270deg);
+    }
+  100% {
+    transform: translateZ(0) rotate(360deg);
+    }
+  }
+}
+
+@layer base {
+  * { @apply border-border outline-ring/50 }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  h1, h2, h3 { text-wrap: balance }
+  p { text-wrap: pretty }
+}

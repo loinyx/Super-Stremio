@@ -10,8 +10,13 @@
 const BASE = "https://api.strem.io/api"
 
 /**
+ * @typedef {object} Manifesto
+ * @property {string} [id]
+ * @property {string} [name]
+ * @property {unknown[]} [catalogs]
+ *
  * @typedef {object} Descritor
- * @property {object} manifest
+ * @property {Manifesto} manifest
  * @property {string} transportUrl
  * @property {{official?: boolean, protected?: boolean}} [flags]
  */
@@ -130,13 +135,18 @@ export async function gravarColecao(authKey, addons, buscar) {
  */
 export function mesclar(atual, pacote) {
   const protegidos = atual.filter((a) => a.flags?.protected)
-  const protegidoPorId = new Map(protegidos.map((a) => [a.manifest?.id, a]))
+  /** @type {Map<string, Descritor>} */
+  const protegidoPorId = new Map()
+  for (const a of protegidos) {
+    if (a.manifest?.id) protegidoPorId.set(a.manifest.id, a)
+  }
 
   const resultado = []
   const urlsVistas = new Set()
 
   for (const addon of pacote) {
-    const escolhido = protegidoPorId.get(addon.manifest?.id) ?? addon
+    const id = addon.manifest?.id
+    const escolhido = (id && protegidoPorId.get(id)) || addon
     const url = escolhido.transportUrl
     if (!url || urlsVistas.has(url)) continue
     urlsVistas.add(url)
