@@ -24,7 +24,7 @@ const MANCHAS = [
   },
   {
     cor: "oklch(0.42 0.2 268 / 0.24)",
-    classe: "left-[24%] top-[120px] size-[520px] animate-deriva-b",
+    classe: "left-[24%] top-[120px] size-[520px] animate-deriva-d",
   },
 ]
 
@@ -38,11 +38,17 @@ export function Glow({ atenuado = false }: { atenuado?: boolean } = {}) {
                  [mask-repeat:no-repeat] [mask-size:100%_100%]`}
     >
       {MANCHAS.map((m, i) => (
-        <div
-          key={i}
-          style={{ background: `radial-gradient(circle at center, ${m.cor} 0%, transparent 68%)` }}
-          className={`glow-blob absolute will-change-transform ${m.classe}`}
-        />
+        <div key={i} className={`glow-blob absolute will-change-transform ${m.classe}`}>
+          {/* Atraso negativo começa o ciclo no meio, então as quatro nunca
+              escurecem juntas e o conjunto não pulsa em compasso. */}
+          <div
+            style={{
+              background: `radial-gradient(circle at center, ${m.cor} 0%, transparent 68%)`,
+              animationDelay: `${-i * 17}s`,
+            }}
+            className="animate-respiro size-full"
+          />
+        </div>
       ))}
     </div>
   )

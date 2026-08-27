@@ -104,24 +104,59 @@
   --radius-2xl: calc(var(--radius) + 10px);
   --radius-3xl: calc(var(--radius) + 18px);
 
-  /* Deriva do glow. Só transform e escala, que a GPU compõe sem repintar: o
-     borrão é rasterizado uma vez e depois só se move. Animar o gradiente em si
-     repintaria a tela inteira a cada quadro. */
-  --animate-deriva-a: deriva-a 24s ease-in-out infinite alternate;
-  --animate-deriva-b: deriva-b 31s ease-in-out infinite alternate;
-  --animate-deriva-c: deriva-c 19s ease-in-out infinite alternate;
+  /* Deriva do glow.
+     Percursos fechados, e não vaivém entre dois pontos: o começo e o fim são o
+     mesmo lugar, então o ciclo emenda sem repique. Os pontos de parada não são
+     simétricos e as durações não têm divisor comum, então as quatro manchas
+     nunca voltam ao mesmo arranjo, e o conjunto não parece um relógio.
+
+     Escala voltou a ser barata porque as manchas são degradê pintado, e não
+     círculo com filtro: transformar uma camada já rasterizada não obriga a
+     redesenhá-la. */
+  --animate-deriva-a: deriva-a 43s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  --animate-deriva-b: deriva-b 37s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  --animate-deriva-c: deriva-c 29s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  --animate-deriva-d: deriva-d 53s cubic-bezier(0.45, 0, 0.55, 1) infinite;
 
   @keyframes deriva-a {
-    from { transform: translate3d(-9%, -6%, 0) }
-    to   { transform: translate3d(9%, 5%, 0) }
+    0%   { transform: translate3d(0, 0, 0) scale(1) }
+    23%  { transform: translate3d(6%, 3%, 0) scale(1.09) }
+    41%  { transform: translate3d(9%, -2%, 0) scale(1.03) }
+    62%  { transform: translate3d(2%, -5%, 0) scale(1.12) }
+    84%  { transform: translate3d(-5%, -1%, 0) scale(1.04) }
+    100% { transform: translate3d(0, 0, 0) scale(1) }
   }
   @keyframes deriva-b {
-    from { transform: translate3d(7%, 4%, 0) }
-    to   { transform: translate3d(-10%, -7%, 0) }
+    0%   { transform: translate3d(0, 0, 0) scale(1) }
+    19%  { transform: translate3d(-7%, 4%, 0) scale(1.07) }
+    44%  { transform: translate3d(-3%, 8%, 0) scale(0.96) }
+    68%  { transform: translate3d(5%, 4%, 0) scale(1.1) }
+    88%  { transform: translate3d(3%, -2%, 0) scale(1.02) }
+    100% { transform: translate3d(0, 0, 0) scale(1) }
   }
   @keyframes deriva-c {
-    from { transform: translate3d(6%, -4%, 0) }
-    to   { transform: translate3d(-7%, 6%, 0) }
+    0%   { transform: translate3d(0, 0, 0) scale(1) }
+    27%  { transform: translate3d(-6%, -4%, 0) scale(1.11) }
+    52%  { transform: translate3d(-9%, 3%, 0) scale(1.01) }
+    73%  { transform: translate3d(-2%, 7%, 0) scale(1.08) }
+    91%  { transform: translate3d(4%, 2%, 0) scale(0.98) }
+    100% { transform: translate3d(0, 0, 0) scale(1) }
+  }
+  @keyframes deriva-d {
+    0%   { transform: translate3d(0, 0, 0) scale(1) }
+    31%  { transform: translate3d(8%, -5%, 0) scale(0.94) }
+    57%  { transform: translate3d(1%, -9%, 0) scale(1.06) }
+    79%  { transform: translate3d(-6%, -3%, 0) scale(1.13) }
+    100% { transform: translate3d(0, 0, 0) scale(1) }
+  }
+
+  /* A respiração roda em ciclo próprio, mais longo que qualquer percurso, então
+     ela nunca coincide com a deriva e o brilho não pulsa em compasso. */
+  --animate-respiro: respiro 67s ease-in-out infinite;
+  @keyframes respiro {
+    0%, 100% { opacity: 1 }
+    38%      { opacity: 0.88 }
+    71%      { opacity: 1.05 }
   }
 
   --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
