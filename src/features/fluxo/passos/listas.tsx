@@ -83,6 +83,28 @@ export function PassoListas({ aoAvancar, aoVoltar }: { aoAvancar: () => void; ao
 
 type Lista = (typeof LISTAS)[number]
 
+/** O número da etapa. Aqui a sequência é estrita e executada em outro site, e é
+ *  por isso que ela é numerada: a ordem carrega informação. */
+function Numero({ n }: { n: number }) {
+  return (
+    <span
+      aria-hidden="true"
+      className="mt-0.5 grid size-6 shrink-0 place-items-center rounded-full bg-secondary text-xs font-semibold text-muted-foreground"
+    >
+      {n}
+    </span>
+  )
+}
+
+/** Palavra que aparece com essas letras exatas na tela do outro site. */
+function Termo({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="rounded-md bg-secondary px-1.5 py-0.5 text-[13px] font-medium text-foreground">
+      {children}
+    </span>
+  )
+}
+
 type FileiraProps = {
   lista: Lista
   aberta: boolean
@@ -167,74 +189,98 @@ function Fileira({ lista, aberta, aoAbrir, chaveMdblist, salvo, aoAnotar, aoCump
             className="overflow-hidden"
           >
             <div className="border-t border-border p-6">
-              {/* Duas coisas, não seis. O que fazer fora, e o que trazer de volta. */}
-              <p className="text-sm leading-relaxed text-muted-foreground">
-                Baixe o arquivo, que já sai com a sua chave dentro, e importe no configurador em
-                <em> Configuration</em>, <em>Import Configuration</em>. Salve, crie uma senha, e o
-                código aparece.
-              </p>
+              <ol className="flex flex-col gap-4">
+                <li className="grid grid-cols-[24px_1fr] gap-x-3 gap-y-2">
+                  <Numero n={1} />
+                  <div>
+                    <p className="text-sm font-semibold">Baixe o arquivo desta fileira</p>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      Ele já sai com a sua chave dentro. Você não vai digitar nada lá.
+                    </p>
+                    <Button variant="secondary" onClick={baixar} className="mt-3 h-10">
+                      <DownloadSimple weight="bold" aria-hidden="true" />
+                      Baixar o arquivo
+                    </Button>
+                  </div>
+                </li>
 
-              <p className="mt-4 flex items-start gap-2.5 text-sm leading-relaxed text-foreground">
-                <WarningCircle weight="fill" aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-accent" />
-                <span>
-                  Uma aba nova para cada fileira, sem exceção. Reaproveitar a aba anterior salva
-                  por cima dela, e sobra uma fileira em vez de cinco.
-                </span>
-              </p>
+                <li className="grid grid-cols-[24px_1fr] gap-x-3 gap-y-2">
+                  <Numero n={2} />
+                  <div>
+                    <p className="text-sm font-semibold">Abra o configurador numa aba nova</p>
+                    <p className="mt-1 flex items-start gap-2 text-sm text-muted-foreground">
+                      <WarningCircle weight="fill" aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-accent" />
+                      <span>
+                        <span className="text-foreground">Uma aba por fileira, sem exceção.</span>{" "}
+                        Reaproveitar a aba anterior salva por cima dela, e sobra uma fileira em vez
+                        de cinco.
+                      </span>
+                    </p>
+                    <Button asChild variant="secondary" className="mt-3 h-10">
+                      <a
+                        href={lista.configurador}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => aoCumprir(lista.id, "abriu")}
+                      >
+                        Abrir o configurador
+                        <ArrowSquareOut weight="bold" aria-hidden="true" />
+                      </a>
+                    </Button>
+                  </div>
+                </li>
 
-              <div className="mt-5 flex flex-col gap-2.5 sm:flex-row">
-                <Button variant="secondary" onClick={baixar} className="h-11">
-                  <DownloadSimple weight="bold" aria-hidden="true" />
-                  Baixar o arquivo
-                </Button>
-                <Button asChild variant="secondary" className="h-11">
-                  <a
-                    href={lista.configurador}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() => aoCumprir(lista.id, "abriu")}
-                  >
-                    Abrir o configurador
-                    <ArrowSquareOut weight="bold" aria-hidden="true" />
-                  </a>
-                </Button>
-              </div>
+                <li className="grid grid-cols-[24px_1fr] gap-x-3 gap-y-2">
+                  <Numero n={3} />
+                  <div>
+                    <p className="text-sm font-semibold">Lá dentro, nesta ordem</p>
+                    <ol className="mt-2 flex flex-col gap-1.5 text-sm text-muted-foreground">
+                      <li>Abra a aba <Termo>Configuration</Termo></li>
+                      <li>Desça até <Termo>Import &amp; Export</Termo></li>
+                      <li>Clique em <Termo>Import Configuration</Termo> e escolha o arquivo baixado</li>
+                      <li>Clique em <Termo>Save Configuration</Termo></li>
+                      <li>Crie uma senha e anote, porque não tem como recuperar</li>
+                      <li>Copie o código que aparecer na tela</li>
+                    </ol>
+                  </div>
+                </li>
 
-              <div className="mt-7 border-t border-border pt-6">
-                <label
-                  htmlFor={`uuid-${lista.id}`}
-                  className="text-sm font-semibold text-muted-foreground"
-                >
-                  E volta pra cá
-                </label>
-                <div className="mt-3 flex flex-col gap-2.5 sm:flex-row">
-                  <input
-                    id={`uuid-${lista.id}`}
-                    type="text"
-                    value={valor}
-                    onChange={(e) => setValor(e.target.value)}
-                    onKeyDown={(e) => e.key === "Enter" && conferir()}
-                    placeholder="cole o código desta fileira…"
-                    autoComplete="off"
-                    spellCheck={false}
-                    className={cn(
-                      "h-11 flex-1 rounded-xl bg-background px-4 font-mono text-sm ring-1 ring-inset",
-                      "placeholder:font-sans placeholder:text-muted-foreground/70",
-                      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                      pronta ? "ring-success" : "ring-border",
-                    )}
-                  />
-                  <Button variant="secondary" onClick={conferir} className="h-11">
-                    {conferindo ? "Conferindo…" : "Conferir"}
-                  </Button>
-                </div>
-                <p
-                  aria-live="polite"
-                  className={cn("mt-3 text-sm", pronta ? "text-success" : "text-muted-foreground")}
-                >
-                  {msg ?? "Cada fileira tem o seu, e nenhum se repete."}
-                </p>
-              </div>
+                <li className="grid grid-cols-[24px_1fr] gap-x-3 gap-y-2">
+                  <Numero n={4} />
+                  <div>
+                    <label htmlFor={`uuid-${lista.id}`} className="text-sm font-semibold">
+                      Cole o código aqui
+                    </label>
+                    <div className="mt-3 flex flex-col gap-2.5 sm:flex-row">
+                      <input
+                        id={`uuid-${lista.id}`}
+                        type="text"
+                        value={valor}
+                        onChange={(e) => setValor(e.target.value)}
+                        onKeyDown={(e) => e.key === "Enter" && conferir()}
+                        placeholder="cole o código desta fileira…"
+                        autoComplete="off"
+                        spellCheck={false}
+                        className={cn(
+                          "h-11 flex-1 rounded-xl bg-background px-4 font-mono text-sm ring-1 ring-inset",
+                          "placeholder:font-sans placeholder:text-muted-foreground/70",
+                          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                          pronta ? "ring-success" : "ring-border",
+                        )}
+                      />
+                      <Button variant="secondary" onClick={conferir} className="h-11">
+                        {conferindo ? "Conferindo…" : "Conferir"}
+                      </Button>
+                    </div>
+                    <p
+                      aria-live="polite"
+                      className={cn("mt-3 text-sm", pronta ? "text-success" : "text-muted-foreground")}
+                    >
+                      {msg ?? "Cada fileira tem o seu código, e nenhum se repete."}
+                    </p>
+                  </div>
+                </li>
+              </ol>
             </div>
           </motion.div>
         )}
