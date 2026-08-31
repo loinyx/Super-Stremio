@@ -40,10 +40,15 @@ const Ctx = createContext<Contexto | null>(null)
  * complemento que na tela aparece como pronto, e as duas leituras discordam.
  */
 function sincronizarDerivados(estado: Estado): Estado {
+  // Chave preenchida conta, com ou sem o serviço marcado como ativo. O cartão
+  // do TorBox aparece escolhido por padrão sem nada ser gravado, então exigir
+  // `ativo` aqui apagava o Torrentio de quem só colou a chave e seguiu.
   const chaves = Object.fromEntries(
-    DEBRIDS.map((d) => [d.id, estado[`chave:${d.id}`]?.ativo ? (estado[`chave:${d.id}`]?.valor ?? "") : ""]).filter(
-      ([, v]) => v,
-    ),
+    DEBRIDS.map((d) => {
+      const c = estado[`chave:${d.id}`]
+      const usavel = c?.ativo !== false && (c?.valor ?? "").trim()
+      return [d.id, usavel ? c.valor.trim() : ""]
+    }).filter(([, v]) => v),
   )
 
   const proximo = { ...estado }
@@ -63,7 +68,7 @@ function sincronizarDerivados(estado: Estado): Estado {
 }
 
 export function ProvedorDoFluxo({ children }: { children: ReactNode }) {
-  const [estado, setEstado] = useState<Estado>(() => carregar())
+  const [estado, setEstado] = useState<Estado>(() => sincronizarDerivados(carregar()))
 
   // Toda escrita passa por aqui: grava no disco e no React na mesma linha, para
   // os dois nunca discordarem depois de um recarregamento.

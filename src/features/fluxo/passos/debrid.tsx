@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { CheckCircle } from "@phosphor-icons/react"
 import { Passo } from "../passo"
 import { IrEVoltar, type Aferido } from "../ir-e-voltar"
@@ -25,6 +25,14 @@ export function PassoDebrid({ aoAvancar, aoVoltar }: { aoAvancar: () => void; ao
   const [aferido, setAferido] = useState<Aferido>(
     salvo?.validado ? { estado: "ok", mensagem: salvo.mensagem } : { estado: "vazio" },
   )
+
+  // O cartão nasce mostrando o recomendado como escolhido. Grava isso, senão a
+  // tela diz uma coisa e o estado guarda outra.
+  useEffect(() => {
+    if (!DEBRIDS.some((d) => estado[`chave:${d.id}`]?.ativo)) alternar(`chave:${DEBRIDS[0].id}`, true)
+    // Só na entrada do passo: depois disso quem manda é o clique da pessoa.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const conferir = () => {
     const r = aferirDebrid(valor.trim(), escolhido.nome)
